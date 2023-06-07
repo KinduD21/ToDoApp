@@ -167,6 +167,7 @@ aside .sidebar-button svg {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  gap: 20px;
   padding: 38px 69px;
 }
 .editor h2 {
@@ -174,4 +175,53 @@ aside .sidebar-button svg {
   max-width: 100%;
   overflow-wrap: break-word;
   cursor: default;
+}
+.editor .editor-add-task-plus-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 17px;
+  width: 17px;
+  color: #db4c3f;
+  border-radius: 50%;
+}
+.editor .editor-add-task-plus-icon:hover {
+  color: #fff;
+  background-color: #db4c3f;
+}
+
+.editor-add-task-button {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+}
+.editor-add-task-button:hover {
+  color: #db4c3f;
+}
+
+.editor-add-task-text {
+  color: #727272;
+}
+.editor-add-task-text:hover {
+  color: #db4c3f;
+}
+
+.editor-add-task-plus-icon > path {
+  -webkit-transform: translate(2px, 2px);
+          transform: translate(2px, 2px);
+}
+
+.editor-add-task-button:hover .editor-add-task-plus-icon > path {
+  -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
+          transform: scale(0.85) translate(3.4px, 3.4px);
 }

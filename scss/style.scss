@@ -3,12 +3,18 @@
 // Variables
 
 $header-height: 44px;
+$gray: #727272;
+$accent-color: #db4c3f;
 
 // Main part
 
 body {
   font-family: "Roboto", sans-serif;
 }
+
+// svg {
+//   display: block;
+// }
 
 button {
   cursor: pointer;
@@ -77,6 +83,7 @@ aside {
   border: 1px solid blue;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   padding: 38px 69px;
   & h2 {
     font-size: 1.3rem;
@@ -84,4 +91,42 @@ aside {
     overflow-wrap: break-word;
     cursor: default;
   }
+  & .editor-add-task-plus-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 17px;
+    width: 17px;
+    color: $accent-color;
+    border-radius: 50%;
+    &:hover {
+      color: #fff;
+      background-color: $accent-color;
+    }
+  }
 }
+
+.editor-add-task-button {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  &:hover {
+    color: $accent-color;
+  }
+}
+
+.editor-add-task-text {
+  color: $gray;
+  &:hover {
+    color: $accent-color;
+  }
+}
+
+.editor-add-task-plus-icon > path {
+  transform: translate(2px, 2px);
+}
+
+.editor-add-task-button:hover .editor-add-task-plus-icon > path {
+  transform: scale(0.85) translate(3.4px, 3.4px);
+}
+
