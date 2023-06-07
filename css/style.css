@@ -195,8 +195,7 @@ aside .sidebar-button svg {
   color: #fff;
   background-color: #db4c3f;
 }
-
-.editor-add-task-button {
+.editor .editor-add-task-button {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
@@ -205,7 +204,7 @@ aside .sidebar-button svg {
           align-items: center;
   gap: 10px;
 }
-.editor-add-task-button:hover {
+.editor .editor-add-task-button:hover {
   color: #db4c3f;
 }
 

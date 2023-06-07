@@ -104,14 +104,13 @@ aside {
       background-color: $accent-color;
     }
   }
-}
-
-.editor-add-task-button {
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-  &:hover {
-    color: $accent-color;
+  & .editor-add-task-button {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    &:hover {
+      color: $accent-color;
+    }
   }
 }
 
