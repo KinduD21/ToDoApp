@@ -5,6 +5,8 @@
 $header-height: 44px;
 $gray: #727272;
 $accent-color: #db4c3f;
+$sidebar-width: 305px;
+$sidebar-toggle-transition-time: 0.2s;
 
 // Main part
 
@@ -32,12 +34,12 @@ button:hover {
   border-radius: 3px;
 }
 
-.header {
+header {
   background: #db4c3f;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 40px;
+  padding: 0 12px;
   height: 44px;
 }
 
@@ -56,15 +58,20 @@ button:hover {
 main {
   display: flex;
   height: calc(100vh - $header-height);
+  position: relative;
 }
 
 aside {
-  flex: 1 1 20%;
-  border: 1px solid red;
   background: #fafafa;
   display: flex;
   flex-direction: column;
   padding: 30px 5px 18px 35px;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  min-height: 100vh;
+  transform: translateX(-100%);
+  transition: all $sidebar-toggle-transition-time;
   & .sidebar-button {
     gap: 10px;
     padding: 5px 0 5px 7px;
@@ -79,12 +86,12 @@ aside {
 }
 
 .editor {
-  flex: 0 1 80%;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 38px 69px;
+  gap: 10px;
+  padding: 38px 34px;
+  width: 100vw;
+  transition: all $sidebar-toggle-transition-time;
   & h2 {
     font-size: 1.3rem;
     max-width: 100%;
@@ -99,33 +106,95 @@ aside {
     width: 17px;
     color: $accent-color;
     border-radius: 50%;
-    &:hover {
-      color: #fff;
-      background-color: $accent-color;
+    & > path {
+      transform: translate(2px, 2px);
     }
   }
-  & .editor-add-task-button {
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    &:hover {
-      color: $accent-color;
-    }
+}
+
+.editor-add-task-button {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  &:hover .editor-add-task-plus-icon > path {
+    transform: scale(0.85) translate(3.4px, 3.4px);
+  }
+  &:hover .editor-add-task-plus-icon {
+    color: #fff;
+    background-color: $accent-color;
+    border-radius: 50%;
+  }
+  &:hover .editor-add-task-text {
+    color: $accent-color;
   }
 }
 
 .editor-add-task-text {
   color: $gray;
-  &:hover {
-    color: $accent-color;
+}
+
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 360px;
+  margin: 42px 0 0 0;
+  gap: 8px;
+  & img {
+    max-width: 220px;
+  }
+  & > p {
+    font-size: 0.81rem;
+    color: $gray;
+    text-align: center;
+  }
+  & h4 {
+    font-weight: 500;
   }
 }
 
-.editor-add-task-plus-icon > path {
-  transform: translate(2px, 2px);
+.sidebar-projects {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px 0 0;
+  height: 36px;
 }
 
-.editor-add-task-button:hover .editor-add-task-plus-icon > path {
-  transform: scale(0.85) translate(3.4px, 3.4px);
+.sidebar-projects-button {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 5px 0 5px 12px;
+  font-family: inherit;
+  font-size: 0.85em;
+  font-weight: bold;
+  background-color: unset;
 }
 
+// Media queries
+
+@media screen and (min-width: 750px) {
+  header {
+    padding: 10px 40px;
+  }
+  aside {
+    visibility: visible;
+    width: $sidebar-width;
+    transform: translateX(0);
+    transition: all $sidebar-toggle-transition-time;
+  }
+  .editor {
+    transition: all $sidebar-toggle-transition-time;
+    transform: translateX($sidebar-width);
+    width: calc(100vw - $sidebar-width);
+    padding: 38px 69px;
+  }
+}

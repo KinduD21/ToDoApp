@@ -90,7 +90,7 @@ button:hover {
   border-radius: 3px;
 }
 
-.header {
+header {
   background: #db4c3f;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -101,7 +101,7 @@ button:hover {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 10px 40px;
+  padding: 0 12px;
   height: 44px;
 }
 
@@ -124,13 +124,10 @@ main {
   display: -ms-flexbox;
   display: flex;
   height: calc(100vh - 44px);
+  position: relative;
 }
 
 aside {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 20%;
-          flex: 1 1 20%;
-  border: 1px solid red;
   background: #fafafa;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -140,6 +137,14 @@ aside {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 30px 5px 18px 35px;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  min-height: 100vh;
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 aside .sidebar-button {
   gap: 10px;
@@ -156,10 +161,6 @@ aside .sidebar-button svg {
 }
 
 .editor {
-  -webkit-box-flex: 0;
-      -ms-flex: 0 1 80%;
-          flex: 0 1 80%;
-  border: 1px solid blue;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -167,8 +168,11 @@ aside .sidebar-button svg {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 20px;
-  padding: 38px 69px;
+  gap: 10px;
+  padding: 38px 34px;
+  width: 100vw;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 .editor h2 {
   font-size: 1.3rem;
@@ -191,11 +195,12 @@ aside .sidebar-button svg {
   color: #db4c3f;
   border-radius: 50%;
 }
-.editor .editor-add-task-plus-icon:hover {
-  color: #fff;
-  background-color: #db4c3f;
+.editor .editor-add-task-plus-icon > path {
+  -webkit-transform: translate(2px, 2px);
+          transform: translate(2px, 2px);
 }
-.editor .editor-add-task-button {
+
+.editor-add-task-button {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
@@ -204,23 +209,110 @@ aside .sidebar-button svg {
           align-items: center;
   gap: 10px;
 }
-.editor .editor-add-task-button:hover {
+.editor-add-task-button:hover .editor-add-task-plus-icon > path {
+  -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
+          transform: scale(0.85) translate(3.4px, 3.4px);
+}
+.editor-add-task-button:hover .editor-add-task-plus-icon {
+  color: #fff;
+  background-color: #db4c3f;
+  border-radius: 50%;
+}
+.editor-add-task-button:hover .editor-add-task-text {
   color: #db4c3f;
 }
 
 .editor-add-task-text {
   color: #727272;
 }
-.editor-add-task-text:hover {
-  color: #db4c3f;
+
+.empty-state-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 360px;
+  margin: 42px 0 0 0;
+  gap: 8px;
+}
+.empty-state-container img {
+  max-width: 220px;
+}
+.empty-state-container > p {
+  font-size: 0.81rem;
+  color: #727272;
+  text-align: center;
+}
+.empty-state-container h4 {
+  font-weight: 500;
 }
 
-.editor-add-task-plus-icon > path {
-  -webkit-transform: translate(2px, 2px);
-          transform: translate(2px, 2px);
+.sidebar-projects {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-family: inherit;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  padding: 0 12px 0 0;
+  height: 36px;
 }
 
-.editor-add-task-button:hover .editor-add-task-plus-icon > path {
-  -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
-          transform: scale(0.85) translate(3.4px, 3.4px);
+.sidebar-projects-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 36px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 5px 0 5px 12px;
+  font-family: inherit;
+  font-size: 0.85em;
+  font-weight: bold;
+  background-color: unset;
+}
+
+@media screen and (min-width: 750px) {
+  header {
+    padding: 10px 40px;
+  }
+  aside {
+    visibility: visible;
+    width: 305px;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+  .editor {
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    -webkit-transform: translateX(305px);
+            transform: translateX(305px);
+    width: calc(100vw - 305px);
+    padding: 38px 69px;
+  }
 }
