@@ -124,12 +124,6 @@ header {
   width: 28px;
   position: relative;
 }
-.header-button:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-  -webkit-transition-delay: 0.35s;
-          transition-delay: 0.35s;
-}
 
 .tooltip {
   position: absolute;
@@ -158,6 +152,29 @@ main {
   display: flex;
   height: calc(100vh - 44px);
   position: relative;
+}
+
+.isSidebarVisible {
+  width: 305px;
+  visibility: visible;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.sidebar-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-transition: opacity 0.25s linear;
+  transition: opacity 0.25s linear;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.isSidebarOverlayVisible {
+  visibility: visible;
+  opacity: 1;
 }
 
 aside {
@@ -348,12 +365,6 @@ aside:hover .add-project-button {
 .add-project-button:hover {
   background: #eeeeee;
 }
-.add-project-button:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-  -webkit-transition-delay: 0.35s;
-          transition-delay: 0.35s;
-}
 
 @media screen and (min-width: 768px) {
   header {
@@ -362,20 +373,41 @@ aside:hover .add-project-button {
   .tooltip {
     white-space: nowrap;
   }
+  .isSidebarVisible {
+    visibility: hidden;
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+  .isSidebarOverlayVisible {
+    visibility: hidden;
+    opacity: 0;
+  }
   aside {
     visibility: visible;
     width: 305px;
     -webkit-transform: translateX(0);
             transform: translateX(0);
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
   }
   .editor {
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
     -webkit-transform: translateX(305px);
             transform: translateX(305px);
     width: calc(100vw - 305px - 17px);
     padding: 38px 69px;
+  }
+  aside.isSidebarVisible + .editor {
+    -webkit-transform: translateX(var(--sidebar-width));
+            transform: translateX(var(--sidebar-width));
+  }
+  .header-button:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition-delay: 0.35s;
+            transition-delay: 0.35s;
+  }
+  .add-project-button:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition-delay: 0.35s;
+            transition-delay: 0.35s;
   }
 }
