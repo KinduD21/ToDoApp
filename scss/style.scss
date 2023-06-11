@@ -1,4 +1,5 @@
 @import "./base";
+@import "./modal.scss";
 
 // Variables
 
@@ -14,9 +15,9 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-// svg {
-//   display: block;
-// }
+span {
+  line-height: initial;
+}
 
 button {
   cursor: pointer;
@@ -53,6 +54,32 @@ header {
   color: #fff;
   height: 28px;
   width: 28px;
+  position: relative;
+  &:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.35s;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  color: #fff;
+  background-color: #444;
+  padding: 8px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: break-spaces;
+  visibility: hidden;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.8rem;
+  transition-delay: 0.1s;
+  z-index: 2;
+}
+
+.header-button .tooltip {
+  top: 128%;
 }
 
 main {
@@ -69,7 +96,7 @@ aside {
   visibility: hidden;
   position: absolute;
   left: 0;
-  min-height: 100vh;
+  min-height: 100%;
   transform: translateX(-100%);
   transition: all $sidebar-toggle-transition-time;
   & .sidebar-button {
@@ -83,6 +110,9 @@ aside {
       color: #246fe0;
     }
   }
+  &:hover .add-project-button {
+    visibility: visible;
+  }
 }
 
 .editor {
@@ -92,11 +122,12 @@ aside {
   padding: 38px 34px;
   width: 100vw;
   transition: all $sidebar-toggle-transition-time;
-  & h2 {
+  & > h2 {
     font-size: 1.3rem;
     max-width: 100%;
     overflow-wrap: break-word;
     cursor: default;
+    margin-bottom: 10px;
   }
   & .editor-add-task-plus-icon {
     display: flex;
@@ -116,6 +147,7 @@ aside {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  line-height: initial;
   &:hover .editor-add-task-plus-icon > path {
     transform: scale(0.85) translate(3.4px, 3.4px);
   }
@@ -179,11 +211,35 @@ aside {
   background-color: unset;
 }
 
+.add-project-button {
+  width: 36px;
+  height: 32px;
+  border-radius: 5px;
+  visibility: hidden;
+  position: relative;
+  & .tooltip {
+    position: absolute;
+    top: 32px;
+    margin: 0 0 7px 0;
+  }
+  &:hover {
+    background: #eeeeee;
+  }
+  &:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.35s;
+  }
+}
+
 // Media queries
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 768px) {
   header {
     padding: 10px 40px;
+  }
+  .tooltip {
+    white-space: nowrap;
   }
   aside {
     visibility: visible;
@@ -194,7 +250,7 @@ aside {
   .editor {
     transition: all $sidebar-toggle-transition-time;
     transform: translateX($sidebar-width);
-    width: calc(100vw - $sidebar-width);
+    width: calc(100vw - $sidebar-width - 17px);
     padding: 38px 69px;
   }
 }

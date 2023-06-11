@@ -57,6 +57,7 @@ article > * + * {
   margin-top: 1em;
 }
 
+span,
 input,
 button,
 textarea,
@@ -66,6 +67,10 @@ select {
 
 body {
   font-family: "Roboto", sans-serif;
+}
+
+span {
+  line-height: initial;
 }
 
 button {
@@ -117,6 +122,34 @@ header {
   color: #fff;
   height: 28px;
   width: 28px;
+  position: relative;
+}
+.header-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition-delay: 0.35s;
+          transition-delay: 0.35s;
+}
+
+.tooltip {
+  position: absolute;
+  color: #fff;
+  background-color: #444;
+  padding: 8px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: break-spaces;
+  visibility: hidden;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.8rem;
+  -webkit-transition-delay: 0.1s;
+          transition-delay: 0.1s;
+  z-index: 2;
+}
+
+.header-button .tooltip {
+  top: 128%;
 }
 
 main {
@@ -140,7 +173,7 @@ aside {
   visibility: hidden;
   position: absolute;
   left: 0;
-  min-height: 100vh;
+  min-height: 100%;
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
   -webkit-transition: all 0.2s;
@@ -159,6 +192,9 @@ aside .sidebar-button {
 aside .sidebar-button svg {
   color: #246fe0;
 }
+aside:hover .add-project-button {
+  visibility: visible;
+}
 
 .editor {
   display: -webkit-box;
@@ -174,11 +210,12 @@ aside .sidebar-button svg {
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
-.editor h2 {
+.editor > h2 {
   font-size: 1.3rem;
   max-width: 100%;
   overflow-wrap: break-word;
   cursor: default;
+  margin-bottom: 10px;
 }
 .editor .editor-add-task-plus-icon {
   display: -webkit-box;
@@ -208,6 +245,7 @@ aside .sidebar-button svg {
       -ms-flex-align: center;
           align-items: center;
   gap: 10px;
+  line-height: initial;
 }
 .editor-add-task-button:hover .editor-add-task-plus-icon > path {
   -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
@@ -295,9 +333,34 @@ aside .sidebar-button svg {
   background-color: unset;
 }
 
-@media screen and (min-width: 750px) {
+.add-project-button {
+  width: 36px;
+  height: 32px;
+  border-radius: 5px;
+  visibility: hidden;
+  position: relative;
+}
+.add-project-button .tooltip {
+  position: absolute;
+  top: 32px;
+  margin: 0 0 7px 0;
+}
+.add-project-button:hover {
+  background: #eeeeee;
+}
+.add-project-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition-delay: 0.35s;
+          transition-delay: 0.35s;
+}
+
+@media screen and (min-width: 768px) {
   header {
     padding: 10px 40px;
+  }
+  .tooltip {
+    white-space: nowrap;
   }
   aside {
     visibility: visible;
@@ -312,7 +375,7 @@ aside .sidebar-button svg {
     transition: all 0.2s;
     -webkit-transform: translateX(305px);
             transform: translateX(305px);
-    width: calc(100vw - 305px);
+    width: calc(100vw - 305px - 17px);
     padding: 38px 69px;
   }
 }
