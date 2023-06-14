@@ -1,6 +1,20 @@
+.add-task-modal-overlay,
+.add-project-modal-overlay {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  &.visible {
+    position: absolute;
+    visibility: visible;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+  }
+}
+
 .add-task-modal {
   position: absolute;
-  top: 14vh;
+  top: 64px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -13,15 +27,92 @@
   font-weight: 400;
   border-radius: 10px;
   padding: 16px;
-  background-color: var(--modal-bg);
+  background-color: #fff;
   box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
   transition: all 0.15s ease-in-out;
   z-index: 3;
+  &.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.add-task-modal-overlay,
-.add-project-modal-overlay {
-  visibility: hidden;
-  width: 0;
-  height: 0;
+#add-task-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  gap: 12px;
+  & > input {
+    word-break: break-word;
+    overflow: hidden;
+  }
+  & > input[name="task_name"] {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+  & > input[name="description"] {
+    font-size: 13px;
+  }
+}
+
+.project-selector {
+  gap: 4px;
+  padding: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10ch;
+  appearance: none;
+}
+
+.due-date-picker,
+.project-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  color: #555;
+  background-color: #fff;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 5px;
+}
+
+.extra-fields {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  & input:hover,
+  select:hover {
+    background-color: #eee;
+    cursor: pointer;
+  }
+}
+
+.cancel-submit-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 11px;
+  & > button {
+    height: 33px;
+    font-weight: 400;
+    padding: 0 12px;
+    border-radius: 5px;
+    transition: transform 0.1s ease-in-out;
+    text-align: center;
+  }
+}
+
+.cancel-button {
+  background-color: #f3f3f3;
+  color: #202020;
 }

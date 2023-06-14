@@ -11,6 +11,12 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
 
     <link rel="stylesheet" href="./css/style.css" />
     <title>ToDo</title>
@@ -44,7 +50,7 @@
         </button>
       </div>
       <div class="header-right">
-        <button class="header-button">
+        <button class="header-button" id="add-task-button">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" fill-rule="evenodd" transform="translate(4 3)">
               <mask id="jd4FBg" fill="#fff">
@@ -88,7 +94,47 @@
 
     <div class="add-task-modal-overlay">
       <div class="add-task-modal">
-        <form id="add-task-form" action=""></form>
+        <form id="add-task-form" action="">
+          <div class="form-inputs">
+            <input
+              id="task-name-input"
+              type="text"
+              name="task_name"
+              placeholder="Task name"
+              autocomplete="off"
+              maxlength="500"
+              autofocus=""
+            />
+            <input
+              id="task-description-input"
+              type="text"
+              name="description"
+              placeholder="Description"
+              autocomplete="off"
+            />
+          </div>
+          <div class="extra-fields">
+            <input class="due-date-picker" type="date" min="2023-06-14" />
+            <select
+              class="project-selector"
+              name="project_name"
+              data-is-project-default="true"
+              data-selected-project-id="0"
+            >
+              <option value="inbox" data-is-project-default="true">
+                Inbox
+              </option>
+            </select>
+          </div>
+          <div class="cancel-submit-container">
+            <button type="button" class="btn btn-light cancel-button">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-danger" disabled>
+              Add task
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -149,7 +195,7 @@
       </aside>
       <div class="editor">
         <h2>Inbox</h2>
-        <button class="editor-add-task-button">
+        <button class="editor-add-task-button" id="add-task-button">
           <svg class="editor-add-task-plus-icon">
             <path
               d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"

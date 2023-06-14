@@ -15,6 +15,11 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+input, select {
+  border: none;
+  outline: none;
+}
+
 span {
   line-height: initial;
 }
