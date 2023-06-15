@@ -75,8 +75,13 @@ select {
 .add-project-modal-overlay.visible {
   position: absolute;
   visibility: visible;
-  width: 100vw;
+  width: calc(100vw - 17px);
   height: 100vh;
+  z-index: 2;
+}
+
+.add-project-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
 
@@ -112,7 +117,8 @@ select {
           transform: scale(1);
 }
 
-#add-task-form {
+#add-task-form,
+#add-project-form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -225,11 +231,92 @@ select {
   color: #202020;
 }
 
+.add-project-modal {
+  position: fixed;
+  top: 14vh;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-weight: 400;
+  width: 0;
+  height: 0;
+  background-color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 3;
+}
+.add-project-modal .cancel-submit-container {
+  padding: 12px;
+  background-color: #fafafa;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.add-project-modal.visible {
+  opacity: 1;
+  width: 400px;
+  height: 187px;
+  visibility: visible;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.add-project-modal-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 24px;
+}
+
+.add-project-modal-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 24px;
+}
+.add-project-modal-main > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.add-project-modal-main input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  height: 28px;
+  font-size: 0.9rem;
+}
+
 body {
   font-family: "Roboto", sans-serif;
 }
 
-input, select {
+input,
+select {
   border: none;
   outline: none;
 }
@@ -319,13 +406,6 @@ main {
   position: relative;
 }
 
-.isSidebarVisible {
-  width: 305px;
-  visibility: visible;
-  -webkit-transform: translateX(0);
-          transform: translateX(0);
-}
-
 .sidebar-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-transition: opacity 0.25s linear;
@@ -336,8 +416,7 @@ main {
   opacity: 0;
   visibility: hidden;
 }
-
-.isSidebarOverlayVisible {
+.sidebar-overlay.visible {
   visibility: visible;
   opacity: 1;
 }
@@ -360,6 +439,12 @@ aside {
           transform: translateX(-100%);
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+}
+aside.visible {
+  width: 305px;
+  visibility: visible;
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }
 aside .sidebar-button {
   gap: 10px;
@@ -538,12 +623,12 @@ aside:hover .add-project-button {
   .tooltip {
     white-space: nowrap;
   }
-  .isSidebarVisible {
+  aside.visible {
     visibility: hidden;
     -webkit-transform: translateX(-100%);
             transform: translateX(-100%);
   }
-  .isSidebarOverlayVisible {
+  .sidebar-overlay.visible {
     visibility: hidden;
     opacity: 0;
   }
@@ -559,7 +644,7 @@ aside:hover .add-project-button {
     width: calc(100vw - 305px - 17px);
     padding: 38px 69px;
   }
-  aside.isSidebarVisible + .editor {
+  aside.visible + .editor {
     -webkit-transform: translateX(var(--sidebar-width));
             transform: translateX(var(--sidebar-width));
   }
