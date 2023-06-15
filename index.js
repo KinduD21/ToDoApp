@@ -21,7 +21,7 @@ window.onclick = function (event) {
     sidebar.classList.remove("visible");
     sidebarOverlay.classList.remove("visible");
   }
-}; // Дописать функцию для addTaskModalOverlay, проблема с условием if???
+};
 
 hideMenuBtn.addEventListener("click", () => {
   if (sidebar.classList.contains("visible")) {

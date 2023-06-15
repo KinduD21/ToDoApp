@@ -33,7 +33,6 @@ body {
   min-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
-  line-height: 1.5;
 }
 
 ul,
@@ -75,7 +74,7 @@ select {
 .add-project-modal-overlay.visible {
   position: absolute;
   visibility: visible;
-  width: calc(100vw - 17px);
+  width: 100vw;
   height: 100vh;
   z-index: 2;
 }
@@ -83,6 +82,54 @@ select {
 .add-project-modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
+}
+
+#add-task-form,
+#add-project-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 100%;
+}
+#add-task-form button,
+#add-project-form button {
+  line-height: initial;
+}
+
+.cancel-submit-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  gap: 11px;
+}
+.cancel-submit-container > button {
+  height: 33px;
+  font-weight: 400;
+  padding: 0 12px;
+  border-radius: 5px;
+  -webkit-transition: -webkit-transform 0.1s ease-in-out;
+  transition: -webkit-transform 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out;
+  transition: transform 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;
+  text-align: center;
+}
+
+.cancel-button {
+  background-color: #f3f3f3;
+  color: #202020;
 }
 
 .add-task-modal {
@@ -115,21 +162,6 @@ select {
   opacity: 1;
   -webkit-transform: scale(1);
           transform: scale(1);
-}
-
-#add-task-form,
-#add-project-form {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  height: 100%;
 }
 
 .form-inputs {
@@ -202,35 +234,6 @@ select {
   cursor: pointer;
 }
 
-.cancel-submit-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  gap: 11px;
-}
-.cancel-submit-container > button {
-  height: 33px;
-  font-weight: 400;
-  padding: 0 12px;
-  border-radius: 5px;
-  -webkit-transition: -webkit-transform 0.1s ease-in-out;
-  transition: -webkit-transform 0.1s ease-in-out;
-  transition: transform 0.1s ease-in-out;
-  transition: transform 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;
-  text-align: center;
-}
-
-.cancel-button {
-  background-color: #f3f3f3;
-  color: #202020;
-}
-
 .add-project-modal {
   position: fixed;
   top: 14vh;
@@ -265,6 +268,18 @@ select {
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
 }
+.add-project-modal .cancel-button {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-shadow: 0 1px 0 #fff;
+  color: #222;
+  -webkit-transition: border 0.3s ease;
+  transition: border 0.3s ease;
+}
+.add-project-modal .cancel-button:hover {
+  border: 1px solid #aaa;
+  background-color: #f3f3f3;
+}
 
 .add-project-modal-header {
   display: -webkit-box;
@@ -276,6 +291,9 @@ select {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding: 24px;
+}
+.add-project-modal-header h4 {
+  font-size: initial;
 }
 
 .add-project-modal-main {
@@ -309,6 +327,9 @@ select {
   width: 100%;
   height: 28px;
   font-size: 0.9rem;
+}
+.add-project-modal-main input:focus {
+  outline: 1px solid #202020;
 }
 
 body {
@@ -512,7 +533,6 @@ aside:hover .add-project-button {
       -ms-flex-align: center;
           align-items: center;
   gap: 10px;
-  line-height: initial;
 }
 .editor-add-task-button:hover .editor-add-task-plus-icon > path {
   -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
@@ -617,6 +637,9 @@ aside:hover .add-project-button {
 }
 
 @media screen and (min-width: 768px) {
+  body {
+    position: relative;
+  }
   header {
     padding: 10px 40px;
   }
@@ -653,6 +676,9 @@ aside:hover .add-project-button {
     opacity: 1;
     -webkit-transition-delay: 0.35s;
             transition-delay: 0.35s;
+  }
+  .add-project-modal-overlay.visible {
+    top: 0;
   }
   .add-project-button:hover .tooltip {
     visibility: visible;

@@ -167,7 +167,6 @@ aside {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  line-height: initial;
   &:hover .editor-add-task-plus-icon > path {
     transform: scale(0.85) translate(3.4px, 3.4px);
   }
@@ -250,6 +249,10 @@ aside {
 // Media queries
 
 @media screen and (min-width: 768px) {
+  body {
+    position: relative;
+  }
+
   header {
     padding: 10px 40px;
   }
@@ -288,6 +291,10 @@ aside {
     visibility: visible;
     opacity: 1;
     transition-delay: 0.35s;
+  }
+
+  .add-project-modal-overlay.visible {
+    top: 0;
   }
 
   .add-project-button:hover .tooltip {

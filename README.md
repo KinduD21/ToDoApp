@@ -28,3 +28,9 @@
     - save it into Object (variable), if there are many of them massive of Objects
     - "Delete" button, which will delete selected Task
     - separate list of completed "Task" with visual effects (e.g. opacity changing)
+
+
+# 16.06 - Bugs
+1. window.onclick function - same functionality cannot be provided with addTaskModalWindow/addProjectModalWindow as it is with sidebar
+2. Editor image - drags to the left, when sidebar is hidden
+3. Add Project Modal - border-top-left / -top-right properties are not applied
