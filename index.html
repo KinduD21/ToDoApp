@@ -92,7 +92,37 @@
       </div>
     </header>
 
-    <div class="add-task-modal-overlay">
+    <div class="modal-overlay">
+      <!-- Add Project Modal -->
+      <div class="add-project-modal">
+        <form id="add-project-form" action="">
+          <div class="add-project-modal-header">
+            <h4>Add project</h4>
+          </div>
+          <div class="add-project-modal-main">
+            <div>
+              <label for="project_name">Name</label>
+              <input
+                type="text"
+                id="project_name"
+                name="project_name"
+                maxlength="120"
+                autocomplete="off"
+                required=""
+              />
+            </div>
+          </div>
+          <div class="cancel-submit-container">
+            <button type="button" class="btn btn-light cancel-button">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-danger" disabled>
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- Add Task Modal -->
       <div class="add-task-modal">
         <form id="add-task-form" action="">
           <div class="form-inputs">
@@ -132,37 +162,6 @@
             </button>
             <button type="button" class="btn btn-danger" disabled>
               Add task
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="add-project-modal-overlay">
-      <div class="add-project-modal">
-        <form id="add-project-form" action="">
-          <div class="add-project-modal-header">
-            <h4>Add project</h4>
-          </div>
-          <div class="add-project-modal-main">
-            <div>
-              <label for="project_name">Name</label>
-              <input
-                type="text"
-                id="project_name"
-                name="project_name"
-                maxlength="120"
-                autocomplete="off"
-                required=""
-              />
-            </div>
-          </div>
-          <div class="cancel-submit-container">
-            <button type="button" class="btn btn-light cancel-button">
-              Cancel
-            </button>
-            <button type="button" class="btn btn-danger" disabled>
-              Add
             </button>
           </div>
         </form>

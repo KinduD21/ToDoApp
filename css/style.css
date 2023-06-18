@@ -64,45 +64,51 @@ select {
   font: inherit;
 }
 
-.add-task-modal-overlay,
-.add-project-modal-overlay {
+.modal-overlay {
   visibility: hidden;
   width: 0;
   height: 0;
 }
-.add-task-modal-overlay.visible,
-.add-project-modal-overlay.visible {
+.modal-overlay.visible {
   position: absolute;
   visibility: visible;
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
-  z-index: 2;
-}
-
-.add-task-modal-overlay.visible {
-  width: calc(100vw - 17px);
-}
-
-.add-project-modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
 
 .add-task-modal,
 .add-project-modal {
   position: absolute;
-  top: 64px;
+  top: 20%;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  visibility: hidden;
   opacity: 0;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-weight: 400;
   background-color: #fff;
+  -webkit-transform: scale(0.6);
+          transform: scale(0.6);
+  border-radius: 10px;
+  padding: 16px;
+  -webkit-box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  z-index: 3;
+}
+.add-task-modal.visible,
+.add-project-modal.visible {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
 
 #add-task-form,
@@ -117,7 +123,7 @@ select {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  height: 100%;
+  gap: 10px;
 }
 #add-task-form button,
 #add-project-form button {
@@ -138,7 +144,6 @@ select {
 }
 .cancel-submit-container > button {
   height: 33px;
-  font-weight: 400;
   padding: 0 12px;
   border-radius: 5px;
   -webkit-transition: -webkit-transform 0.1s ease-in-out;
@@ -149,27 +154,17 @@ select {
 }
 
 .cancel-button {
+  border: 1px solid #ddd;
+  -webkit-transition: border 0.3s ease;
+  transition: border 0.3s ease;
+}
+.cancel-button:hover {
+  border: 1px solid #aaa;
   background-color: #f3f3f3;
-  color: #202020;
 }
 
 .add-task-modal {
-  -webkit-transform: scale(0.6);
-          transform: scale(0.6);
-  width: 550px;
-  height: 187px;
-  border-radius: 10px;
-  padding: 16px;
-  -webkit-box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
-  -webkit-transition: all 0.15s ease-in-out;
-  transition: all 0.15s ease-in-out;
-  z-index: 3;
-}
-.add-task-modal.visible {
-  opacity: 1;
-  -webkit-transform: scale(1);
-          transform: scale(1);
+  max-width: 550px;
 }
 
 .form-inputs {
@@ -180,7 +175,6 @@ select {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  font-family: inherit;
   gap: 12px;
 }
 .form-inputs > input {
@@ -196,18 +190,6 @@ select {
   font-size: 13px;
 }
 
-.project-selector {
-  gap: 4px;
-  padding: 0 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 10ch;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
-
 .due-date-picker,
 .project-selector {
   display: -webkit-box;
@@ -218,7 +200,6 @@ select {
           align-items: center;
   border: 1px solid #ccc;
   color: #555;
-  background-color: #fff;
   height: 28px;
   padding: 0 8px;
   border-radius: 5px;
@@ -236,74 +217,36 @@ select {
           justify-content: flex-start;
   gap: 10px;
 }
-.extra-fields input:hover,
-.extra-fields select:hover {
-  background-color: #eee;
-  cursor: pointer;
-}
 
 .add-project-modal {
-  width: 0;
-  height: 0;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 3;
+  max-width: 410px;
 }
-.add-project-modal .cancel-submit-container {
+
+#add-project-form > div {
   padding: 12px;
-  background-color: #fafafa;
-  border-top: 1px solid #ddd;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-.add-project-modal.visible {
-  opacity: 1;
-  width: 400px;
-  height: 187px;
-  visibility: visible;
-  -webkit-transition: opacity 0.3s ease;
-  transition: opacity 0.3s ease;
-}
-.add-project-modal .cancel-button {
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  text-shadow: 0 1px 0 #fff;
-  color: #222;
-  -webkit-transition: border 0.3s ease;
-  transition: border 0.3s ease;
-}
-.add-project-modal .cancel-button:hover {
-  border: 1px solid #aaa;
-  background-color: #f3f3f3;
 }
 
 .add-project-modal-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
-  background-color: #fafafa;
   border-bottom: 1px solid #ddd;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 24px;
 }
 .add-project-modal-header h4 {
   font-size: initial;
+  font-weight: 600;
 }
 
 .add-project-modal-main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
-  padding: 24px;
 }
 .add-project-modal-main > div {
   display: -webkit-box;
@@ -315,6 +258,9 @@ select {
           flex-direction: column;
   gap: 10px;
   width: 100%;
+}
+.add-project-modal-main label {
+  font-weight: 500;
 }
 .add-project-modal-main input {
   padding: 5px;
@@ -328,6 +274,11 @@ select {
   outline: 1px solid #202020;
 }
 
+.add-project-modal #add-project-form .cancel-submit-container {
+  border-top: 1px solid #ddd;
+  padding-bottom: 0px;
+}
+
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -336,6 +287,7 @@ input,
 select {
   border: none;
   outline: none;
+  font-size: 14px;
 }
 
 span {
@@ -361,7 +313,6 @@ button {
 button:hover {
   cursor: pointer;
   background-color: hsla(0deg, 0%, 100%, 0.2);
-  border-radius: 3px;
 }
 
 header {
@@ -392,6 +343,9 @@ header {
   height: 28px;
   width: 28px;
   position: relative;
+}
+.header-button:hover {
+  border-radius: 3px;
 }
 
 .tooltip {
@@ -664,8 +618,10 @@ aside:hover .add-project-button {
     padding: 38px 69px;
   }
   aside.visible + .editor {
-    -webkit-transform: translateX(var(--sidebar-width));
-            transform: translateX(var(--sidebar-width));
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    width: -webkit-fill-available;
+    width: -moz-available;
   }
   .header-button:hover .tooltip {
     visibility: visible;
@@ -673,7 +629,7 @@ aside:hover .add-project-button {
     -webkit-transition-delay: 0.35s;
             transition-delay: 0.35s;
   }
-  .add-project-modal-overlay.visible {
+  .modal-overlay.visible {
     top: 0;
   }
   .add-project-button:hover .tooltip {

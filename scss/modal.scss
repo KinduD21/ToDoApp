@@ -1,40 +1,42 @@
 // General rules for modal windows
 
-.add-task-modal-overlay,
-.add-project-modal-overlay {
+.modal-overlay {
   visibility: hidden;
   width: 0;
   height: 0;
   &.visible {
     position: absolute;
     visibility: visible;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
     height: 100vh;
     z-index: 2;
   }
 }
 
-.add-task-modal-overlay.visible {
-  width: calc(100vw - 17px);
-}
-
-.add-project-modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
-}
-
 .add-task-modal,
 .add-project-modal {
   position: absolute;
-  top: 64px;
+  top: 20%;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  visibility: hidden;
   opacity: 0;
   user-select: none;
-  font-weight: 400;
   background-color: #fff;
+  transform: scale(0.6);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
+  transition: all 0.15s ease-in-out;
+  z-index: 3;
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 #add-task-form,
@@ -42,7 +44,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  gap: 10px;
   & button {
     line-height: initial;
   }
@@ -55,7 +57,6 @@
   gap: 11px;
   & > button {
     height: 33px;
-    font-weight: 400;
     padding: 0 12px;
     border-radius: 5px;
     transition: transform 0.1s ease-in-out;
@@ -64,31 +65,23 @@
 }
 
 .cancel-button {
-  background-color: #f3f3f3;
-  color: #202020;
+  border: 1px solid #ddd;
+  transition: border 0.3s ease;
+  &:hover {
+    border: 1px solid #aaa;
+    background-color: #f3f3f3;
+  }
 }
 
 // "Add task" modal window rules
 
 .add-task-modal {
-  transform: scale(0.6);
-  width: 550px;
-  height: 187px;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.2);
-  transition: all 0.15s ease-in-out;
-  z-index: 3;
-  &.visible {
-    opacity: 1;
-    transform: scale(1);
-  }
+  max-width: 550px;
 }
 
 .form-inputs {
   display: flex;
   flex-direction: column;
-  font-family: inherit;
   gap: 12px;
   & > input {
     word-break: break-word;
@@ -104,23 +97,12 @@
   }
 }
 
-.project-selector {
-  gap: 4px;
-  padding: 0 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 10ch;
-  appearance: none;
-}
-
 .due-date-picker,
 .project-selector {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
   color: #555;
-  background-color: #fff;
   height: 28px;
   padding: 0 8px;
   border-radius: 5px;
@@ -131,72 +113,39 @@
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
-  & input:hover,
-  select:hover {
-    background-color: #eee;
-    cursor: pointer;
-  }
 }
 
 // "Add project" modal window rules
 
 .add-project-modal {
-  width: 0;
-  height: 0;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 3;
-  & .cancel-submit-container {
-    padding: 12px;
-    background-color: #fafafa;
-    border-top: 1px solid #ddd;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-  &.visible {
-    opacity: 1;
-    width: 400px;
-    height: 187px;
-    visibility: visible;
-    transition: opacity 0.3s ease;
-  }
-  & .cancel-button {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    text-shadow: 0 1px 0 #fff;
-    color: #222;
-    transition: border 0.3s ease;
-    &:hover {
-      border: 1px solid #aaa;
-      background-color: #f3f3f3;
-    }
-  }
+  max-width: 410px;
+}
+
+#add-project-form > div {
+  padding: 12px;
 }
 
 .add-project-modal-header {
   display: flex;
-  width: 100%;
-  background-color: #fafafa;
   border-bottom: 1px solid #ddd;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 24px;
   & h4 {
     font-size: initial;
+    font-weight: 600;
   }
 }
 
 .add-project-modal-main {
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: flex-start;
-  padding: 24px;
   & > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
+  }
+  & label {
+    font-weight: 500;
   }
   & input {
     padding: 5px;
@@ -208,5 +157,12 @@
     &:focus {
       outline: 1px solid #202020;
     }
+  }
+}
+
+.add-project-modal #add-project-form {
+  & .cancel-submit-container {
+    border-top: 1px solid #ddd;
+    padding-bottom: 0px;
   }
 }
