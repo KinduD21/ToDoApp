@@ -14,11 +14,12 @@
 
 7. Repeat HTML/CSS optimization: - check if app is adaptive - no duplicates - group pieces of code, if possible - variables, where appropriate - point 6 optimization
 
-8. - "Add task" functionality
-   - create Task
-   - save it into Object (variable), if there are many of them massive of Objects
-   - "Delete" button, which will delete selected Task
-   - separate list of completed "Task" with visual effects (e.g. opacity changing)
+8. - "Add project" functionality
+   - create Project (will be deleted automatically after page refresh)
+   <!-- - save it into Object (variable), if there are many of them massive of Objects -->
+   - "Delete" button, which will delete selected Project
+   - "Edit" button, which will allow to rename Project
+   <!-- - separate list of completed "Task" with visual effects (e.g. opacity changing) -->
 
 | Bug Description                                                                        | Status                      |
 | -------------------------------------------------------------------------------------- | --------------------------- |
@@ -26,3 +27,4 @@
 |
 | Editor image - drags to the left when sidebar is hidden                                | ✅ Complete     |
 | Add Project Modal - border-top-left / -top-right properties are not applied            | ✅ Complete     |
+

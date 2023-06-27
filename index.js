@@ -9,10 +9,12 @@ const modalOverlay = document.querySelector(".modal-overlay");
 const addTaskModal = document.querySelector(".add-task-modal");
 const addProjectModal = document.querySelector(".add-project-modal");
 const cancelBtns = document.querySelectorAll(".cancel-button");
-
+ 
 modalOverlay.addEventListener("click", (event) => {
-  event.target.classList.remove("visible");
-  event.target.querySelector(".visible").classList.remove("visible");
+  if(event.target.classList.contains('modal-overlay')) {
+    event.target.classList.remove("visible");
+    event.target.querySelector(".visible").classList.remove("visible");
+  }
 });
 
 sidebarOverlay.addEventListener("click", () => {

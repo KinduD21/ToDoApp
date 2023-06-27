@@ -227,7 +227,7 @@ aside {
   gap: 12px;
   width: 100%;
   padding: 5px 0 5px 12px;
-  font-family: inherit;
+  font-family: inherit; 
   font-size: 0.85em;
   font-weight: bold;
   background-color: unset;
@@ -282,14 +282,15 @@ aside {
 
   .editor {
     transform: translateX($sidebar-width);
-    width: calc(100vw - $sidebar-width - 17px);
+    width: calc(100% - $sidebar-width - 17px);
     padding: 38px 69px;
   }
 
   aside.visible + .editor {
     transform: translateX(0);
-    width: -webkit-fill-available;
-    width: -moz-available;
+    // width: -webkit-fill-available;
+    // width: -moz-available;
+    width: 100%;
   }
 
   .header-button:hover .tooltip {
