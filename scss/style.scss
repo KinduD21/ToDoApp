@@ -15,6 +15,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+ul {
+  margin-bottom: 0;
+}
+
 input,
 select {
   border: none;
@@ -111,6 +115,7 @@ aside {
   display: flex;
   flex-direction: column;
   padding: 30px 5px 18px 35px;
+  gap: 10px;
   visibility: hidden;
   position: absolute;
   left: 0;
@@ -227,7 +232,7 @@ aside {
   gap: 12px;
   width: 100%;
   padding: 5px 0 5px 12px;
-  font-family: inherit; 
+  font-family: inherit;
   font-size: 0.85em;
   font-weight: bold;
   background-color: unset;
@@ -247,6 +252,21 @@ aside {
   &:hover {
     background: #eeeeee;
   }
+}
+
+.projects-list-container {
+  display: flex;
+  visibility: visible;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#projects-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 // Media queries

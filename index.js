@@ -4,14 +4,15 @@ const editor = document.querySelector(".editor");
 const sidebar = document.querySelector("aside");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 const addTaskBtns = document.querySelectorAll("#add-task-button");
-const addProjectBtn = document.querySelector(".add-project-button");
+const addProjectOuterBtn = document.querySelector(".add-project-button");
 const modalOverlay = document.querySelector(".modal-overlay");
 const addTaskModal = document.querySelector(".add-task-modal");
 const addProjectModal = document.querySelector(".add-project-modal");
+const addProjectInput = document.querySelector("#project_name");
 const cancelBtns = document.querySelectorAll(".cancel-button");
- 
+
 modalOverlay.addEventListener("click", (event) => {
-  if(event.target.classList.contains('modal-overlay')) {
+  if (event.target.classList.contains("modal-overlay")) {
     event.target.classList.remove("visible");
     event.target.querySelector(".visible").classList.remove("visible");
   }
@@ -39,7 +40,7 @@ addTaskBtns.forEach((addTaskBtn) => {
   });
 });
 
-addProjectBtn.addEventListener("click", () => {
+addProjectOuterBtn.addEventListener("click", () => {
   modalOverlay.classList.add("visible");
   addProjectModal.classList.add("visible");
 });
@@ -49,4 +50,21 @@ cancelBtns.forEach((cancelBtn) => {
     modalOverlay.classList.remove("visible");
     cancelBtn.closest(".visible").classList.remove("visible");
   });
+});
+
+let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
+addProjectInput.addEventListener("keyup", () => {
+  if (addProjectInput.value.trim() === "") {
+    addProjectInnerBtn.disabled = true;
+  } else {
+    addProjectInnerBtn.disabled = false;
+  }
+});
+
+addProjectInnerBtn.addEventListener("click", () => {
+  const projectsList = document.querySelector("#projects-list");
+  const project = document.createElement("button");
+  project.innerText = addProjectInput.value;
+  project.classList.add("sidebar-button");
+  projectsList.appendChild(project);
 });
