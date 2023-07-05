@@ -130,11 +130,13 @@ aside {
   & .sidebar-button {
     gap: 10px;
     padding: 5px 0 5px 7px;
-    background: #eeeeee;
     width: 100%;
     border-radius: 5px;
     justify-content: left;
-    & svg {
+    &:hover {
+      background: #eeeeee;
+    }
+    & svg.sidebar-inbox-icon {
       color: #246fe0;
     }
   }
@@ -259,14 +261,58 @@ aside {
   visibility: visible;
   width: 100%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  // overflow-x: hidden;
+  // overflow-y: scroll;
 }
 
 #projects-list {
   display: flex;
   flex-direction: column;
   width: 100%;
+  & > li {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & button {
+      gap: 15px;
+      height: 34px;
+      position: relative;
+      &:hover .delete-project-icon {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.project-name {
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.project-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  & path {
+    color: rgb(128, 128, 128);
+  }
+}
+
+.delete-project-icon {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  color: #808080;
+  opacity: 1;
+  visibility: hidden;
+  &:hover {
+    transition: color 0.2s ease-in-out;
+    color: #202020;
+  }
 }
 
 // Media queries

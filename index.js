@@ -53,6 +53,10 @@ cancelBtns.forEach((cancelBtn) => {
 });
 
 let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
+let deleteProjectBtn = document.querySelector(
+  "#projects-list .delete-project-icon"
+);
+
 addProjectInput.addEventListener("keyup", () => {
   if (addProjectInput.value.trim() === "") {
     addProjectInnerBtn.disabled = true;
@@ -62,9 +66,13 @@ addProjectInput.addEventListener("keyup", () => {
 });
 
 addProjectInnerBtn.addEventListener("click", () => {
-  const projectsList = document.querySelector("#projects-list");
-  const project = document.createElement("button");
-  project.innerText = addProjectInput.value;
-  project.classList.add("sidebar-button");
-  projectsList.appendChild(project);
+  let liElement = document.querySelector("#projects-list li");
+  let projectsListLiSpanElement = document.querySelector("span.project-name");
+  projectsListLiSpanElement.textContent = addProjectInput.value;
+  liElement.style.visibility = "visible";
+  addProjectInput.value = "";
+});
+
+deleteProjectBtn.addEventListener("click", () => {
+  deleteProjectBtn.closest("li").remove();
 });

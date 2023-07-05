@@ -425,14 +425,16 @@ aside.visible {
 aside .sidebar-button {
   gap: 10px;
   padding: 5px 0 5px 7px;
-  background: #eeeeee;
   width: 100%;
   border-radius: 5px;
   -webkit-box-pack: left;
       -ms-flex-pack: left;
           justify-content: left;
 }
-aside .sidebar-button svg {
+aside .sidebar-button:hover {
+  background: #eeeeee;
+}
+aside .sidebar-button svg.sidebar-inbox-icon {
   color: #246fe0;
 }
 aside:hover .add-project-button {
@@ -599,8 +601,6 @@ aside:hover .add-project-button {
   width: 100%;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 
 #projects-list {
@@ -612,6 +612,55 @@ aside:hover .add-project-button {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 100%;
+}
+#projects-list > li {
+  visibility: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+#projects-list > li button {
+  gap: 15px;
+  height: 34px;
+  position: relative;
+}
+#projects-list > li button:hover .delete-project-icon {
+  visibility: visible;
+}
+
+.project-name {
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.project-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+.project-icon path {
+  color: rgb(128, 128, 128);
+}
+
+.delete-project-icon {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  color: #808080;
+  opacity: 1;
+  visibility: hidden;
+}
+.delete-project-icon:hover {
+  -webkit-transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+  color: #202020;
 }
 
 @media screen and (min-width: 768px) {
