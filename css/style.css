@@ -614,10 +614,7 @@ aside:hover .add-project-button {
   width: 100%;
 }
 #projects-list > li {
-  visibility: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -626,7 +623,6 @@ aside:hover .add-project-button {
 #projects-list > li button {
   gap: 15px;
   height: 34px;
-  position: relative;
 }
 #projects-list > li button:hover .delete-project-icon {
   visibility: visible;
@@ -649,8 +645,6 @@ aside:hover .add-project-button {
 }
 
 .delete-project-icon {
-  position: absolute;
-  right: 10px;
   width: 24px;
   height: 24px;
   color: #808080;

@@ -53,9 +53,6 @@ cancelBtns.forEach((cancelBtn) => {
 });
 
 let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
-let deleteProjectBtn = document.querySelector(
-  "#projects-list .delete-project-icon"
-);
 
 addProjectInput.addEventListener("keyup", () => {
   if (addProjectInput.value.trim() === "") {
@@ -66,13 +63,24 @@ addProjectInput.addEventListener("keyup", () => {
 });
 
 addProjectInnerBtn.addEventListener("click", () => {
+  let projectsList = document.querySelector("#projects-list");
   let liElement = document.querySelector("#projects-list li");
   let projectsListLiSpanElement = document.querySelector("span.project-name");
   projectsListLiSpanElement.textContent = addProjectInput.value;
-  liElement.style.visibility = "visible";
-  addProjectInput.value = "";
-});
+  let clonedLiElement = liElement.cloneNode(true);
+  projectsList.appendChild(clonedLiElement);
+  clonedLiElement.style.display = "flex";
 
-deleteProjectBtn.addEventListener("click", () => {
-  deleteProjectBtn.closest("li").remove();
+  addProjectInput.value = "";
+  addProjectInnerBtn.disabled = true;
+  addProjectModal.classList.remove("visible");
+  modalOverlay.classList.remove("visible");
+
+  let deleteProjectBtns = clonedLiElement.querySelectorAll("svg.delete-project-icon");
+
+  deleteProjectBtns.forEach((deleteProjectBtn) => {
+    deleteProjectBtn.addEventListener("click", () => {
+      deleteProjectBtn.closest("li").remove();
+    });
+  });
 });

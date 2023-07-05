@@ -270,14 +270,12 @@ aside {
   flex-direction: column;
   width: 100%;
   & > li {
-    visibility: hidden;
-    display: flex;
+    display: none;
     align-items: center;
     width: 100%;
     & button {
       gap: 15px;
       height: 34px;
-      position: relative;
       &:hover .delete-project-icon {
         visibility: visible;
       }
@@ -302,8 +300,6 @@ aside {
 }
 
 .delete-project-icon {
-  position: absolute;
-  right: 10px;
   width: 24px;
   height: 24px;
   color: #808080;
