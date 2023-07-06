@@ -10,6 +10,8 @@ const addTaskModal = document.querySelector(".add-task-modal");
 const addProjectModal = document.querySelector(".add-project-modal");
 const addProjectInput = document.querySelector("#project_name");
 const cancelBtns = document.querySelectorAll(".cancel-button");
+const projectsList = document.querySelector("#projects-list");
+const projectsListLiElement = document.querySelector("#projects-list li");
 
 modalOverlay.addEventListener("click", (event) => {
   if (event.target.classList.contains("modal-overlay")) {
@@ -52,6 +54,8 @@ cancelBtns.forEach((cancelBtn) => {
   });
 });
 
+// Hometask
+
 let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
 
 addProjectInput.addEventListener("keyup", () => {
@@ -63,24 +67,30 @@ addProjectInput.addEventListener("keyup", () => {
 });
 
 addProjectInnerBtn.addEventListener("click", () => {
-  let projectsList = document.querySelector("#projects-list");
-  let liElement = document.querySelector("#projects-list li");
   let projectsListLiSpanElement = document.querySelector("span.project-name");
   projectsListLiSpanElement.textContent = addProjectInput.value;
-  let clonedLiElement = liElement.cloneNode(true);
+  let clonedLiElement = projectsListLiElement.cloneNode(true);
   projectsList.appendChild(clonedLiElement);
   clonedLiElement.style.display = "flex";
 
+  let editorHeading = editor.querySelector("h2");
+  editorHeading.innerHTML = addProjectInput.value;
+  let editorImage = editor.querySelector("img");
+  editorImage.src = "./images/project-empty-state.png";
   addProjectInput.value = "";
   addProjectInnerBtn.disabled = true;
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
 
-  let deleteProjectBtns = clonedLiElement.querySelectorAll("svg.delete-project-icon");
+  let deleteProjectBtns = clonedLiElement.querySelectorAll(
+    "svg.delete-project-icon"
+  );
 
   deleteProjectBtns.forEach((deleteProjectBtn) => {
     deleteProjectBtn.addEventListener("click", () => {
       deleteProjectBtn.closest("li").remove();
+      editorHeading.innerHTML = "Inbox"; // rewrite code, if there's more than just "Inbox" folder
+      editorImage.src = "./images/inbox-empty-state.png";
     });
   });
 });

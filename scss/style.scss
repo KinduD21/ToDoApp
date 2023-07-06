@@ -129,7 +129,7 @@ aside {
   }
   & .sidebar-button {
     gap: 10px;
-    padding: 5px 0 5px 7px;
+    padding: 5px;
     width: 100%;
     border-radius: 5px;
     justify-content: left;
@@ -275,6 +275,7 @@ aside {
     width: 100%;
     & button {
       gap: 15px;
+      padding-right: 15px;
       height: 34px;
       &:hover .delete-project-icon {
         visibility: visible;
@@ -288,6 +289,7 @@ aside {
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-icon {
@@ -300,7 +302,7 @@ aside {
 }
 
 .delete-project-icon {
-  width: 24px;
+  width: 30px;
   height: 24px;
   color: #808080;
   opacity: 1;
