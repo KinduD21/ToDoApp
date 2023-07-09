@@ -280,6 +280,9 @@ aside {
       gap: 15px;
       padding-right: 15px;
       height: 34px;
+      &.selected {
+        background-color: #eeeeee;
+      }
       &:hover .delete-project-icon {
         visibility: visible;
       }

@@ -71,7 +71,15 @@ addProjectInnerBtn.addEventListener("click", () => {
   projectsListLiSpanElement.textContent = addProjectInput.value;
   let clonedLiElement = projectsListLiElement.cloneNode(true);
   projectsList.appendChild(clonedLiElement);
+  let clonedLiElementBtns = projectsList.querySelectorAll(".sidebar-button");
+  let clonedLiElementBtn = clonedLiElement.querySelector(".sidebar-button");
+  let selectedBtn = null;
   clonedLiElement.style.display = "flex";
+  clonedLiElementBtns.forEach((clonedLiElementBtn) => {
+    clonedLiElementBtn.classList.remove("selected");
+  });
+  clonedLiElementBtn.classList.add("selected");
+  selectedBtn = clonedLiElementBtn;
 
   let editorHeading = editor.querySelector("h2");
   editorHeading.innerHTML = addProjectInput.value;
@@ -86,8 +94,17 @@ addProjectInnerBtn.addEventListener("click", () => {
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
 
-  let clonedLiElementBtns = clonedLiElement.querySelectorAll(".sidebar-button");
-  // clonedLiElementBtns.forEach()
+  clonedLiElementBtns.forEach((clonedLiElementBtn) => {
+    clonedLiElementBtn.addEventListener("click", () => {
+      clonedLiElementBtn.classList.remove("selected");
+      if (selectedBtn) {
+        selectedBtn.classList.remove("selected");
+      }
+      clonedLiElementBtn.classList.add("selected");
+      editorHeading.innerHTML = clonedLiElementBtn.textContent;
+      selectedBtn = clonedLiElementBtn;
+    });
+  });
 
   let deleteProjectBtns = clonedLiElement.querySelectorAll(
     "svg.delete-project-icon"

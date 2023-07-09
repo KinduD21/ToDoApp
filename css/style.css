@@ -316,7 +316,7 @@ button {
 
 button:hover {
   cursor: pointer;
-  background-color: hsla(0, 0%, 100%, 0.2);
+  background-color: hsla(0deg, 0%, 100%, 0.2);
 }
 
 header {
@@ -627,6 +627,9 @@ aside:hover .add-project-button {
   gap: 15px;
   padding-right: 15px;
   height: 34px;
+}
+#projects-list > li button.selected {
+  background-color: #eeeeee;
 }
 #projects-list > li button:hover .delete-project-icon {
   visibility: visible;
