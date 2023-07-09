@@ -481,6 +481,9 @@ aside:hover .add-project-button {
   -webkit-transform: translate(2px, 2px);
           transform: translate(2px, 2px);
 }
+.editor .empty-state-heading {
+  font-size: 16px;
+}
 
 .editor-add-task-button {
   -webkit-box-pack: start;
@@ -527,7 +530,7 @@ aside:hover .add-project-button {
           justify-content: space-between;
   width: 360px;
   margin: 42px 0 0 0;
-  gap: 8px;
+  gap: 12px;
 }
 .empty-state-container img {
   max-width: 220px;

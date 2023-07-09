@@ -77,10 +77,17 @@ addProjectInnerBtn.addEventListener("click", () => {
   editorHeading.innerHTML = addProjectInput.value;
   let editorImage = editor.querySelector("img");
   editorImage.src = "./images/project-empty-state.png";
+  let editorStateHeading = editor.querySelector(".empty-state-heading");
+  let editorStateBody = editor.querySelector(".empty-state-body");
+  editorStateHeading.innerHTML = "Keep your tasks organized in projects";
+  editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
   addProjectInput.value = "";
   addProjectInnerBtn.disabled = true;
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
+
+  let clonedLiElementBtns = clonedLiElement.querySelectorAll(".sidebar-button");
+  // clonedLiElementBtns.forEach()
 
   let deleteProjectBtns = clonedLiElement.querySelectorAll(
     "svg.delete-project-icon"
@@ -90,6 +97,9 @@ addProjectInnerBtn.addEventListener("click", () => {
     deleteProjectBtn.addEventListener("click", () => {
       deleteProjectBtn.closest("li").remove();
       editorHeading.innerHTML = "Inbox"; // rewrite code, if there's more than just "Inbox" folder
+      editorStateHeading.innerHTML = "All clear";
+      editorStateBody.innerHTML =
+        "Looks like everything's organized in the right place.";
       editorImage.src = "./images/inbox-empty-state.png";
     });
   });
