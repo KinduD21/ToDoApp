@@ -48,6 +48,10 @@
   & button {
     line-height: initial;
   }
+  & .btn-danger {
+    pointer-events: initial;
+    cursor: not-allowed;
+  }
 }
 
 .cancel-submit-container {

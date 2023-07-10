@@ -114,7 +114,7 @@ aside {
   background: #fafafa;
   display: flex;
   flex-direction: column;
-  padding: 30px 5px 18px 35px;
+  padding: 30px 5px 0px 35px;
   gap: 10px;
   visibility: hidden;
   position: absolute;
@@ -229,6 +229,14 @@ aside {
   height: 36px;
 }
 
+.sidebar-projects-arrow-icon {
+  transition: transform 0.3s;
+  transform: rotate(-90deg);
+  &.expanded {
+    transform: rotate(0deg);
+  }
+}
+
 .sidebar-projects-button {
   display: flex;
   height: 36px;
@@ -261,11 +269,17 @@ aside {
 
 .projects-list-container {
   display: flex;
-  visibility: visible;
+  visibility: hidden;
   width: 100%;
+  height: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  // overflow-x: hidden;
-  // overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  &.expanded {
+    visibility: visible;
+    height: 100vh; // 100% does not work as intended ???
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
 }
 
 #projects-list {

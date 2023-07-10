@@ -12,6 +12,12 @@ const addProjectInput = document.querySelector("#project_name");
 const cancelBtns = document.querySelectorAll(".cancel-button");
 const projectsList = document.querySelector("#projects-list");
 const projectsListLiElement = document.querySelector("#projects-list li");
+const projectsListContainer = document.querySelector(
+  ".projects-list-container"
+);
+const sidebarProjectsArrowIcon = document.querySelector(
+  ".sidebar-projects-arrow-icon"
+);
 
 modalOverlay.addEventListener("click", (event) => {
   if (event.target.classList.contains("modal-overlay")) {
@@ -55,6 +61,16 @@ cancelBtns.forEach((cancelBtn) => {
 });
 
 // Hometask
+
+sidebarProjectsArrowIcon.addEventListener("click", () => {
+  if (sidebarProjectsArrowIcon.classList.contains("expanded")) {
+    sidebarProjectsArrowIcon.classList.remove("expanded");
+    projectsListContainer.classList.remove("expanded");
+  } else {
+    sidebarProjectsArrowIcon.classList.add("expanded");
+    projectsListContainer.classList.add("expanded");
+  }
+});
 
 let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
 
