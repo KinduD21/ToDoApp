@@ -48,7 +48,7 @@
   & button {
     line-height: initial;
   }
-  & .btn-danger {
+  & .btn-danger:disabled {
     pointer-events: initial;
     cursor: not-allowed;
   }
