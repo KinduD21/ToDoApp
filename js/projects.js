@@ -1,4 +1,5 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
+import { deleteProject } from "./deleteProject.js";
 
 const projects = [];
 const editor = document.querySelector(".editor");
@@ -7,34 +8,36 @@ const editorImage = editor.querySelector("img");
 const editorStateHeading = editor.querySelector(".empty-state-heading");
 const editorStateBody = editor.querySelector(".empty-state-body");
 const projectsList = document.querySelector("#projects-list");
-// TODO: use only what projects need (not modal for ex)
 const addProjectModal = document.querySelector(".add-project-modal");
 const addProjectInput = document.querySelector("#project_name");
 const modalOverlay = document.querySelector(".modal-overlay");
 const projectsListContainer = document.querySelector(
   ".projects-list-container"
 );
-const sidebarProjectsArrowIcon = document.querySelector(
-  ".sidebar-projects-arrow-icon"
+const sidebarProjectsBtn = document.querySelector(".sidebar-projects-button");
+const sidebarArrowIcon = document.querySelector(
+  "svg.sidebar-projects-arrow-icon"
 );
 
-let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]"); // optimize? 100 modalok?)))
-
-sidebarProjectsArrowIcon.addEventListener("click", () => {
-  if (sidebarProjectsArrowIcon.classList.contains("expanded")) {
-    sidebarProjectsArrowIcon.classList.remove("expanded");
-    projectsListContainer.classList.remove("expanded");
-  } else {
-    sidebarProjectsArrowIcon.classList.add("expanded");
-    projectsListContainer.classList.add("expanded");
-  }
-});
+let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]");
 
 addProjectInput.addEventListener("keyup", () => {
   if (addProjectInput.value.trim() === "") {
     addProjectInnerBtn.disabled = true;
   } else {
     addProjectInnerBtn.disabled = false;
+  }
+});
+
+sidebarProjectsBtn.addEventListener("click", () => {
+  if (sidebarProjectsBtn.classList.contains("expanded")) {
+    sidebarProjectsBtn.classList.remove("expanded");
+    projectsListContainer.classList.remove("expanded");
+    sidebarArrowIcon.classList.remove("expanded");
+  } else {
+    sidebarProjectsBtn.classList.add("expanded");
+    projectsListContainer.classList.add("expanded");
+    sidebarArrowIcon.classList.add("expanded");
   }
 });
 
@@ -64,67 +67,67 @@ addProjectInnerBtn.addEventListener("click", () => {
 
   projectsList.insertAdjacentHTML("beforeend", projectItemHtml);
 
-  const projectsListLiElements = document.querySelectorAll("#projects-list li");
   const projectsListLiElementsBtns =
     projectsList.querySelectorAll(".sidebar-button");
 
-  // console.log(projectsListLiElementsBtns);
   projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
     projectsListLiElementsBtn.classList.remove("selected");
+    projects.forEach((project) => (project.selected = "false"));
   });
 
-  // forEach - remove selected.true
+  let selectedBtn = null;
 
-  // project.selected = true
-  // let selectedBtn = null;
-  // selectedBtn = projectsListLiElements;
+  projectsList.lastElementChild
+    .querySelector(".sidebar-button")
+    .classList.add("selected");
+  const lastProject = projects[projects.length - 1];
+  lastProject.selected = "true";
+  // console.log(projects);
+
+  editorHeading.innerHTML = addProjectInput.value;
+  editorImage.src = "./images/project-empty-state.png";
+  editorStateHeading.innerHTML = "Keep your tasks organized in projects";
+  editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
+  addProjectModal.classList.remove("visible");
+  modalOverlay.classList.remove("visible");
+
+  selectedBtn = projectsList.querySelector(".selected");
+
+  projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
+    projectsListLiElementsBtn.addEventListener("click", () => {
+      projectsListLiElementsBtn.classList.remove("selected");
+      projects.forEach((project) => (project.selected = "false"));
+      if (selectedBtn) {
+        selectedBtn.classList.remove("selected");
+      }
+      projectsListLiElementsBtn.classList.add("selected");
+      const projectId =
+        projectsListLiElementsBtn.parentNode.getAttribute("data-id");
+      const selectedProject = projects.find(
+        (p) => p.id === parseInt(projectId)
+      );
+      if (selectedProject) {
+        project.selected = true;
+      }
+      console.log(selectedProject);
+
+      editorHeading.textContent = projectsListLiElementsBtn.textContent;
+      editorImage.src = "./images/project-empty-state.png";
+      editorStateHeading.innerHTML = "Keep your tasks organized in projects";
+      editorStateBody.innerHTML =
+        "Group your tasks by goal or area of your life.";
+
+      selectedBtn = projectsListLiElementsBtn;
+
+      // console.log(projects);
+    });
+  });
+
+  let deleteProjectBtns = projectsList.querySelectorAll(
+    "svg.delete-project-icon"
+  );
+
+  deleteProjectBtns.forEach((deleteProjectBtn) => {
+    deleteProjectBtn.addEventListener("click", deleteProject);
+  });
 });
-
-// let projectsListLiSpanElement = document.querySelector("span.project-name");
-// projectsListLiSpanElement.textContent = project.title;
-// let clonedLiElement = projectsListLiElement.cloneNode(true);
-// projectsList.appendChild(clonedLiElement);
-// let clonedLiElementBtns = projectsList.querySelectorAll(".sidebar-button");
-// let clonedLiElementBtn = clonedLiElement.querySelector(".sidebar-button");
-// let selectedBtn = null;
-// clonedLiElement.style.display = "flex";
-// clonedLiElementBtns.forEach((clonedLiElementBtn) => {
-//   clonedLiElementBtn.classList.remove("selected");
-// });
-// clonedLiElementBtn.classList.add("selected");
-// selectedBtn = clonedLiElementBtn;
-
-// editorHeading.innerHTML = addProjectInput.value;
-// editorImage.src = "./images/project-empty-state.png";
-// editorStateHeading.innerHTML = "Keep your tasks organized in projects";
-// editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
-// addProjectModal.classList.remove("visible");
-// modalOverlay.classList.remove("visible");
-
-// clonedLiElementBtns.forEach((clonedLiElementBtn) => {
-//   clonedLiElementBtn.addEventListener("click", () => {
-//     clonedLiElementBtn.classList.remove("selected");
-//     if (selectedBtn) {
-//       selectedBtn.classList.remove("selected");
-//     }
-//     clonedLiElementBtn.classList.add("selected");
-//     editorHeading.textContent = clonedLiElementBtn.textContent;
-//     selectedBtn = clonedLiElementBtn;
-//   });
-// });
-
-// let deleteProjectBtns = clonedLiElement.querySelectorAll(
-//   "svg.delete-project-icon"
-// );
-
-// deleteProjectBtns.forEach((deleteProjectBtn) => {
-//   deleteProjectBtn.addEventListener("click", (event) => {
-//     event.stopPropagation();
-//     editorHeading.textContent = "Inbox"; // rewrite code, if there's more than just "Inbox" folder
-//     editorStateHeading.textContent = "All clear";
-//     editorStateBody.textContent =
-//       "Looks like everything's organized in the right place.";
-//     editorImage.src = "./images/inbox-empty-state.png";
-//     deleteProjectBtn.closest("li").remove();
-//   });
-// });

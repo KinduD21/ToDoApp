@@ -45,8 +45,8 @@ addTaskBtns.forEach((addTaskBtn) => {
 addProjectOuterBtn.addEventListener("click", () => {
   modalOverlay.classList.add("visible");
   addProjectModal.classList.add("visible");
-  // addProjectInput.value = "";
-  // addProjectInnerBtn.disabled = true;
+  addProjectInput.value = "";
+  addProjectInnerBtn.disabled = true;
 });
 
 cancelBtns.forEach((cancelBtn) => {
@@ -55,5 +55,3 @@ cancelBtns.forEach((cancelBtn) => {
     cancelBtn.closest(".visible").classList.remove("visible");
   });
 });
-
-
