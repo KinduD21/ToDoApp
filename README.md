@@ -28,3 +28,7 @@
 | Editor image - drags to the left when sidebar is hidden                                | ✅ Complete     |
 | Add Project Modal - border-top-left / -top-right properties are not applied            | ✅ Complete     |
 
+
+TASK 16.07:
+1. deleteProject - rewrite without forEach, similar to today's example with single eventListener
+2. Arrange constants correctly (import only those, which are needed)

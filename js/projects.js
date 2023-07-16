@@ -1,5 +1,4 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { deleteProject } from "./deleteProject.js";
 
 const projects = [];
 const editor = document.querySelector(".editor");
@@ -14,6 +13,7 @@ const modalOverlay = document.querySelector(".modal-overlay");
 const projectsListContainer = document.querySelector(
   ".projects-list-container"
 );
+// better to rename - collapse/expand etc
 const sidebarProjectsBtn = document.querySelector(".sidebar-projects-button");
 const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
@@ -42,6 +42,14 @@ sidebarProjectsBtn.addEventListener("click", () => {
 });
 
 addProjectInnerBtn.addEventListener("click", () => {
+  const projectsListLiElementsBtns =
+    projectsList.querySelectorAll(".sidebar-button");
+
+  projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
+    projectsListLiElementsBtn.classList.remove("selected");
+    projects.forEach((project) => (project.selected = false));
+  });
+
   const project = {
     title: addProjectInput.value,
     selected: true,
@@ -67,23 +75,6 @@ addProjectInnerBtn.addEventListener("click", () => {
 
   projectsList.insertAdjacentHTML("beforeend", projectItemHtml);
 
-  const projectsListLiElementsBtns =
-    projectsList.querySelectorAll(".sidebar-button");
-
-  projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
-    projectsListLiElementsBtn.classList.remove("selected");
-    projects.forEach((project) => (project.selected = "false"));
-  });
-
-  let selectedBtn = null;
-
-  projectsList.lastElementChild
-    .querySelector(".sidebar-button")
-    .classList.add("selected");
-  const lastProject = projects[projects.length - 1];
-  lastProject.selected = "true";
-  // console.log(projects);
-
   editorHeading.innerHTML = addProjectInput.value;
   editorImage.src = "./images/project-empty-state.png";
   editorStateHeading.innerHTML = "Keep your tasks organized in projects";
@@ -91,36 +82,30 @@ addProjectInnerBtn.addEventListener("click", () => {
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
 
-  selectedBtn = projectsList.querySelector(".selected");
+  const selectedBtn = projectsList.querySelector(".selected");
+  selectedBtn.addEventListener("click", (event) => {
+    // event.target.classList.add()
+    // selectedBtn / event.currentTarget /  event.target.closest('button')
+    // if(selectedBtn.classList.contains('selected')) return
+    const projectBtn = projectsList.querySelector(".selected");
+    const projectId = Number(projectBtn.parentElement.dataset.id);
 
-  projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
-    projectsListLiElementsBtn.addEventListener("click", () => {
-      projectsListLiElementsBtn.classList.remove("selected");
-      projects.forEach((project) => (project.selected = "false"));
-      if (selectedBtn) {
-        selectedBtn.classList.remove("selected");
-      }
-      projectsListLiElementsBtn.classList.add("selected");
-      const projectId =
-        projectsListLiElementsBtn.parentNode.getAttribute("data-id");
-      const selectedProject = projects.find(
-        (p) => p.id === parseInt(projectId)
-      );
-      if (selectedProject) {
-        project.selected = true;
-      }
-      console.log(selectedProject);
+    projectBtn.classList.remove("selected");
+    projects.find(
+      (projectObject) => projectObject.id === projectId
+    ).selected = false;
 
-      editorHeading.textContent = projectsListLiElementsBtn.textContent;
-      editorImage.src = "./images/project-empty-state.png";
-      editorStateHeading.innerHTML = "Keep your tasks organized in projects";
-      editorStateBody.innerHTML =
-        "Group your tasks by goal or area of your life.";
-
-      selectedBtn = projectsListLiElementsBtn;
-
-      // console.log(projects);
-    });
+    selectedBtn.classList.add("selected");
+    const newProjectId = Number(selectedBtn.parentElement.dataset.id);
+    projects.find(
+      (projectObject) => projectObject.id === newProjectId
+    ).selected = true;
+    console.log(projects);
+    editorHeading.textContent = projectsListLiElementsBtn.textContent;
+    editorImage.src = "./images/project-empty-state.png";
+    editorStateHeading.innerHTML = "Keep your tasks organized in projects";
+    editorStateBody.innerHTML =
+      "Group your tasks by goal or area of your life.";
   });
 
   let deleteProjectBtns = projectsList.querySelectorAll(
@@ -128,6 +113,14 @@ addProjectInnerBtn.addEventListener("click", () => {
   );
 
   deleteProjectBtns.forEach((deleteProjectBtn) => {
-    deleteProjectBtn.addEventListener("click", deleteProject);
+    deleteProjectBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      editorHeading.textContent = "Inbox";
+      editorStateHeading.textContent = "All clear";
+      editorStateBody.textContent =
+        "Looks like everything's organized in the right place.";
+      editorImage.src = "./images/inbox-empty-state.png";
+      event.target.closest("li").remove();
+    });
   });
 });
