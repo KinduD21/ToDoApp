@@ -9,17 +9,21 @@ const editorStateBody = editor.querySelector(".empty-state-body");
 const projectsList = document.querySelector("#projects-list");
 const addProjectModal = document.querySelector(".add-project-modal");
 const addProjectInput = document.querySelector("#project_name");
+const addProjectInnerBtn = addProjectModal.querySelector("button[disabled]");
+const addProjectOuterBtn = document.querySelector(".add-project-button");
 const modalOverlay = document.querySelector(".modal-overlay");
 const projectsListContainer = document.querySelector(
   ".projects-list-container"
 );
-// better to rename - collapse/expand etc
-const sidebarProjectsBtn = document.querySelector(".sidebar-projects-button");
+const inboxProjectsBtn = document
+  .querySelector("aside")
+  .querySelector(".sidebar-button");
+const sidebarProjectsCollapseBtn = document.querySelector(
+  ".sidebar-projects-button"
+);
 const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
-
-let addProjectInnerBtn = addProjectModal.querySelector("button[disabled]");
 
 addProjectInput.addEventListener("keyup", () => {
   if (addProjectInput.value.trim() === "") {
@@ -29,19 +33,41 @@ addProjectInput.addEventListener("keyup", () => {
   }
 });
 
-sidebarProjectsBtn.addEventListener("click", () => {
-  if (sidebarProjectsBtn.classList.contains("expanded")) {
-    sidebarProjectsBtn.classList.remove("expanded");
+addProjectOuterBtn.addEventListener("click", () => {
+  modalOverlay.classList.add("visible");
+  addProjectModal.classList.add("visible");
+  addProjectInput.value = "";
+  addProjectInnerBtn.disabled = true;
+});
+
+sidebarProjectsCollapseBtn.addEventListener("click", () => {
+  if (sidebarProjectsCollapseBtn.classList.contains("expanded")) {
+    sidebarProjectsCollapseBtn.classList.remove("expanded");
     projectsListContainer.classList.remove("expanded");
     sidebarArrowIcon.classList.remove("expanded");
   } else {
-    sidebarProjectsBtn.classList.add("expanded");
+    sidebarProjectsCollapseBtn.classList.add("expanded");
     projectsListContainer.classList.add("expanded");
     sidebarArrowIcon.classList.add("expanded");
   }
 });
 
+inboxProjectsBtn.addEventListener("click", () => {
+  inboxProjectsBtn.classList.add("selected");
+  editorHeading.textContent = "Inbox";
+  editorImage.src = "./images/inbox-empty-state.png";
+  editorStateHeading.textContent = "All clear";
+  editorStateBody.textContent =
+    "Looks like everything's organized in the right place.";
+
+  // let selectedBtn = projectsList.querySelector(".selected");
+  // if (selectedBtn) {
+  //   selectedBtn.style.background = "#fafafa";
+  // } else return;
+});
+
 addProjectInnerBtn.addEventListener("click", () => {
+  inboxProjectsBtn.classList.remove("selected");
   const projectsListLiElementsBtns =
     projectsList.querySelectorAll(".sidebar-button");
 
@@ -82,11 +108,11 @@ addProjectInnerBtn.addEventListener("click", () => {
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
 
-  const selectedBtn = projectsList.querySelector(".selected");
-  selectedBtn.addEventListener("click", (event) => {
-    // event.target.classList.add()
-    // selectedBtn / event.currentTarget /  event.target.closest('button')
-    // if(selectedBtn.classList.contains('selected')) return
+  let selectedBtn = projectsList.querySelector(".selected");
+
+  selectedBtn.addEventListener("click", () => {
+    // inboxProjectsBtn.classList.remove("selected");
+    // selectedBtn.style.background = "#eeeeee";
     const projectBtn = projectsList.querySelector(".selected");
     const projectId = Number(projectBtn.parentElement.dataset.id);
 
@@ -100,27 +126,46 @@ addProjectInnerBtn.addEventListener("click", () => {
     projects.find(
       (projectObject) => projectObject.id === newProjectId
     ).selected = true;
-    console.log(projects);
-    editorHeading.textContent = projectsListLiElementsBtn.textContent;
+    editorHeading.textContent = selectedBtn.textContent;
     editorImage.src = "./images/project-empty-state.png";
     editorStateHeading.innerHTML = "Keep your tasks organized in projects";
     editorStateBody.innerHTML =
       "Group your tasks by goal or area of your life.";
   });
 
-  let deleteProjectBtns = projectsList.querySelectorAll(
-    "svg.delete-project-icon"
-  );
-
-  deleteProjectBtns.forEach((deleteProjectBtn) => {
-    deleteProjectBtn.addEventListener("click", (event) => {
+  selectedBtn
+    .querySelector("svg.delete-project-icon")
+    .addEventListener("click", (event) => {
       event.stopPropagation();
-      editorHeading.textContent = "Inbox";
-      editorStateHeading.textContent = "All clear";
-      editorStateBody.textContent =
-        "Looks like everything's organized in the right place.";
-      editorImage.src = "./images/inbox-empty-state.png";
-      event.target.closest("li").remove();
+      if (!selectedBtn) return;
+
+      const projectLiElement = event.target.closest("li");
+      const projectId = Number(projectLiElement.dataset.id);
+
+      const projectIndex = projects.findIndex(
+        (projectObject) => projectObject.id === projectId
+      );
+
+      if (projectIndex !== -1) {
+        projects.splice(projectIndex, 1);
+        projectLiElement.remove();
+
+        if (!projectsList.lastElementChild) {
+          inboxProjectsBtn.classList.add("selected");
+          editorHeading.textContent = "Inbox";
+          editorImage.src = "./images/inbox-empty-state.png";
+          editorStateHeading.textContent = "All clear";
+          editorStateBody.textContent =
+            "Looks like everything's organized in the right place.";
+        } else {
+          projectsList.lastElementChild
+            .querySelector(".sidebar-button")
+            .classList.add("selected");
+          editorHeading.textContent =
+            projectsList.lastElementChild.querySelector(
+              ".sidebar-button"
+            ).textContent;
+        }
+      }
     });
-  });
 });

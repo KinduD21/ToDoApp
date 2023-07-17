@@ -421,6 +421,9 @@ aside {
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
+aside > ul .sidebar-button.selected {
+  background-color: #eeeeee;
+}
 aside.visible {
   width: 305px;
   visibility: visible;

@@ -122,6 +122,9 @@ aside {
   min-height: 100%;
   transform: translateX(-100%);
   transition: all $sidebar-toggle-transition-time;
+  & > ul .sidebar-button.selected {
+    background-color: #eeeeee;
+  }
   &.visible {
     width: $sidebar-width;
     visibility: visible;
