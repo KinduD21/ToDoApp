@@ -58,13 +58,17 @@ inboxProjectsBtn.addEventListener("click", () => {
   editorImage.src = "./images/inbox-empty-state.png";
   editorStateHeading.textContent = "All clear";
   editorStateBody.textContent =
-    "Looks like everything's organized in the right place.";
-
-  // let selectedBtn = projectsList.querySelector(".selected");
-  // if (selectedBtn) {
-  //   selectedBtn.style.background = "#fafafa";
-  // } else return;
+    "Looks like everything's organized in the right place."
 });
+
+// edior
+// export function redrawEditorContent () {
+//   return (editorHeading.textContent = "Inbox";
+//   editorImage.src = "./images/inbox-empty-state.png";
+//   editorStateHeading.textContent = "All clear";
+//   editorStateBody.textContent =
+//     "Looks like everything's organized in the right place.";)
+// }
 
 addProjectInnerBtn.addEventListener("click", () => {
   inboxProjectsBtn.classList.remove("selected");
@@ -111,8 +115,6 @@ addProjectInnerBtn.addEventListener("click", () => {
   let selectedBtn = projectsList.querySelector(".selected");
 
   selectedBtn.addEventListener("click", () => {
-    // inboxProjectsBtn.classList.remove("selected");
-    // selectedBtn.style.background = "#eeeeee";
     const projectBtn = projectsList.querySelector(".selected");
     const projectId = Number(projectBtn.parentElement.dataset.id);
 
@@ -169,3 +171,42 @@ addProjectInnerBtn.addEventListener("click", () => {
       }
     });
 });
+
+
+
+// const counter = 0;
+
+// // sidebar 
+// counter = counter + 1;
+// // editor
+// math('multiply')
+// // header 
+// math('divide')
+// // footer 
+// counter = counter * 1;
+
+// // module
+// modal.js
+// {
+//   // internal for modal
+//   // background/ transtition / overlay
+//   const setBackgroundRed = () => /...../;
+//   const addTaskModal = () => {
+//     setBackgroundRed()
+//     // open task modal and createTask
+//   }
+//   const addProjectModal = () => {
+//     setBackgroundRed()
+//     // open task modal and projectTask
+//   }
+
+//   export {addTaskModal, addProjectModal}
+// }
+
+// // project.js
+// import { addProjectModal } from 'modal.js'
+// onclick(() => {
+//   addProjectModal()
+// })
+
+

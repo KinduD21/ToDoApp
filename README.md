@@ -32,3 +32,9 @@
 TASK 16.07:
 1. deleteProject - rewrite without forEach, similar to today's example with single eventListener
 2. Arrange constants correctly (import only those, which are needed)
+
+TASK 19.07:
+1. addTask - functionality + HTML markup, it must also be a separate module!!!
+2. modal.js - create a separate module for all modal windows of my todoapp
+3. editorHeading/Image/etc - write a couple of functions, which can be called from another module, when you need to change Heading/Body/Image
+4. Split code in projects.js into different functions (creating project, selecting project, deleting project)
