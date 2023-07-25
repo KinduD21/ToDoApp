@@ -42,3 +42,5 @@ addProjectInput.addEventListener("keyup", () => {
     addProjectInnerBtn.disabled = false;
   }
 });
+
+export { addProjectInnerBtn };

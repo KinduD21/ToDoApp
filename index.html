@@ -168,6 +168,7 @@
 
     <main>
       <div class="sidebar-overlay"></div>
+      <!-- Sidebar -->
       <aside>
         <ul>
           <li>
@@ -225,8 +226,39 @@
           <ul id="projects-list"></ul>
         </div>
       </aside>
+      <!-- Editor -->
       <div class="editor">
-        <h2>Inbox</h2>
+        <div class="tab-heading">
+          <h2>Inbox</h2>
+        </div>
+
+        <ul class="task-list">
+          <li class="task-button">
+            <div class="task-button-top">
+              <div class="task-button-top-left">
+                <p class="task-button-task-name">Task name</p>
+              </div>
+              <div class="task-button-top-right"></div>
+            </div>
+            <div class="task-button-description">
+              <p class="task-button-description-text">Description</p>
+            </div>
+            <div class="task-button-due-date">
+              <div class="task-button-due-date-left">
+                <svg viewBox="0 0 12 12" fill="none" class="calendar-icon">
+                  <path
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M9.5 1h-7A1.5 1.5 0 001 2.5v7A1.5 1.5 0 002.5 11h7A1.5 1.5 0 0011 9.5v-7A1.5 1.5 0 009.5 1zM2 2.5a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7zM8.75 8a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM3.5 4a.5.5 0 000 1h5a.5.5 0 000-1h-5z"
+                  ></path>
+                </svg>
+                <p class="task-button-due-date-text">27 Jul</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+
         <button class="editor-add-task-button" id="add-task-button">
           <svg class="editor-add-task-plus-icon">
             <path
@@ -237,13 +269,13 @@
           </svg>
           <p class="editor-add-task-text">Add task</p>
         </button>
-        <div class="empty-state-container">
+        <!-- <div class="empty-state-container">
           <img src="./images/inbox-empty-state.png" alt="Task list is empty" />
           <h4 class="empty-state-heading">All clear</h4>
           <p class="empty-state-body">
             Looks like everything's organized in the right place.
           </p>
-        </div>
+        </div> -->
       </div>
     </main>
     <script src="./js/index.js" type="module"></script>

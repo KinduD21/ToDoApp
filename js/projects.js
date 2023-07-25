@@ -6,6 +6,7 @@ import {
   editorInitialState,
 } from "./editor.js";
 import "./modal.js";
+import { addProjectInnerBtn } from "./modal.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -38,7 +39,7 @@ addProjectInnerBtn.addEventListener("click", createProject);
 
 // function addProjectButtonClickListeners() {
 //   const projectButtons = projectsList.querySelectorAll(".sidebar-button");
-  // projectButtons.forEach((button) => {
+// projectButtons.forEach((button) => {
 //     button.addEventListener("click", selectProject);
 //     button
 //       .querySelector("svg.delete-project-icon")

@@ -449,109 +449,6 @@ aside:hover .add-project-button {
   visibility: visible;
 }
 
-.editor {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  gap: 10px;
-  padding: 38px 34px;
-  width: 100vw;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
-}
-.editor > h2 {
-  font-size: 1.3rem;
-  max-width: 100%;
-  overflow-wrap: break-word;
-  cursor: default;
-  margin-bottom: 10px;
-}
-.editor .editor-add-task-plus-icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  height: 17px;
-  width: 17px;
-  color: #db4c3f;
-  border-radius: 50%;
-}
-.editor .editor-add-task-plus-icon > path {
-  -webkit-transform: translate(2px, 2px);
-          transform: translate(2px, 2px);
-}
-.editor .empty-state-heading {
-  font-size: 16px;
-}
-
-.editor-add-task-button {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 10px;
-}
-.editor-add-task-button:hover .editor-add-task-plus-icon > path {
-  -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
-          transform: scale(0.85) translate(3.4px, 3.4px);
-}
-.editor-add-task-button:hover .editor-add-task-plus-icon {
-  color: #fff;
-  background-color: #db4c3f;
-  border-radius: 50%;
-}
-.editor-add-task-button:hover .editor-add-task-text {
-  color: #db4c3f;
-}
-
-.editor-add-task-text {
-  color: #727272;
-}
-
-.empty-state-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  width: 360px;
-  margin: 42px 0 0 0;
-  gap: 12px;
-}
-.empty-state-container img {
-  max-width: 220px;
-}
-.empty-state-container > p {
-  font-size: 0.81rem;
-  color: #727272;
-  text-align: center;
-}
-.empty-state-container h4 {
-  font-weight: 500;
-}
-
 .sidebar-projects {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -698,6 +595,195 @@ aside:hover .add-project-button {
   -webkit-transition: color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out;
   color: #202020;
+}
+
+.editor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  padding: 38px 34px;
+  width: 100vw;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.editor .editor-add-task-plus-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 17px;
+  width: 17px;
+  color: #db4c3f;
+  border-radius: 50%;
+}
+.editor .editor-add-task-plus-icon > path {
+  -webkit-transform: translate(2px, 2px);
+          transform: translate(2px, 2px);
+}
+.editor .empty-state-heading {
+  font-size: 16px;
+}
+
+.editor-add-task-button {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+}
+.editor-add-task-button:hover .editor-add-task-plus-icon > path {
+  -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
+          transform: scale(0.85) translate(3.4px, 3.4px);
+}
+.editor-add-task-button:hover .editor-add-task-plus-icon {
+  color: #fff;
+  background-color: #db4c3f;
+  border-radius: 50%;
+}
+.editor-add-task-button:hover .editor-add-task-text {
+  color: #db4c3f;
+}
+
+.editor-add-task-text {
+  color: #727272;
+}
+
+.empty-state-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 360px;
+  margin: 42px 0 0 0;
+  gap: 12px;
+}
+.empty-state-container img {
+  max-width: 220px;
+}
+.empty-state-container > p {
+  font-size: 0.81rem;
+  color: #727272;
+  text-align: center;
+}
+.empty-state-container h4 {
+  font-weight: 500;
+}
+
+.tab-heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  gap: 6px;
+  height: 36px;
+}
+.tab-heading > h2 {
+  font-size: 1.3rem;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  cursor: default;
+  margin-bottom: 10px;
+}
+
+.task-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.task-button-checkbox-button {
+  border-radius: 50%;
+  border: 1px solid #727272;
+  width: 18px;
+  height: 18px;
+  position: relative;
+}
+
+.task-button-checkbox-icon {
+  position: absolute;
+  right: -3.7px;
+}
+
+.task-button-top-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+}
+
+.task-button-description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
+  color: #727272;
+}
+
+.task-button-description-text {
+  font-size: 0.9rem;
+}
+
+.task-button-due-date-left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 3px;
+  height: 14px;
+}
+
+.task-button-due-date-text {
+  font-size: 0.8rem;
+}
+
+.calendar-icon {
+  width: 12px;
+  height: 12px;
+  color: #727272;
 }
 
 @media screen and (min-width: 768px) {
