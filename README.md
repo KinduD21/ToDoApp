@@ -21,20 +21,22 @@
    - "Edit" button, which will allow to rename Project
    <!-- - separate list of completed "Task" with visual effects (e.g. opacity changing) -->
 
-| Bug Description                                                                        | Status                      |
-| -------------------------------------------------------------------------------------- | --------------------------- |
-| window.onclick function                                                                | ✅ Complete     |
-|
-| Editor image - drags to the left when sidebar is hidden                                | ✅ Complete     |
-| Add Project Modal - border-top-left / -top-right properties are not applied            | ✅ Complete     |
+| Bug Description         | Status      |
+| ----------------------- | ----------- |
+| window.onclick function | ✅ Complete |
 
+|
+| Editor image - drags to the left when sidebar is hidden | ✅ Complete |
+| Add Project Modal - border-top-left / -top-right properties are not applied | ✅ Complete |
 
 TASK 16.07:
+
 1. deleteProject - rewrite without forEach, similar to today's example with single eventListener
 2. Arrange constants correctly (import only those, which are needed)
 
 TASK 19.07:
+
 1. addTask - functionality + HTML markup, it must also be a separate module!!!
-2. modal.js - create a separate module for all modal windows of my todoapp
-3. editorHeading/Image/etc - write a couple of functions, which can be called from another module, when you need to change Heading/Body/Image
+2. modal.js - create a separate module for all modal windows of my todoapp - ✅ Complete
+3. editorHeading/Image/etc - write a couple of functions, which can be called from another module, when you need to change Heading/Body/Image - ✅ Complete
 4. Split code in projects.js into different functions (creating project, selecting project, deleting project)

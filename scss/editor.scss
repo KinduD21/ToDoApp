@@ -1,0 +1,171 @@
+@import "./variables.scss";
+
+// Editor
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 38px 34px;
+  width: 100vw;
+  transition: all $sidebar-toggle-transition-time;
+  & .editor-add-task-plus-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 17px;
+    width: 17px;
+    color: $accent-color;
+    border-radius: 50%;
+    & > path {
+      transform: translate(2px, 2px);
+    }
+  }
+  & .empty-state-heading {
+    font-size: 16px;
+  }
+}
+
+.editor-add-task-button {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  &:hover .editor-add-task-plus-icon > path {
+    transform: scale(0.85) translate(3.4px, 3.4px);
+  }
+  &:hover .editor-add-task-plus-icon {
+    color: #fff;
+    background-color: $accent-color;
+    border-radius: 50%;
+  }
+  &:hover .editor-add-task-text {
+    color: $accent-color;
+  }
+}
+
+.editor-add-task-text {
+  color: $gray;
+}
+
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 360px;
+  margin: 42px 0 0 0;
+  gap: 12px;
+  & img {
+    max-width: 220px;
+  }
+  & > p {
+    font-size: 0.81rem;
+    color: $gray;
+    text-align: center;
+  }
+  & h4 {
+    font-weight: 500;
+  }
+}
+
+.tab-heading {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  height: 36px;
+  & > h2 {
+    font-size: 1.3rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    cursor: default;
+    margin-bottom: 10px;
+  }
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-button {
+  display: flex;
+  flex-direction: column;
+  &::after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: #efefef;
+  }
+}
+
+.task-button-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-button-checkbox-button {
+  border-radius: 50%;
+  border: 1px solid $gray;
+  width: 18px;
+  height: 18px;
+  &:hover .task-button-checkbox-icon {
+    opacity: 1;
+    transition: opacity 0.15s cubic-bezier(0.4, 0, 1, 1);
+  }
+}
+
+.task-button-checkbox-icon {
+  display: inline-block;
+  border: 1px solid transparent;
+  height: 18px;
+  width: 18px;
+  margin-left: -5px;
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 1, 1);
+  margin-top: -2px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.task-button-task-name {
+  font-size: 0.9rem;
+}
+
+.task-button-description {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  color: $gray;
+  margin-left: 27px;
+}
+
+.task-button-description-text {
+  font-size: 0.8rem;
+  color: $gray;
+}
+
+.task-button-due-date {
+  margin: 0 0 10px 27px;
+}
+
+.task-button-due-date-left {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+  line-height: initial;
+}
+
+.task-button-due-date-text {
+  color: $gray;
+  font-size: 0.76rem;
+}
+
+.calendar-icon {
+  width: 12px;
+  height: 12px;
+  color: $gray;
+}

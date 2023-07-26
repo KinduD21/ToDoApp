@@ -1,0 +1,170 @@
+@import "./variables.scss";
+
+// Sidebar
+
+.sidebar-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.25s linear;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+aside {
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 5px 0px 35px;
+  gap: 10px;
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  min-height: 100%;
+  transform: translateX(-100%);
+  transition: all $sidebar-toggle-transition-time;
+  & > ul .sidebar-button.selected {
+    background-color: #eeeeee;
+  }
+  &.visible {
+    width: $sidebar-width;
+    visibility: visible;
+    transform: translateX(0);
+  }
+  & .sidebar-button {
+    gap: 10px;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    justify-content: left;
+    &:hover {
+      background: #eeeeee;
+    }
+    & svg.sidebar-inbox-icon {
+      color: #246fe0;
+    }
+  }
+  &:hover .add-project-button {
+    visibility: visible;
+  }
+}
+
+.sidebar-projects {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 12px 0 0;
+  height: 36px;
+}
+
+.sidebar-projects-arrow-icon {
+  transition: transform 0.3s;
+  transform: rotate(-90deg);
+  &.expanded {
+    transform: rotate(0deg);
+  }
+}
+
+.sidebar-projects-button {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 5px 0 5px 12px;
+  font-family: inherit;
+  font-size: 0.85em;
+  font-weight: bold;
+  background-color: unset;
+}
+
+.add-project-button {
+  width: 36px;
+  height: 32px;
+  border-radius: 5px;
+  visibility: hidden;
+  position: relative;
+  & .tooltip {
+    position: absolute;
+    top: 32px;
+    margin: 0 0 7px 0;
+  }
+  &:hover {
+    background: #eeeeee;
+  }
+}
+
+.projects-list-container {
+  display: flex;
+  visibility: hidden;
+  width: 100%;
+  height: 0px;
+  transition: all 200ms;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  &.expanded {
+    visibility: visible;
+    height: 100%;
+    transition: all 200ms;
+    flex-grow: 1;
+  }
+}
+
+#projects-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  & > li {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & button {
+      gap: 15px;
+      padding-right: 15px;
+      height: 34px;
+      &.selected {
+        background-color: #eeeeee;
+      }
+      &:hover .delete-project-icon {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.project-name {
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  & path {
+    color: rgb(128, 128, 128);
+  }
+}
+
+.delete-project-icon {
+  width: 30px;
+  height: 24px;
+  color: #808080;
+  opacity: 1;
+  visibility: hidden;
+  &:hover {
+    transition: color 0.2s ease-in-out;
+    color: #202020;
+  }
+}
