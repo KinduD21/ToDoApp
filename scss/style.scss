@@ -56,7 +56,7 @@ header {
 }
 
 .header-button {
-  color: #fff;
+  color: $header-icon-color;
   height: 28px;
   width: 28px;
   position: relative;
@@ -67,7 +67,7 @@ header {
 
 .tooltip {
   position: absolute;
-  color: #fff;
+  color: $tooltip-color;
   background-color: #444;
   padding: 8px;
   opacity: 0;

@@ -29,7 +29,7 @@ aside {
   transform: translateX(-100%);
   transition: all $sidebar-toggle-transition-time;
   & > ul .sidebar-button.selected {
-    background-color: #eeeeee;
+    background-color: $sidebar-button-hover-bg;
   }
   &.visible {
     width: $sidebar-width;
@@ -43,7 +43,7 @@ aside {
     border-radius: 5px;
     justify-content: left;
     &:hover {
-      background: #eeeeee;
+      background: $sidebar-button-hover-bg;
     }
     & svg.sidebar-inbox-icon {
       color: #246fe0;
@@ -98,7 +98,7 @@ aside {
     margin: 0 0 7px 0;
   }
   &:hover {
-    background: #eeeeee;
+    background: $sidebar-button-hover-bg;
   }
 }
 
@@ -131,7 +131,7 @@ aside {
       padding-right: 15px;
       height: 34px;
       &.selected {
-        background-color: #eeeeee;
+        background-color: $sidebar-button-hover-bg;
       }
       &:hover .delete-project-icon {
         visibility: visible;
@@ -165,6 +165,6 @@ aside {
   visibility: hidden;
   &:hover {
     transition: color 0.2s ease-in-out;
-    color: #202020;
+    color: $form-cancel-fg;
   }
 }
