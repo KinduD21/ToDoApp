@@ -4,9 +4,9 @@ import {
   projectDeletedState,
   projectSelectedState,
   editorInitialState,
-} from "./editor.js";
+} from "./editorMarkup.js";
 import "./modal.js";
-import { addProjectInnerBtn } from "./modal.js";
+import { addProjectInnerBtn, addProjectInput } from "./modal.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -33,7 +33,7 @@ sidebarProjectsCollapseBtn.addEventListener("click", () => {
   }
 });
 
-// let selectedBtn = projectsList.querySelector(".selected");
+let selectedBtn = projectsList.querySelector(".selected");
 
 addProjectInnerBtn.addEventListener("click", createProject);
 

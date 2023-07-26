@@ -1,3 +1,5 @@
+import { addTaskModal } from "./modal.js";
+
 const projectsList = document.querySelector("#projects-list");
 const addProjectInput = document.querySelector("#project_name");
 const addProjectModal = document.querySelector(".add-project-modal");
@@ -20,6 +22,8 @@ inboxProjectsBtn.addEventListener("click", () => {
     "Looks like everything's organized in the right place.";
 });
 
+// Add Project functions
+
 function projectCreatedState() {
   editorHeading.innerHTML = addProjectInput.value;
   editorImage.src = "./images/project-empty-state.png";
@@ -27,15 +31,6 @@ function projectCreatedState() {
   editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
-}
-
-function editorInitialState() {
-  //   inboxProjectsBtn.classList.add("selected");
-  editorHeading.textContent = "Inbox";
-  editorImage.src = "./images/inbox-empty-state.png";
-  editorStateHeading.textContent = "All clear";
-  editorStateBody.textContent =
-    "Looks like everything's organized in the right place.";
 }
 
 function projectSelectedState() {
@@ -54,9 +49,31 @@ function projectDeletedState() {
     projectsList.lastElementChild.querySelector(".sidebar-button").textContent;
 }
 
+// Add Task functions
+
+function taskCreatedState() {
+  editorImage.style.display = "none";
+  editorStateHeading.style.display = "none";
+  editorStateBody.style.display = "none";
+  addTaskModal.classList.remove("visible");
+  modalOverlay.classList.remove("visible");
+}
+
+// Editor initial markup function
+
+function editorInitialState() {
+  //   inboxProjectsBtn.classList.add("selected");
+  editorHeading.textContent = "Inbox";
+  editorImage.src = "./images/inbox-empty-state.png";
+  editorStateHeading.textContent = "All clear";
+  editorStateBody.textContent =
+    "Looks like everything's organized in the right place.";
+}
+
 export {
   projectCreatedState,
   editorInitialState,
   projectSelectedState,
   projectDeletedState,
+  taskCreatedState,
 };
