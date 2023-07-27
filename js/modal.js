@@ -11,7 +11,13 @@ const taskNameInput = addTaskModal.querySelector("#task-name-input");
 const taskDescriptionInput = addTaskModal.querySelector(
   "#task-description-input"
 );
-const dueDatePicker = addTaskModal.querySelector("#due-date-picker");
+const dueDateInput = addTaskModal.querySelector(".due-date-picker");
+const currentDate = new Date();
+const formattedCurrentDate = `${currentDate.getFullYear()}-${(
+  currentDate.getMonth() + 1
+)
+  .toString()
+  .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
 
 // Modal windows' overlay
 
@@ -30,7 +36,8 @@ addTaskBtns.forEach((addTaskBtn) => {
     addTaskModal.classList.add("visible");
     taskNameInput.value = "";
     taskDescriptionInput.value = "";
-    // dueDatePicker.value = "";
+    dueDateInput.valueAsDate = new Date();
+    dueDateInput.min = formattedCurrentDate;
     addTaskInnerBtn.disabled = true;
   });
 });
@@ -74,7 +81,7 @@ export {
   addTaskInnerBtn,
   taskNameInput,
   taskDescriptionInput,
-  dueDatePicker,
+  dueDateInput,
   addTaskModal,
   addProjectInput,
 };

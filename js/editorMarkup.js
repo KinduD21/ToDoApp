@@ -68,6 +68,9 @@ function editorInitialState() {
   editorStateHeading.textContent = "All clear";
   editorStateBody.textContent =
     "Looks like everything's organized in the right place.";
+  editorImage.style.display = "initial";
+  editorStateHeading.style.display = "initial";
+  editorStateBody.style.display = "initial";
 }
 
 export {

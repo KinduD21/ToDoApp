@@ -72,7 +72,6 @@ select {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  gap: 10px;
   padding: 38px 34px;
   width: 100vw;
   -webkit-transition: all 0.2s;
@@ -109,6 +108,7 @@ select {
       -ms-flex-align: center;
           align-items: center;
   gap: 10px;
+  margin-top: 10px;
 }
 .editor-add-task-button:hover .editor-add-task-plus-icon > path {
   -webkit-transform: scale(0.85) translate(3.4px, 3.4px);
@@ -178,7 +178,7 @@ select {
   max-width: 100%;
   overflow-wrap: break-word;
   cursor: default;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .task-list {
@@ -199,12 +199,15 @@ select {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
 }
 .task-button::after {
   content: "";
   width: 100%;
   height: 1px;
   background-color: #efefef;
+  margin-top: 5px;
 }
 
 .task-button-top-left {
@@ -215,6 +218,7 @@ select {
       -ms-flex-align: center;
           align-items: center;
   gap: 8px;
+  line-height: initial;
 }
 
 .task-button-checkbox-button {
@@ -267,7 +271,7 @@ select {
 }
 
 .task-button-due-date {
-  margin: 0 0 10px 27px;
+  margin: 0 0 0px 27px;
 }
 
 .task-button-due-date-left {

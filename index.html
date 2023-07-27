@@ -142,7 +142,12 @@
             />
           </div>
           <div class="extra-fields">
-            <input class="due-date-picker" type="date" min="2023-06-14" />
+            <input
+              class="due-date-picker"
+              type="date"
+              id="todayDate"
+              min="27-07-2023"
+            />
             <select
               class="project-selector"
               name="project_name"
@@ -232,8 +237,7 @@
           <h2>Inbox</h2>
         </div>
 
-        <ul class="task-list">
-        </ul>
+        <ul class="task-list"></ul>
 
         <button class="editor-add-task-button" id="add-task-button">
           <svg class="editor-add-task-plus-icon">
