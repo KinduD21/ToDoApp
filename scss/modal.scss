@@ -116,9 +116,75 @@
 
 .extra-fields {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 10px;
+  & > div:first-child {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.dropdown {
+  height: 24px;
+  border-radius: 5px;
+  &:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.35s;
+    right: -35px;
+    top: 26px;
+  }
+  &:hover {
+    background-color: #eee;
+  }
+  & button {
+    background-color: unset;
+    border: none;
+    padding: 0;
+    &:hover {
+      background-color: unset;
+    }
+  }
+  & svg {
+    background-color: unset;
+    color: #555;
+    border-radius: 5px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.dropdown-menu {
+  font-size: 0.9rem;
+  left: -70px;
+  width: 200px;
+  & svg {
+    margin-right: 5px;
+  }
+}
+
+.dropdown-item {
+  border-radius: 10px;
+  &:active {
+    background-color: #eee;
+    color: var(--bs-dropdown-link-color);
+  }
+}
+
+[data-priority="1"] path {
+  fill: $priority-1-color;
+}
+
+[data-priority="2"] path {
+  fill: $priority-2-color;
+}
+
+[data-priority="3"] path {
+  fill: $priority-3-color;
+}
+
+.show {
+  display: block;
 }
 
 // "Add project" modal window rules

@@ -21,6 +21,11 @@ select {
   font-size: 14px;
 }
 
+input[type="date"],
+select {
+  cursor: pointer;
+}
+
 span {
   line-height: initial;
 }

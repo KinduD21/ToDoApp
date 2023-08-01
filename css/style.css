@@ -210,6 +210,24 @@ select {
   margin-top: 5px;
 }
 
+.task-button-checkbox-button[data-priority="1"] {
+  background-color: #fbeceb;
+  border-width: 2px;
+  border-color: #d1453b;
+}
+
+.task-button-checkbox-button[data-priority="2"] {
+  background-color: #fdf3e5;
+  border-width: 2px;
+  border-color: #eb8909;
+}
+
+.task-button-checkbox-button[data-priority="3"] {
+  background-color: #e8f0fc;
+  border-width: 2px;
+  border-color: #246fe0;
+}
+
 .task-button-top-left {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -238,7 +256,7 @@ select {
   border: 1px solid transparent;
   height: 18px;
   width: 18px;
-  margin-left: -5px;
+  margin-left: -6px;
   -webkit-transition: opacity 0.15s cubic-bezier(0.4, 0, 1, 1);
   transition: opacity 0.15s cubic-bezier(0.4, 0, 1, 1);
   margin-top: -2px;
@@ -658,13 +676,80 @@ aside:hover .add-project-button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   gap: 10px;
+}
+.extra-fields > div:first-child {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+}
+
+.dropdown {
+  height: 24px;
+  border-radius: 5px;
+}
+.dropdown:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition-delay: 0.35s;
+          transition-delay: 0.35s;
+  right: -35px;
+  top: 26px;
+}
+.dropdown:hover {
+  background-color: #eee;
+}
+.dropdown button {
+  background-color: unset;
+  border: none;
+  padding: 0;
+}
+.dropdown button:hover {
+  background-color: unset;
+}
+.dropdown svg {
+  background-color: unset;
+  color: #555;
+  border-radius: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+.dropdown-menu {
+  font-size: 0.9rem;
+  left: -70px;
+  width: 200px;
+}
+.dropdown-menu svg {
+  margin-right: 5px;
+}
+
+.dropdown-item {
+  border-radius: 10px;
+}
+.dropdown-item:active {
+  background-color: #eee;
+  color: var(--bs-dropdown-link-color);
+}
+
+[data-priority="1"] path {
+  fill: #d1453b;
+}
+
+[data-priority="2"] path {
+  fill: #eb8909;
+}
+
+[data-priority="3"] path {
+  fill: #246fe0;
+}
+
+.show {
+  display: block;
 }
 
 .add-project-modal {
@@ -741,6 +826,11 @@ select {
   border: none;
   outline: none;
   font-size: 14px;
+}
+
+input[type=date],
+select {
+  cursor: pointer;
 }
 
 span {

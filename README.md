@@ -40,3 +40,8 @@ TASK 19.07:
 2. modal.js - create a separate module for all modal windows of my todoapp - ✅ Complete
 3. editorHeading/Image/etc - write a couple of functions, which can be called from another module, when you need to change Heading/Body/Image - ✅ Complete
 4. Split code in projects.js into different functions (creating project, selecting project, deleting project)
+
+HW 28.07:
+1. Rewrite using date-fns library in tasks.js
+2. task.isDate - delete this property, add "date: dateObject" and "priority: 1" instead (for example)
+3. Variants for projects/task connection: connect using id OR put task object inside projects array of objects

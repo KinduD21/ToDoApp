@@ -4,6 +4,7 @@ import {
   taskNameInput,
   taskDescriptionInput,
   dueDateInput,
+  selectedPriority,
 } from "./modal.js";
 
 const tasks = [];
@@ -12,26 +13,28 @@ const taskList = document.querySelector(".task-list");
 addTaskInnerBtn.addEventListener("click", createTask);
 
 function createTask() {
+  const dueDateValue = dueDateInput.value.trim();
+  let formattedDueDate = "";
+
   const task = {
     title: taskNameInput.value,
     description: taskDescriptionInput.value,
     id: tasks.length + 1,
-    isDate: false, // it works, but is it needed?
+    date: new Date(dueDateValue),
+    priority: Number(selectedPriority.dataset.priority),
   };
-
-  const dueDateValue = dueDateInput.value.trim();
-  let formattedDueDate = "";
 
   if (dueDateValue) {
     const dueDate = new Date(dueDateValue);
     formattedDueDate = formatDate(dueDate);
-    task.isDate = true; // it works, but is it needed?
   }
 
   const taskItemHtml = `<li class="task-button" data-id = ${task.id}>
     <div class="task-button-top">
       <div class="task-button-top-left">
-        <button class="task-button-checkbox-button">
+        <button class="task-button-checkbox-button" data-priority= ${
+          task.priority
+        }>
           <svg class="task-button-checkbox-icon project-icon">
             <path
               fill="currentColor"
@@ -71,13 +74,11 @@ function createTask() {
 
   taskCreatedState();
 
-  const taskBtnCheckboxBtns = taskList.querySelectorAll(
-    ".task-button-checkbox-button"
+  const taskBtnCheckboxBtn = taskList.querySelector(
+    `[data-id='${task.id}'] .task-button-checkbox-button`
   );
 
-  taskBtnCheckboxBtns.forEach((taskBtnCheckboxBtn) => {
-    taskBtnCheckboxBtn.addEventListener("click", taskDelete);
-  });
+  taskBtnCheckboxBtn.addEventListener("click", taskDelete);
 }
 
 function formatDate(date) {

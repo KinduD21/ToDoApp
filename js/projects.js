@@ -41,9 +41,9 @@ addProjectInnerBtn.addEventListener("click", createProject);
 //   const projectButtons = projectsList.querySelectorAll(".sidebar-button");
 // projectButtons.forEach((button) => {
 //     button.addEventListener("click", selectProject);
-//     button
-//       .querySelector("svg.delete-project-icon")
-//       .addEventListener("click", deleteProject);
+//     // button
+//     //   .querySelector("svg.delete-project-icon")
+//     //   .addEventListener("click", deleteProject);
 //   });
 // }
 
@@ -94,22 +94,23 @@ function createProject() {
 }
 
 function selectProject(event) {
-  const projectBtn = projectsList.querySelector(".selected");
-  const projectId = Number(projectBtn.parentElement.dataset.id);
+  // Remove selected from old selected project
+  const oldSelectedProject = projects.find(
+    (projectObject) => projectObject.selected
+  );
+  oldSelectedProject.selected = false;
+  projectsList
+    .querySelector(`[data-id='${oldSelectedProject.id}'] button`)
+    .classList.remove("selected");
 
-  projectBtn.classList.remove("selected");
-  projects.find(
-    (projectObject) => projectObject.id === projectId
-  ).selected = false;
-
-  event.target.closest(".sidebar-button").classList.add("selected");
-
-  selectedBtn.classList.add("selected");
-
-  const newProjectId = Number(selectedBtn.parentElement.dataset.id);
-  projects.find(
+  // Add selected to new selected project
+  const newProjectId = Number(event.currentTarget.parentElement.dataset.id);
+  const newSelectedProject = projects.find(
     (projectObject) => projectObject.id === newProjectId
-  ).selected = true;
+  );
+  newSelectedProject.selected = true;
+  event.currentTarget.classList.add("selected");
+
   projectSelectedState();
   console.log(projects);
 }

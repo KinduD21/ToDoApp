@@ -18,6 +18,10 @@ const formattedCurrentDate = `${currentDate.getFullYear()}-${(
 )
   .toString()
   .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
+const priorityBtn = addTaskModal.querySelector("[data-bs-toggle='dropdown']");
+const priorityDropdownMenu = addTaskModal.querySelector(".dropdown-menu");
+const dropdownItems = addTaskModal.querySelectorAll(".dropdown-item");
+const selectedPriority = addTaskModal.querySelector(".dropdown svg");
 
 // Modal windows' overlay
 
@@ -39,6 +43,9 @@ addTaskBtns.forEach((addTaskBtn) => {
     dueDateInput.valueAsDate = new Date();
     dueDateInput.min = formattedCurrentDate;
     addTaskInnerBtn.disabled = true;
+    priorityDropdownMenu.classList.remove("show");
+    selectedPriority.dataset.priority = "4";
+    selectedPriority.querySelector("path").setAttribute("fill-rule", "evenodd");
   });
 });
 
@@ -48,6 +55,22 @@ taskNameInput.addEventListener("keyup", () => {
   } else {
     addTaskInnerBtn.disabled = false;
   }
+});
+
+priorityBtn.addEventListener("click", () => {
+  if (priorityDropdownMenu.classList.contains("show")) {
+    priorityDropdownMenu.classList.remove("show");
+  } else {
+    priorityDropdownMenu.classList.add("show");
+  }
+});
+
+dropdownItems.forEach((dropdownItem) => {
+  dropdownItem.addEventListener("click", () => {
+    priorityDropdownMenu.classList.remove("show");
+    selectedPriority.dataset.priority = dropdownItem.dataset.priority;
+    selectedPriority.querySelector("path").setAttribute("fill-rule", "odd");
+  });
 });
 
 // Add project modal
@@ -84,4 +107,5 @@ export {
   dueDateInput,
   addTaskModal,
   addProjectInput,
+  selectedPriority,
 };
