@@ -6,6 +6,7 @@ import {
   dueDateInput,
   selectedPriority,
 } from "./modal.js";
+import { format } from "date-fns";
 
 const tasks = [];
 const taskList = document.querySelector(".task-list");
@@ -82,25 +83,7 @@ function createTask() {
 }
 
 function formatDate(date) {
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const month = months[monthIndex];
-  return `${day} ${month} ${year}`;
+  return format(date, "d MMM yyyy");
 }
 
 function taskDelete(event) {

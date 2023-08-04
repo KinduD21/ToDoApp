@@ -16,7 +16,7 @@ const inboxProjectsBtn = document
 inboxProjectsBtn.addEventListener("click", () => {
   inboxProjectsBtn.classList.add("selected");
   editorHeading.textContent = "Inbox";
-  editorImage.src = "./images/inbox-empty-state.png";
+  editorImage.src = "/inbox-empty-state.png";
   editorStateHeading.textContent = "All clear";
   editorStateBody.textContent =
     "Looks like everything's organized in the right place.";
@@ -26,7 +26,7 @@ inboxProjectsBtn.addEventListener("click", () => {
 
 function projectCreatedState() {
   editorHeading.innerHTML = addProjectInput.value;
-  editorImage.src = "./images/project-empty-state.png";
+  editorImage.src = "/project-empty-state.png";
   editorStateHeading.innerHTML = "Keep your tasks organized in projects";
   editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
   addProjectModal.classList.remove("visible");
@@ -36,7 +36,7 @@ function projectCreatedState() {
 function projectSelectedState() {
   editorHeading.textContent =
     projectsList.querySelector(".selected").textContent;
-  editorImage.src = "./images/project-empty-state.png";
+  editorImage.src = "/project-empty-state.png";
   editorStateHeading.innerHTML = "Keep your tasks organized in projects";
   editorStateBody.innerHTML = "Group your tasks by goal or area of your life.";
 }
@@ -64,7 +64,7 @@ function taskCreatedState() {
 function editorInitialState() {
   //   inboxProjectsBtn.classList.add("selected");
   editorHeading.textContent = "Inbox";
-  editorImage.src = "./images/inbox-empty-state.png";
+  editorImage.src = "/inbox-empty-state.png";
   editorStateHeading.textContent = "All clear";
   editorStateBody.textContent =
     "Looks like everything's organized in the right place.";
