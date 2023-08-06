@@ -2,7 +2,7 @@ import { deleteIconSvg } from "./deleteIconSvg.js";
 import {
   projectCreatedState,
   projectDeletedState,
-  projectSelectedState,
+  renderEditorContent,
   editorInitialState,
 } from "./editorMarkup.js";
 import "./modal.js";
@@ -36,16 +36,6 @@ sidebarProjectsCollapseBtn.addEventListener("click", () => {
 let selectedBtn = projectsList.querySelector(".selected");
 
 addProjectInnerBtn.addEventListener("click", createProject);
-
-// function addProjectButtonClickListeners() {
-//   const projectButtons = projectsList.querySelectorAll(".sidebar-button");
-// projectButtons.forEach((button) => {
-//     button.addEventListener("click", selectProject);
-//     // button
-//     //   .querySelector("svg.delete-project-icon")
-//     //   .addEventListener("click", deleteProject);
-//   });
-// }
 
 function createProject() {
   const projectsListLiElementsBtns =
@@ -81,8 +71,6 @@ function createProject() {
 
   projectsList.insertAdjacentHTML("beforeend", projectItemHtml);
 
-  // addProjectButtonClickListeners();
-
   selectedBtn = projectsList.querySelector(".selected");
 
   projectCreatedState();
@@ -94,7 +82,6 @@ function createProject() {
 }
 
 function selectProject(event) {
-  // Remove selected from old selected project
   const oldSelectedProject = projects.find(
     (projectObject) => projectObject.selected
   );
@@ -103,7 +90,6 @@ function selectProject(event) {
     .querySelector(`[data-id='${oldSelectedProject.id}'] button`)
     .classList.remove("selected");
 
-  // Add selected to new selected project
   const newProjectId = Number(event.currentTarget.parentElement.dataset.id);
   const newSelectedProject = projects.find(
     (projectObject) => projectObject.id === newProjectId
@@ -111,8 +97,7 @@ function selectProject(event) {
   newSelectedProject.selected = true;
   event.currentTarget.classList.add("selected");
 
-  projectSelectedState();
-  console.log(projects);
+  renderEditorContent(newProjectId);
 }
 
 function deleteProject(event) {
