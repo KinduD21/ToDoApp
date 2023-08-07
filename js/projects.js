@@ -1,12 +1,13 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
 import {
+  inboxProjectsBtn,
   projectCreatedState,
   projectDeletedState,
   renderEditorContent,
   editorInitialState,
 } from "./editorMarkup.js";
-import "./modal.js";
 import { addProjectInnerBtn, addProjectInput } from "./modal.js";
+import { tasks } from "./tasks.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -38,6 +39,7 @@ let selectedBtn = projectsList.querySelector(".selected");
 addProjectInnerBtn.addEventListener("click", createProject);
 
 function createProject() {
+  inboxProjectsBtn.classList.remove("selected");
   const projectsListLiElementsBtns =
     projectsList.querySelectorAll(".sidebar-button");
 
@@ -118,7 +120,12 @@ function deleteProject(event) {
     if (!projectsList.lastElementChild) {
       editorInitialState();
     } else {
+      tasks.filter((task) => {
+        return task.projectId !== projectIndex;
+      });
       projectDeletedState();
+      console.log(tasks, "- TASKS");
+      console.log(projects, "- PROJECTS");
     }
   }
 }

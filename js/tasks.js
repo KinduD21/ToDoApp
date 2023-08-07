@@ -15,7 +15,7 @@ addTaskInnerBtn.addEventListener("click", createTask);
 
 function createTask() {
   const activeProject = document
-    .querySelector("#projects-list .selected")
+    .querySelector("aside .selected")
     .closest("[data-id]");
   const dueDateValue = dueDateInput.value.trim();
   let formattedDueDate = "";
@@ -25,11 +25,8 @@ function createTask() {
     description: taskDescriptionInput.value,
     id: tasks.length + 1,
     date: new Date(dueDateValue),
-    priority: Number(selectedPriority.dataset.priority),
-    projectId: Number(activeProject.dataset.id) ?? null,
-    // 1) - activeProject.dataset.id = undefined/'1'/'2'/'3'
-    // 2) Number(undefined/'1'/'2'/'3') - 1/2/3, NaN
-    // 3) NaN ?? null, null
+    priority: Number(selectedPriority.dataset.priority) || "",
+    projectId: Number(activeProject.dataset.id) || "inbox",
   };
 
   if (dueDateValue) {

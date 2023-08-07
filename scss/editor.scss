@@ -20,7 +20,7 @@
       transform: translate(2px, 2px);
     }
   }
-  & .empty-state-heading {
+  & .state-heading {
     font-size: 16px;
   }
 }
@@ -59,13 +59,14 @@
   & img {
     max-width: 220px;
   }
+  & h4 {
+    font-weight: 500;
+    font-size: 1rem;
+  }
   & > p {
     font-size: 0.81rem;
     color: $gray;
     text-align: center;
-  }
-  & h4 {
-    font-weight: 500;
   }
 }
 
@@ -97,7 +98,7 @@
   &::after {
     content: "";
     width: 100%;
-    height: 1px;
+    height: 0.5px;
     background-color: #efefef;
     margin-top: 5px;
   }

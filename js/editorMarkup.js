@@ -13,48 +13,43 @@ const inboxProjectsBtn = document
   .querySelector(".sidebar-button");
 
 const emptyStateEditor = `
-  <img class="state__img" src="/inbox-empty-state.png" alt="Task list is empty" />
-  <h4 class="state__heading">All clear</h4>
-  <p class="state__body">
+  <img src="/inbox-empty-state.png" alt="Task list is empty" />
+  <h4>All clear</h4>
+  <p>
     Looks like everything's organized in the right place.
   </p>
-`
+`;
+
+stateContainer.insertAdjacentHTML("beforeend", emptyStateEditor);
 
 const emptyProjectStateEditor = `
-  <img class="state__img" src="/project-empty-state.png" alt="Task list is empty" />
-  <h4 class="state__heading">Keep your tasks organized in projects.</h4>
-  <p class="state__body">
+  <img src="/project-empty-state.png" alt="Task list is empty" />
+  <h4>Keep your tasks organized in projects.</h4>
+  <p>
   Group your tasks by goal or area of your life.
   </p>
-`
+`;
 
 inboxProjectsBtn.addEventListener("click", () => editorInitialState);
 
 // Add Project functions
 
 function projectCreatedState() {
-  console.log( "works?" );
-
-  // TODO: be consistent, if possible do the same. TRY
-  // find and change project title
   editorHeading.innerHTML = addProjectInput.value;
   stateContainer.innerHTML = emptyProjectStateEditor;
-  
+
   addProjectModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
 }
 
 function projectSelectedState(tasks) {
-  
-  if(tasks && tasks.length) {
-    renderTasks(tasks)
+  if (tasks && tasks.length) {
+    renderTasks(tasks);
   } else {
-    // TODO: be consistent, if possible do the same. TRY
-    // find and change project title
-    editorHeading.textContent =
-    projectsList.querySelector(".selected").textContent;
+    editorHeading.innerHTML = projectsList.querySelector(
+      ".selected .project-name"
+    ).innerHTML;
     stateContainer.innerHTML = emptyProjectStateEditor;
-      // render correct template
   }
 }
 
@@ -63,21 +58,21 @@ function projectDeletedState() {
   projectsList.lastElementChild
     .querySelector(".sidebar-button")
     .classList.add("selected");
-  editorHeading.textContent =
-    projectsList.lastElementChild.querySelector(".sidebar-button").textContent;
-
-    // projectSelectedState()
+  editorHeading.innerHTML = projectsList.lastElementChild.querySelector(
+    ".sidebar-button .project-name"
+  ).innerHTML;
 }
 
 // Add Task functions
-const renderTasks = (tasks) => { conatinerState.innerHTML = tasks } // HTML markup for tasks which are in array
+const renderTasks = (tasks) => {
+  stateContainer.innerHTML = tasks;
+}; // HTML markup for tasks which are in array
 
 function taskCreatedState() {
-  const tasksToShow = tasks.filter((t) => t.projectId === projectId);
+  // const tasksToShow = tasks.filter((t) => t.projectId === projectId);
 
-  renderTasks(tasksToShow)
-  // containerState.innerHTML = tasks -> elemnt div>ul
-
+  // renderTasks(tasksToShow);
+  stateContainer.innerHTML = "";
 
   addTaskModal.classList.remove("visible");
   modalOverlay.classList.remove("visible");
@@ -103,6 +98,7 @@ function renderEditorContent(projectId) {
 }
 
 export {
+  inboxProjectsBtn,
   projectCreatedState,
   editorInitialState,
   projectSelectedState,

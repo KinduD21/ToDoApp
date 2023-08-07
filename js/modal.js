@@ -44,7 +44,7 @@ addTaskBtns.forEach((addTaskBtn) => {
     dueDateInput.min = formattedCurrentDate;
     addTaskInnerBtn.disabled = true;
     priorityDropdownMenu.classList.remove("show");
-    selectedPriority.dataset.priority = "4";
+    selectedPriority.dataset.priority = "";
     selectedPriority.querySelector("path").setAttribute("fill-rule", "evenodd");
   });
 });
