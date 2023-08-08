@@ -77,6 +77,8 @@ function createProject() {
 
   projectCreatedState();
 
+  renderEditorContent(project.id);
+
   selectedBtn.addEventListener("click", selectProject);
   selectedBtn
     .querySelector("svg.delete-project-icon")

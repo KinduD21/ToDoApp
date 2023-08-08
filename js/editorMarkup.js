@@ -42,9 +42,9 @@ function projectCreatedState() {
   modalOverlay.classList.remove("visible");
 }
 
-function projectSelectedState(tasks) {
-  if (tasks && tasks.length) {
-    renderTasks(tasks);
+function projectSelectedState(tasksToShow) {
+  if (tasksToShow && tasksToShow.length) {
+    console.log("it works");
   } else {
     editorHeading.innerHTML = projectsList.querySelector(
       ".selected .project-name"
@@ -53,7 +53,6 @@ function projectSelectedState(tasks) {
   }
 }
 
-// TODO: what happens when project was deleted. (tasks dependency)
 function projectDeletedState() {
   projectsList.lastElementChild
     .querySelector(".sidebar-button")
@@ -64,8 +63,9 @@ function projectDeletedState() {
 }
 
 // Add Task functions
+
 const renderTasks = (tasks) => {
-  stateContainer.innerHTML = tasks;
+  stateContainer.innerHTML = "";
 }; // HTML markup for tasks which are in array
 
 function taskCreatedState() {
@@ -91,7 +91,7 @@ function renderEditorContent(projectId) {
   // find tasks
   const tasksToShow = tasks.filter((t) => t.projectId === projectId);
   if (tasksToShow && tasksToShow.length) {
-    console.log("works");
+    renderTasks(tasksToShow);
   } else {
     projectSelectedState(tasksToShow);
   }
