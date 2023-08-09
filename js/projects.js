@@ -7,7 +7,7 @@ import {
   editorInitialState,
 } from "./editorMarkup.js";
 import { addProjectInnerBtn, addProjectInput } from "./modal.js";
-import { tasks } from "./tasks.js";
+import { tasks, renderTasks } from "./tasks.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");

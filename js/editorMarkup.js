@@ -1,5 +1,5 @@
 import { addTaskModal } from "./modal.js";
-import { tasks } from "./tasks.js";
+import { tasks, renderTasks } from "./tasks.js";
 
 const projectsList = document.querySelector("#projects-list");
 const addProjectInput = document.querySelector("#project_name");
@@ -42,15 +42,9 @@ function projectCreatedState() {
   modalOverlay.classList.remove("visible");
 }
 
-function projectSelectedState(tasksToShow) {
-  if (tasksToShow && tasksToShow.length) {
-    console.log("it works");
-  } else {
-    editorHeading.innerHTML = projectsList.querySelector(
-      ".selected .project-name"
-    ).innerHTML;
-    stateContainer.innerHTML = emptyProjectStateEditor;
-  }
+function projectSelectedState() {
+  renderTasks([]);
+  stateContainer.innerHTML = emptyProjectStateEditor;
 }
 
 function projectDeletedState() {
@@ -64,14 +58,7 @@ function projectDeletedState() {
 
 // Add Task functions
 
-const renderTasks = (tasks) => {
-  stateContainer.innerHTML = "";
-}; // HTML markup for tasks which are in array
-
 function taskCreatedState() {
-  // const tasksToShow = tasks.filter((t) => t.projectId === projectId);
-
-  // renderTasks(tasksToShow);
   stateContainer.innerHTML = "";
 
   addTaskModal.classList.remove("visible");
@@ -88,12 +75,19 @@ function editorInitialState() {
 
 // NOTE: maybe this one can be the only function (entry point) for all cases
 function renderEditorContent(projectId) {
+  editorHeading.innerHTML = projectsList.querySelector(
+    ".selected .project-name"
+  )?.innerHTML ?? "Inbox";
+
   // find tasks
   const tasksToShow = tasks.filter((t) => t.projectId === projectId);
   if (tasksToShow && tasksToShow.length) {
     renderTasks(tasksToShow);
+    stateContainer.innerHTML = "";
+  } else if (projectId) {
+    projectSelectedState();
   } else {
-    projectSelectedState(tasksToShow);
+    taskCreatedState();
   }
 }
 
@@ -101,8 +95,6 @@ export {
   inboxProjectsBtn,
   projectCreatedState,
   editorInitialState,
-  projectSelectedState,
   projectDeletedState,
-  taskCreatedState,
   renderEditorContent,
 };

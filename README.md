@@ -48,3 +48,8 @@ HW 28.07:
 
 HW 04.08:
 1. rewrite data-priority: if no priority is selected - not "4", but ""
+
+HW 09.08:
+
+1. clear export of editorMarkup (only renderEditorContent function must be exported)
+2. "Inbox" eventListener, all tasks must be shown
