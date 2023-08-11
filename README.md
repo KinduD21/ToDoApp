@@ -42,11 +42,13 @@ TASK 19.07:
 4. Split code in projects.js into different functions (creating project, selecting project, deleting project)
 
 HW 28.07:
+
 1. Rewrite using date-fns library in tasks.js
 2. task.isDate - delete this property, add "date: dateObject" and "priority: 1" instead (for example)
 3. Variants for projects/task connection: connect using id OR put task object inside projects array of objects
 
 HW 04.08:
+
 1. rewrite data-priority: if no priority is selected - not "4", but ""
 
 HW 09.08:

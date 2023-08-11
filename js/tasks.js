@@ -1,4 +1,5 @@
-import { renderEditorContent, editorInitialState } from "./editorMarkup.js";
+import { render } from "sass";
+import { renderEditorContent } from "./editorMarkup.js";
 import {
   addTaskInnerBtn,
   taskNameInput,
@@ -34,13 +35,14 @@ function createTask() {
 
   renderTasks(tasksToRender);
 
-  renderEditorContent();
+  renderEditorContent("", tasks);
 
-  const taskBtnCheckboxBtn = taskList.querySelector(
-    `[data-id='${task.id}'] .task-button-checkbox-button`
-  );
-
-  taskBtnCheckboxBtn.addEventListener("click", taskDelete);
+  taskList.addEventListener("click", function (event) {
+    const target = event.target;
+    if (target.classList.contains("task-button-checkbox-button")) {
+      taskDelete(event);
+    }
+  });
 }
 
 function renderTasks(filteredTasks) {
@@ -104,8 +106,8 @@ function taskDelete(event) {
   if (taskIndex !== -1) {
     tasks.splice(taskIndex, 1);
     taskLiElement.remove();
-    if (!taskList.lastElementChild) {
-      editorInitialState();
+    if (!taskList.lastChild) {
+      renderEditorContent("", tasks);
     }
   }
 }

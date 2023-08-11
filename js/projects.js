@@ -1,7 +1,6 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
 import {
   inboxProjectsBtn,
-  projectCreatedState,
   projectDeletedState,
   renderEditorContent,
   editorInitialState,
@@ -75,9 +74,7 @@ function createProject() {
 
   selectedBtn = projectsList.querySelector(".selected");
 
-  projectCreatedState();
-
-  renderEditorContent(project.id);
+  renderEditorContent(project.id, projects);
 
   selectedBtn.addEventListener("click", selectProject);
   selectedBtn

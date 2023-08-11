@@ -73,19 +73,19 @@ function editorInitialState() {
   stateContainer.innerHTML = emptyStateEditor;
 }
 
-// NOTE: maybe this one can be the only function (entry point) for all cases
-function renderEditorContent(projectId) {
-  editorHeading.innerHTML = projectsList.querySelector(
-    ".selected .project-name"
-  )?.innerHTML ?? "Inbox";
+function renderEditorContent(projectId, array) {
+  editorHeading.innerHTML =
+    projectsList.querySelector(".selected .project-name")?.innerHTML ?? "Inbox";
 
-  // find tasks
   const tasksToShow = tasks.filter((t) => t.projectId === projectId);
   if (tasksToShow && tasksToShow.length) {
     renderTasks(tasksToShow);
     stateContainer.innerHTML = "";
   } else if (projectId) {
     projectSelectedState();
+  }
+  if (array.length === 0) {
+    editorInitialState();
   } else {
     taskCreatedState();
   }
