@@ -3,10 +3,8 @@ import {
   inboxProjectsBtn,
   projectDeletedState,
   renderEditorContent,
-  editorInitialState,
 } from "./editorMarkup.js";
 import { addProjectInnerBtn, addProjectInput } from "./modal.js";
-import { tasks, renderTasks } from "./tasks.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -51,6 +49,7 @@ function createProject() {
     title: addProjectInput.value,
     selected: true,
     id: projects.length + 1,
+    tasks: [],
   };
 
   const projectItemHtml = `
@@ -74,7 +73,7 @@ function createProject() {
 
   selectedBtn = projectsList.querySelector(".selected");
 
-  renderEditorContent(project.id, projects);
+  renderEditorContent(project);
 
   selectedBtn.addEventListener("click", selectProject);
   selectedBtn
@@ -98,7 +97,7 @@ function selectProject(event) {
   newSelectedProject.selected = true;
   event.currentTarget.classList.add("selected");
 
-  renderEditorContent(newProjectId);
+  renderEditorContent(newSelectedProject);
 }
 
 function deleteProject(event) {
@@ -117,14 +116,21 @@ function deleteProject(event) {
     projectLiElement.remove();
 
     if (!projectsList.lastElementChild) {
-      editorInitialState();
+      // renderEditorContent("", projects, "projects");
     } else {
-      tasks.filter((task) => {
-        return task.projectId !== projectIndex;
-      });
       projectDeletedState();
-      console.log(tasks, "- TASKS");
-      console.log(projects, "- PROJECTS");
     }
+  }
+}
+
+// similar "interface"/API
+export function getProjects() {
+  return projects;
+}
+
+export function addTaskToProject(task) {
+  const project = projects.find((p) => p.id == task.projectId);
+  if (project) {
+    project.tasks.push(task);
   }
 }

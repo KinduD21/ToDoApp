@@ -1,4 +1,3 @@
-import { render } from "sass";
 import { renderEditorContent } from "./editorMarkup.js";
 import {
   addTaskInnerBtn,
@@ -7,9 +6,9 @@ import {
   dueDateInput,
   selectedPriority,
 } from "./modal.js";
+import { addTaskToProject } from "./projects.js";
 import { format } from "date-fns";
 
-const tasks = [];
 const taskList = document.querySelector(".task-list");
 
 addTaskInnerBtn.addEventListener("click", createTask);
@@ -20,22 +19,20 @@ function createTask() {
     .closest("[data-id]");
   const dueDateValue = dueDateInput.value.trim();
 
+  const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
+
   const task = {
     title: taskNameInput.value,
     description: taskDescriptionInput.value,
-    id: tasks.length + 1,
+    id: addTaskBtn[0].dataset.tasksAmount,
     date: new Date(dueDateValue),
     priority: Number(selectedPriority.dataset.priority) || "",
     projectId: Number(activeProject.dataset.id) || "inbox",
   };
 
-  tasks.push(task);
+  addTaskToProject(task);
 
-  const tasksToRender = tasks.filter((t) => t.projectId === task.projectId);
-
-  renderTasks(tasksToRender);
-
-  renderEditorContent("", tasks);
+  renderEditorContent(task);
 
   taskList.addEventListener("click", function (event) {
     const target = event.target;
@@ -102,14 +99,17 @@ function taskDelete(event) {
   const taskId = Number(taskLiElement.dataset.id);
 
   const taskIndex = tasks.findIndex((taskObject) => taskObject.id === taskId);
-
+  const removedTask = tasks[taskIndex];
+  // getProjects()
+  // getProjects() -> active project - projectId 
+  // activeProject.tasks.slice()
+  
+  // Alternative -> renderEditorContent() - ??? renderTasks([]) ???
   if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
     taskLiElement.remove();
-    if (!taskList.lastChild) {
-      renderEditorContent("", tasks);
-    }
+    tasks.splice(taskIndex, 1);
+    renderEditorContent(removedTask);
   }
 }
 
-export { tasks, renderTasks };
+export { renderTasks };

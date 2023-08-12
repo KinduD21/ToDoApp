@@ -1,5 +1,5 @@
 const addTaskModal = document.querySelector(".add-task-modal");
-const addTaskBtns = document.querySelectorAll("#add-task-button");
+const addTaskBtns = document.querySelectorAll("[data-action='addTask']");
 const modalOverlay = document.querySelector(".modal-overlay");
 const cancelBtns = document.querySelectorAll(".cancel-button");
 const addProjectOuterBtn = document.querySelector(".add-project-button");

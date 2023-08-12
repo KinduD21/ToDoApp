@@ -1,5 +1,6 @@
 import { addTaskModal } from "./modal.js";
-import { tasks, renderTasks } from "./tasks.js";
+import { renderTasks } from "./tasks.js";
+import { getProjects } from "./projects.js";
 
 const projectsList = document.querySelector("#projects-list");
 const addProjectInput = document.querySelector("#project_name");
@@ -33,18 +34,29 @@ const emptyProjectStateEditor = `
 inboxProjectsBtn.addEventListener("click", () => editorInitialState);
 
 // Add Project functions
+function projectEmptyState(projectId) {
+  renderTasks([]);
 
-function projectCreatedState() {
-  editorHeading.innerHTML = addProjectInput.value;
+  const projects = getProjects();
+  const selectedProject = projects.find((p) => p.id === Number(projectId));
+
+  editorHeading.innerHTML = selectedProject.title;
   stateContainer.innerHTML = emptyProjectStateEditor;
 
-  addProjectModal.classList.remove("visible");
-  modalOverlay.classList.remove("visible");
+  // addProjectModal.classList.remove("visible");
+  // modalOverlay.classList.remove("visible");
 }
 
-function projectSelectedState() {
+function projectHasTasksState(projectId) {
   renderTasks([]);
-  stateContainer.innerHTML = emptyProjectStateEditor;
+
+  const projects = getProjects();
+  const selectedProject = projects.find((p) => p.id === Number(projectId));
+
+  renderTasks(selectedProject.tasks);
+
+  editorHeading.innerHTML = selectedProject.title;
+  stateContainer.innerHTML = "";
 }
 
 function projectDeletedState() {
@@ -68,32 +80,51 @@ function taskCreatedState() {
 // Editor initial markup function
 
 function editorInitialState() {
-  inboxProjectsBtn.classList.add("selected");
+  // inboxProjectsBtn.classList.add("selected");
   editorHeading.textContent = "Inbox";
   stateContainer.innerHTML = emptyStateEditor;
 }
 
-function renderEditorContent(projectId, array) {
-  editorHeading.innerHTML =
-    projectsList.querySelector(".selected .project-name")?.innerHTML ?? "Inbox";
+// NOTE: obj === project object / task object
+function renderEditorContent(obj) {
+  const isTask = Boolean(obj.projectId);
 
-  const tasksToShow = tasks.filter((t) => t.projectId === projectId);
-  if (tasksToShow && tasksToShow.length) {
-    renderTasks(tasksToShow);
-    stateContainer.innerHTML = "";
-  } else if (projectId) {
-    projectSelectedState();
-  }
-  if (array.length === 0) {
-    editorInitialState();
+  if (!isTask) {
+    const project = obj;
+    const hasTasks = Boolean(project.tasks.length);
+    const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
+    
+    if (!hasTasks) {
+      addTaskBtn.forEach((btn) => btn.dataset.tasksAmount = 0);
+      projectEmptyState(project.id);
+    } else {
+      addTaskBtn.forEach((btn) => btn.dataset.tasksAmount = project.tasks.length + 1);
+      projectHasTasksState(project.id);
+    }
   } else {
-    taskCreatedState();
+    const task = obj;
+    projectHasTasksState(task.projectId);
   }
 }
 
+// array === [projects]/[tasks]
+// renderEditorContent(array) -> 3 cases -> projectCreatedState / projectSelectedState / ProjectDeletedState
+// const isTask = array.find((obj) => Boolean(obj.projectId)) -> true/false
+// if(!isTask) ->
+// if(!array.hasTasks()) -> projectEmptyState
+// else -> projectHasTasksState
+
+// ProjectDeletedState -> project removed
+//
+
+// if(isTask) ->
+// taskCreatedState -> add task / removed all tasks on existing task
+//
+// taskDeletedState -> task removed
+//
+
 export {
   inboxProjectsBtn,
-  projectCreatedState,
   editorInitialState,
   projectDeletedState,
   renderEditorContent,
