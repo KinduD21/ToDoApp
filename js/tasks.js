@@ -5,23 +5,27 @@ import {
   taskDescriptionInput,
   dueDateInput,
   selectedPriority,
+  closeModal,
 } from "./modal.js";
-import { addTaskToProject } from "./projects.js";
+import { addTaskToProject, getProjects } from "./projects.js";
 import { formatDate } from "./utils.js";
 
 const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
 
 addTaskInnerBtn.addEventListener("click", createTask);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !addTaskInnerBtn.disabled) {
+    createTask();
+    closeModal();
+  }
+});
 
 function createTask() {
   const activeProject = document
     .querySelector("aside .selected")
     .closest("[data-id]");
   const dueDateValue = dueDateInput.value.trim();
-
-  // increase +1 HERE - dataset.tasksAmount + 1
-  // addTaskBtn.forEach( (btn) => (btn.dataset.tasksAmount = project.tasks.length));
 
   const task = {
     title: taskNameInput.value,
@@ -32,7 +36,15 @@ function createTask() {
     projectId: Number(activeProject.dataset.id) || "inbox",
   };
 
+  const projects = getProjects();
+
+  const project = projects.find((p) => task.projectId === p.id);
+
   addTaskToProject(task);
+
+  addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = project.tasks.length));
+
+  task.id = addTaskBtn[0].dataset.tasksAmount;
 
   renderEditorContent(task);
 

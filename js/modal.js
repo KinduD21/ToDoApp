@@ -32,6 +32,20 @@ modalOverlay.addEventListener("click", (event) => {
   }
 });
 
+// Modal windows' closing
+
+function closeModal() {
+  modalOverlay.classList.remove("visible");
+  addTaskModal.classList.remove("visible");
+  addProjectModal.classList.remove("visible");
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+
 // Add task modal
 
 addTaskBtns.forEach((addTaskBtn) => {
@@ -49,6 +63,8 @@ addTaskBtns.forEach((addTaskBtn) => {
   });
 });
 
+addTaskInnerBtn.addEventListener("click", closeModal);
+
 taskNameInput.addEventListener("keyup", () => {
   if (taskNameInput.value.trim() === "") {
     addTaskInnerBtn.disabled = true;
@@ -58,11 +74,7 @@ taskNameInput.addEventListener("keyup", () => {
 });
 
 priorityBtn.addEventListener("click", () => {
-  if (priorityDropdownMenu.classList.contains("show")) {
-    priorityDropdownMenu.classList.remove("show");
-  } else {
-    priorityDropdownMenu.classList.add("show");
-  }
+  priorityDropdownMenu.classList.toggle("show");
 });
 
 dropdownItems.forEach((dropdownItem) => {
@@ -81,6 +93,8 @@ addProjectOuterBtn.addEventListener("click", () => {
   addProjectInput.value = "";
   addProjectInnerBtn.disabled = true;
 });
+
+addProjectInnerBtn.addEventListener("click", closeModal);
 
 addProjectInput.addEventListener("keyup", () => {
   if (addProjectInput.value.trim() === "") {
@@ -108,4 +122,5 @@ export {
   addTaskModal,
   addProjectInput,
   selectedPriority,
+  closeModal,
 };

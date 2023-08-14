@@ -4,7 +4,7 @@ import {
   projectDeletedState,
   renderEditorContent,
 } from "./editorMarkup.js";
-import { addProjectInnerBtn, addProjectInput } from "./modal.js";
+import { addProjectInnerBtn, addProjectInput, closeModal } from "./modal.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -20,20 +20,24 @@ const sidebarArrowIcon = document.querySelector(
 );
 
 sidebarProjectsCollapseBtn.addEventListener("click", () => {
-  if (sidebarProjectsCollapseBtn.classList.contains("expanded")) {
-    sidebarProjectsCollapseBtn.classList.remove("expanded");
-    projectsListContainer.classList.remove("expanded");
-    sidebarArrowIcon.classList.remove("expanded");
-  } else {
-    sidebarProjectsCollapseBtn.classList.add("expanded");
-    projectsListContainer.classList.add("expanded");
-    sidebarArrowIcon.classList.add("expanded");
-  }
+  sidebarProjectsCollapseBtn.classList.toggle("expanded");
+  projectsListContainer.classList.toggle("expanded");
+  sidebarArrowIcon.classList.toggle("expanded");
 });
 
 let selectedBtn = projectsList.querySelector(".selected");
 
+// const addProjectForm = document.querySelector("#add-project-form");
+
 addProjectInnerBtn.addEventListener("click", createProject);
+
+// addProjectForm.addEventListener("keydown", (event) => {
+//   if (event.key === "Enter" && !addProjectInnerBtn.disabled) {
+//     event.preventDefault();
+//     createProject();
+//     closeModal();
+//   }
+// });
 
 function createProject() {
   inboxProjectsBtn.classList.remove("selected");

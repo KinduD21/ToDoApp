@@ -38,9 +38,6 @@ function projectEmptyState(projectId) {
 
   editorHeading.innerHTML = selectedProject.title;
   stateContainer.innerHTML = emptyProjectStateEditor;
-
-  // addProjectModal.classList.remove("visible");
-  // modalOverlay.classList.remove("visible");
 }
 
 function projectHasTasksState(projectId) {
