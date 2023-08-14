@@ -1,11 +1,7 @@
-import { addTaskModal } from "./modal.js";
 import { renderTasks } from "./tasks.js";
 import { getProjects } from "./projects.js";
 
 const projectsList = document.querySelector("#projects-list");
-const addProjectInput = document.querySelector("#project_name");
-const addProjectModal = document.querySelector(".add-project-modal");
-const modalOverlay = document.querySelector(".modal-overlay");
 const editor = document.querySelector(".editor");
 const stateContainer = editor.querySelector(".state-container");
 const editorHeading = editor.querySelector("h2");
@@ -68,15 +64,6 @@ function projectDeletedState() {
   ).innerHTML;
 }
 
-// Add Task functions
-
-function taskCreatedState() {
-  stateContainer.innerHTML = "";
-
-  addTaskModal.classList.remove("visible");
-  modalOverlay.classList.remove("visible");
-}
-
 // Editor initial markup function
 
 function editorInitialState() {
@@ -93,12 +80,14 @@ function renderEditorContent(obj) {
     const project = obj;
     const hasTasks = Boolean(project.tasks.length);
     const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
-    
+
     if (!hasTasks) {
-      addTaskBtn.forEach((btn) => btn.dataset.tasksAmount = 0);
+      addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = 0));
       projectEmptyState(project.id);
     } else {
-      addTaskBtn.forEach((btn) => btn.dataset.tasksAmount = project.tasks.length + 1);
+      addTaskBtn.forEach(
+        (btn) => (btn.dataset.tasksAmount = project.tasks.length)
+      );
       projectHasTasksState(project.id);
     }
   } else {

@@ -7,8 +7,9 @@ import {
   selectedPriority,
 } from "./modal.js";
 import { addTaskToProject } from "./projects.js";
-import { format } from "date-fns";
+import { formatDate } from "./utils.js";
 
+const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
 
 addTaskInnerBtn.addEventListener("click", createTask);
@@ -19,7 +20,8 @@ function createTask() {
     .closest("[data-id]");
   const dueDateValue = dueDateInput.value.trim();
 
-  const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
+  // increase +1 HERE - dataset.tasksAmount + 1
+  // addTaskBtn.forEach( (btn) => (btn.dataset.tasksAmount = project.tasks.length));
 
   const task = {
     title: taskNameInput.value,
@@ -87,11 +89,6 @@ function renderTasks(filteredTasks) {
   tasksToRender.forEach((taskTemplate) => {
     taskList.insertAdjacentHTML("beforeend", taskTemplate);
   });
-} // HTML markup for tasks which are in array
-
-// helprs/utils.js
-function formatDate(date) {
-  return format(date, "d MMM yyyy");
 }
 
 function taskDelete(event) {
@@ -101,9 +98,9 @@ function taskDelete(event) {
   const taskIndex = tasks.findIndex((taskObject) => taskObject.id === taskId);
   const removedTask = tasks[taskIndex];
   // getProjects()
-  // getProjects() -> active project - projectId 
+  // getProjects() -> active project - projectId
   // activeProject.tasks.slice()
-  
+
   // Alternative -> renderEditorContent() - ??? renderTasks([]) ???
   if (taskIndex !== -1) {
     taskLiElement.remove();
