@@ -37,7 +37,6 @@ function createTask() {
   };
 
   const projects = getProjects();
-
   const project = projects.find((p) => task.projectId === p.id);
 
   addTaskToProject(task);
@@ -51,7 +50,7 @@ function createTask() {
   taskList.addEventListener("click", function (event) {
     const target = event.target;
     if (target.classList.contains("task-button-checkbox-button")) {
-      taskDelete(event);
+      taskDelete(task);
     }
   });
 }
@@ -103,22 +102,41 @@ function renderTasks(filteredTasks) {
   });
 }
 
-function taskDelete(event) {
-  const taskLiElement = event.target.closest("li");
-  const taskId = Number(taskLiElement.dataset.id);
+function taskDelete(task) {
+  const projects = getProjects();
+  const project = projects.find((p) => p.selected === true);
+  console.log(project);
 
-  const taskIndex = tasks.findIndex((taskObject) => taskObject.id === taskId);
-  const removedTask = tasks[taskIndex];
-  // getProjects()
-  // getProjects() -> active project - projectId
-  // activeProject.tasks.slice()
+  const taskIndex = project.tasks.indexOf(task);
+  // console.log(taskIndex);
 
-  // Alternative -> renderEditorContent() - ??? renderTasks([]) ???
   if (taskIndex !== -1) {
-    taskLiElement.remove();
-    tasks.splice(taskIndex, 1);
-    renderEditorContent(removedTask);
+    // Remove the task from the project's tasks array
+    project.tasks.splice(taskIndex, 1);
+    // console.log(project.tasks);
+    renderEditorContent(project);
   }
 }
 
 export { renderTasks };
+
+// getProjects() -> active project - projectId
+// activeProject.tasks.slice()
+
+// Alternative -> renderEditorContent() - ??? renderTasks([]) ???
+
+// if (taskIndex !== -1) {
+//   taskLiElement.remove();
+//   tasks.splice(taskIndex, 1);
+//   renderEditorContent(removedTask);
+// }
+
+// const taskLiElement = event.target.closest("li");
+// const taskId = Number(taskLiElement.dataset.id);
+
+// const taskIndex = tasks.findIndex((taskObject) => taskObject.id === taskId);
+// const removedTask = tasks[taskIndex];
+
+// const activeProject = document
+//   .querySelector("aside .selected")
+//   .closest("[data-id]");
