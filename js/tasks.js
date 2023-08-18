@@ -30,7 +30,7 @@ function createTask() {
   const task = {
     title: taskNameInput.value,
     description: taskDescriptionInput.value,
-    id: addTaskBtn[0].dataset.tasksAmount,
+    id: Number(addTaskBtn[0].dataset.tasksAmount),
     date: new Date(dueDateValue),
     priority: Number(selectedPriority.dataset.priority) || "",
     projectId: Number(activeProject.dataset.id) || "inbox",
@@ -43,7 +43,7 @@ function createTask() {
 
   addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = project.tasks.length));
 
-  task.id = addTaskBtn[0].dataset.tasksAmount;
+  task.id = Number(addTaskBtn[0].dataset.tasksAmount);
 
   renderEditorContent(task);
 
@@ -107,15 +107,15 @@ function taskDelete(task) {
   const project = projects.find((p) => p.selected === true);
   console.log(project);
 
-  const taskIndex = project.tasks.indexOf(task);
-  // console.log(taskIndex);
+  const taskIndex = project.tasks.indexOf((t) => t.id === task.id);
+  console.log(taskIndex);
 
-  if (taskIndex !== -1) {
-    // Remove the task from the project's tasks array
-    project.tasks.splice(taskIndex, 1);
-    // console.log(project.tasks);
-    renderEditorContent(project);
-  }
+  // if (taskIndex !== -1) {
+  //   // Remove the task from the project's tasks array
+  //   project.tasks.splice(taskIndex, 1);
+  //   // console.log(project.tasks);
+  //   renderEditorContent(project);
+  // }
 }
 
 export { renderTasks };
