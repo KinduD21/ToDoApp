@@ -46,13 +46,6 @@ function createTask() {
   task.id = Number(addTaskBtn[0].dataset.tasksAmount);
 
   renderEditorContent(task);
-
-  taskList.addEventListener("click", function (event) {
-    const target = event.target;
-    if (target.classList.contains("task-button-checkbox-button")) {
-      taskDelete(task);
-    }
-  });
 }
 
 function renderTasks(filteredTasks) {
@@ -102,41 +95,25 @@ function renderTasks(filteredTasks) {
   });
 }
 
-function taskDelete(task) {
+taskList.addEventListener("click", function (event) {
+  const target = event.target;
+  if (target.classList.contains("task-button-checkbox-button")) {
+    const taskElement = target.closest("[data-id]");
+    if (taskElement) {
+      const taskId = parseInt(taskElement.dataset.id);
+      taskDelete(taskId);
+    }
+  }
+});
+
+function taskDelete(taskId) {
   const projects = getProjects();
   const project = projects.find((p) => p.selected === true);
-  console.log(project);
 
-  const taskIndex = project.tasks.indexOf((t) => t.id === task.id);
-  console.log(taskIndex);
+  const taskIndex = project.tasks.findIndex((t) => t.id === taskId);
 
-  // if (taskIndex !== -1) {
-  //   // Remove the task from the project's tasks array
-  //   project.tasks.splice(taskIndex, 1);
-  //   // console.log(project.tasks);
-  //   renderEditorContent(project);
-  // }
+  project.tasks.splice(taskIndex, 1);
+  renderEditorContent(project);
 }
 
 export { renderTasks };
-
-// getProjects() -> active project - projectId
-// activeProject.tasks.slice()
-
-// Alternative -> renderEditorContent() - ??? renderTasks([]) ???
-
-// if (taskIndex !== -1) {
-//   taskLiElement.remove();
-//   tasks.splice(taskIndex, 1);
-//   renderEditorContent(removedTask);
-// }
-
-// const taskLiElement = event.target.closest("li");
-// const taskId = Number(taskLiElement.dataset.id);
-
-// const taskIndex = tasks.findIndex((taskObject) => taskObject.id === taskId);
-// const removedTask = tasks[taskIndex];
-
-// const activeProject = document
-//   .querySelector("aside .selected")
-//   .closest("[data-id]");
