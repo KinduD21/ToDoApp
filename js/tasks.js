@@ -41,9 +41,9 @@ function createTask() {
 
   addTaskToProject(task);
 
-  addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = project.tasks.length));
+  addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = project.tasks.length)); // Update addTask btn dataset value
 
-  task.id = Number(addTaskBtn[0].dataset.tasksAmount);
+  task.id = Number(addTaskBtn[0].dataset.tasksAmount); // Update task.id
 
   renderEditorContent(task);
 }

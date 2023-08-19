@@ -115,19 +115,17 @@ function deleteProject(event) {
     (projectObject) => projectObject.id === projectId
   );
 
-  if (projectIndex !== -1) {
-    projects.splice(projectIndex, 1);
-    projectLiElement.remove();
+  projects.splice(projectIndex, 1);
+  projectLiElement.remove(); // Can I omit using HTML in this function?
 
-    if (!projectsList.lastElementChild) {
-      // renderEditorContent("", projects, "projects");
-    } else {
-      projectDeletedState();
-    }
+  if (!projectsList.lastElementChild) {
+    renderEditorContent("inbox");
+  } else {
+    projectDeletedState();
+    renderEditorContent(projects[projects.length - 1]);
   }
 }
 
-// similar "interface"/API
 export function getProjects() {
   return projects;
 }
