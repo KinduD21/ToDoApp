@@ -137,13 +137,14 @@ function deleteProject(event) {
 
 // Inbox
 
-// inboxProjectsBtn.addEventListener("click", inboxTasks);
+inboxProjectsBtn.addEventListener("click", inboxTasks);
+
+let inbox = { title: "Inbox", selected: true, id: "Inbox", tasks: [] };
+projects.push(inbox);
 
 inboxTasks();
 
 function inboxTasks() {
-  let inbox = { title: "Inbox", selected: true, id: 0, tasks: [] };
-  projects.push(inbox);
   renderTasks(tasks);
   renderEditorContent(projects[0]);
 }

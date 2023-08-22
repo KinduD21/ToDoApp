@@ -64,20 +64,27 @@ function projectHasTasksState(projectId) {
 // Editor initial markup function
 
 function editorInitialState() {
-  projectsList.querySelector(".selected").classList.remove("selected");
+  const projects = getProjects();
+  const selectedProjectElement = projectsList.querySelector(".selected");
+
+  if (selectedProjectElement) {
+    selectedProjectElement.classList.remove("selected");
+  }
+
   inboxProjectsBtn.classList.add("selected");
-  // renderTasks([]);
+  renderTasks(projects[0].tasks);
+
+  if (projects[0].tasks.length) {
+    stateContainer.innerHTML = "";
+  } else {
+    stateContainer.innerHTML = emptyStateEditor;
+  }
+
   editorHeading.textContent = "Inbox";
-  stateContainer.innerHTML = emptyStateEditor;
 }
 
 // NOTE: obj === project object / task object
 function renderEditorContent(obj) {
-  console.log(obj);
-  if (obj === "Inbox") {
-    return editorInitialState();
-  }
-
   const isTask = Boolean(obj.projectId);
 
   if (!isTask) {
@@ -86,6 +93,9 @@ function renderEditorContent(obj) {
     const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 
     if (!hasTasks) {
+      if (obj.id === "Inbox") {
+        return editorInitialState();
+      }
       addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = 0));
       projectEmptyState(project.id);
     } else {
