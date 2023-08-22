@@ -1,10 +1,7 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import {
-  inboxProjectsBtn,
-  projectDeletedState,
-  renderEditorContent,
-} from "./editorMarkup.js";
+import { inboxProjectsBtn, renderEditorContent } from "./editorMarkup.js";
 import { addProjectInnerBtn, addProjectInput, closeModal } from "./modal.js";
+import { renderTasks, tasks } from "./tasks.js";
 
 const projects = [];
 const projectsList = document.querySelector("#projects-list");
@@ -86,6 +83,7 @@ function createProject() {
 }
 
 function selectProject(event) {
+  inboxProjectsBtn.classList.remove("selected");
   const oldSelectedProject = projects.find(
     (projectObject) => projectObject.selected
   );
@@ -108,6 +106,10 @@ function deleteProject(event) {
   event.stopPropagation();
   if (!selectedBtn) return;
 
+  projectsList.querySelectorAll(".sidebar-button").forEach((btn) => {
+    btn.classList.remove("selected");
+  });
+
   const projectLiElement = event.target.closest("li");
   const projectId = Number(projectLiElement.dataset.id);
 
@@ -115,15 +117,35 @@ function deleteProject(event) {
     (projectObject) => projectObject.id === projectId
   );
 
+  // Update selectedBtn reference if the currently selected project is deleted
+  if (selectedBtn.parentElement === projectLiElement) {
+    selectedBtn = null; // Clear the reference
+  }
+
   projects.splice(projectIndex, 1);
-  projectLiElement.remove(); // Can I omit using HTML in this function?
+  projectLiElement.remove();
 
   if (!projectsList.lastElementChild) {
     renderEditorContent("inbox");
   } else {
-    projectDeletedState();
-    renderEditorContent(projects[projects.length - 1]);
+    selectedBtn = projectsList.querySelector(".sidebar-button");
+    selectedBtn.classList.add("selected");
+    projects[0].selected = true;
+    renderEditorContent(projects[0]);
   }
+}
+
+// Inbox
+
+// inboxProjectsBtn.addEventListener("click", inboxTasks);
+
+inboxTasks();
+
+function inboxTasks() {
+  let inbox = { title: "Inbox", selected: true, id: 0, tasks: [] };
+  projects.push(inbox);
+  renderTasks(tasks);
+  renderEditorContent(projects[0]);
 }
 
 export function getProjects() {

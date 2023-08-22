@@ -27,7 +27,7 @@ const emptyProjectStateEditor = `
   </p>
 `;
 
-inboxProjectsBtn.addEventListener("click", () => editorInitialState);
+inboxProjectsBtn.addEventListener("click", editorInitialState);
 
 // Add Project functions
 function projectEmptyState(projectId) {
@@ -52,27 +52,29 @@ function projectHasTasksState(projectId) {
   stateContainer.innerHTML = "";
 }
 
-function projectDeletedState() {
-  projectsList.lastElementChild
-    .querySelector(".sidebar-button")
-    .classList.add("selected");
-  editorHeading.innerHTML = projectsList.lastElementChild.querySelector(
-    ".sidebar-button .project-name"
-  ).innerHTML;
-}
+// function projectDeletedState() {
+//   projectsList.lastElementChild
+//     .querySelector(".sidebar-button")
+//     .classList.add("selected");
+//   editorHeading.innerHTML = projectsList.lastElementChild.querySelector(
+//     ".sidebar-button .project-name"
+//   ).innerHTML;
+// }
 
 // Editor initial markup function
 
 function editorInitialState() {
-  // inboxProjectsBtn.classList.add("selected");
-  renderTasks([]);
+  projectsList.querySelector(".selected").classList.remove("selected");
+  inboxProjectsBtn.classList.add("selected");
+  // renderTasks([]);
   editorHeading.textContent = "Inbox";
   stateContainer.innerHTML = emptyStateEditor;
 }
 
 // NOTE: obj === project object / task object
 function renderEditorContent(obj) {
-  if (obj === "inbox") {
+  console.log(obj);
+  if (obj === "Inbox") {
     return editorInitialState();
   }
 
@@ -98,4 +100,4 @@ function renderEditorContent(obj) {
   }
 }
 
-export { inboxProjectsBtn, projectDeletedState, renderEditorContent };
+export { inboxProjectsBtn, renderEditorContent };

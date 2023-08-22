@@ -10,6 +10,7 @@ import {
 import { addTaskToProject, getProjects } from "./projects.js";
 import { formatDate } from "./utils.js";
 
+const tasks = [];
 const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
 
@@ -24,7 +25,7 @@ document.addEventListener("keydown", (event) => {
 function createTask() {
   const activeProject = document
     .querySelector("aside .selected")
-    .closest("[data-id]");
+    .closest("[data-id]"); // Write it for "inbox" in projects.js ???
   const dueDateValue = dueDateInput.value.trim();
 
   const task = {
@@ -33,11 +34,13 @@ function createTask() {
     id: Number(addTaskBtn[0].dataset.tasksAmount),
     date: new Date(dueDateValue),
     priority: Number(selectedPriority.dataset.priority) || "",
-    projectId: Number(activeProject.dataset.id) || "inbox",
+    projectId: Number(activeProject.dataset.id),
   };
 
   const projects = getProjects();
   const project = projects.find((p) => task.projectId === p.id);
+
+  tasks.push(task);
 
   addTaskToProject(task);
 
@@ -116,4 +119,4 @@ function taskDelete(taskId) {
   renderEditorContent(project);
 }
 
-export { renderTasks };
+export { renderTasks, tasks };
