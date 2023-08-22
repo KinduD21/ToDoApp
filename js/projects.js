@@ -4,6 +4,7 @@ import { addProjectInnerBtn, addProjectInput, closeModal } from "./modal.js";
 import { renderTasks, tasks } from "./tasks.js";
 
 const projects = [];
+const aside = document.querySelector("aside");
 const projectsList = document.querySelector("#projects-list");
 const projectsListContainer = document.querySelector(
   ".projects-list-container"
@@ -83,12 +84,15 @@ function createProject() {
 }
 
 function selectProject(event) {
-  inboxProjectsBtn.classList.remove("selected");
   const oldSelectedProject = projects.find(
     (projectObject) => projectObject.selected
-  );
-  oldSelectedProject.selected = false;
-  projectsList
+    );
+    oldSelectedProject.selected = false;
+    console.log(oldSelectedProject);
+  if (event.target !== inboxProjectsBtn) {
+    inboxProjectsBtn.classList.remove("selected");
+  }
+  aside
     .querySelector(`[data-id='${oldSelectedProject.id}'] button`)
     .classList.remove("selected");
 

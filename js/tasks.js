@@ -116,6 +116,7 @@ function taskDelete(taskId) {
   const taskIndex = project.tasks.findIndex((t) => t.id === taskId);
 
   project.tasks.splice(taskIndex, 1);
+  projects[0].tasks.splice(taskIndex, 1); // Remove this task from "Inbox" project
   renderEditorContent(project);
 }
 
