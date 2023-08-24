@@ -55,3 +55,11 @@ HW 09.08:
 
 1. clear export of editorMarkup (only renderEditorContent function must be exported)
 2. "Inbox" eventListener, all tasks must be shown
+
+
+Inbox / projects:
+   - Inbox must contain all other projects' tasks (as well as its own - task without specific projects):
+      there will be only "Inbox", starting with id Number(1);
+      Inbox = unique project.
+
+"FoundProject" - first it's "null", then it's a project from which the task must be deleted (TRY ???)

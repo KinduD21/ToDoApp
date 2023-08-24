@@ -1,9 +1,9 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { inboxProjectsBtn, renderEditorContent } from "./editorMarkup.js";
+import { renderEditorContent } from "./editorMarkup.js";
 import { addProjectInnerBtn, addProjectInput, closeModal } from "./modal.js";
-import { renderTasks, tasks } from "./tasks.js";
 
-const projects = [];
+const projects = [{ title: "Inbox", selected: true, id: 1, tasks: [] }];
+
 const aside = document.querySelector("aside");
 const projectsList = document.querySelector("#projects-list");
 const projectsListContainer = document.querySelector(
@@ -16,12 +16,19 @@ const sidebarProjectsCollapseBtn = document.querySelector(
 const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
+const inboxProjectsBtn = document
+  .querySelector("aside")
+  .querySelector(".sidebar-button");
 
 sidebarProjectsCollapseBtn.addEventListener("click", () => {
   sidebarProjectsCollapseBtn.classList.toggle("expanded");
   projectsListContainer.classList.toggle("expanded");
   sidebarArrowIcon.classList.toggle("expanded");
 });
+
+inboxProjectsBtn.addEventListener("click", selectProject);
+
+renderEditorContent(projects[0]); // Inbox
 
 let selectedBtn = projectsList.querySelector(".selected");
 
@@ -44,8 +51,9 @@ function createProject() {
 
   projectsListLiElementsBtns.forEach((projectsListLiElementsBtn) => {
     projectsListLiElementsBtn.classList.remove("selected");
-    projects.forEach((project) => (project.selected = false));
   });
+
+  projects.forEach((project) => (project.selected = false));
 
   const project = {
     title: addProjectInput.value,
@@ -77,7 +85,9 @@ function createProject() {
 
   renderEditorContent(project);
 
-  selectedBtn.addEventListener("click", selectProject);
+  if (project.id !== 1) {
+    selectedBtn.addEventListener("click", selectProject);
+  }
   selectedBtn
     .querySelector("svg.delete-project-icon")
     .addEventListener("click", deleteProject);
@@ -86,12 +96,10 @@ function createProject() {
 function selectProject(event) {
   const oldSelectedProject = projects.find(
     (projectObject) => projectObject.selected
-    );
-    oldSelectedProject.selected = false;
-    console.log(oldSelectedProject);
-  if (event.target !== inboxProjectsBtn) {
-    inboxProjectsBtn.classList.remove("selected");
-  }
+  );
+  oldSelectedProject.selected = false;
+  console.log(oldSelectedProject);
+
   aside
     .querySelector(`[data-id='${oldSelectedProject.id}'] button`)
     .classList.remove("selected");
@@ -121,35 +129,11 @@ function deleteProject(event) {
     (projectObject) => projectObject.id === projectId
   );
 
-  // Update selectedBtn reference if the currently selected project is deleted
-  if (selectedBtn.parentElement === projectLiElement) {
-    selectedBtn = null; // Clear the reference
-  }
-
   projects.splice(projectIndex, 1);
   projectLiElement.remove();
 
-  if (!projectsList.lastElementChild) {
-    renderEditorContent("inbox");
-  } else {
-    selectedBtn = projectsList.querySelector(".sidebar-button");
-    selectedBtn.classList.add("selected");
-    projects[0].selected = true;
-    renderEditorContent(projects[0]);
-  }
-}
-
-// Inbox
-
-inboxProjectsBtn.addEventListener("click", inboxTasks);
-
-let inbox = { title: "Inbox", selected: true, id: "Inbox", tasks: [] };
-projects.push(inbox);
-
-inboxTasks();
-
-function inboxTasks() {
-  renderTasks(tasks);
+  inboxProjectsBtn.classList.add("selected");
+  projects[0].selected = true;
   renderEditorContent(projects[0]);
 }
 

@@ -10,7 +10,6 @@ import {
 import { addTaskToProject, getProjects } from "./projects.js";
 import { formatDate } from "./utils.js";
 
-const tasks = [];
 const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
 
@@ -40,7 +39,7 @@ function createTask() {
   const projects = getProjects();
   const project = projects.find((p) => task.projectId === p.id);
 
-  tasks.push(task);
+  // tasks.push(task);
 
   addTaskToProject(task);
 
@@ -92,6 +91,8 @@ function renderTasks(filteredTasks) {
   });
 
   taskList.innerHTML = "";
+  // console.log( tasksToRender, 'tasksToRender' );
+  // console.log( taskList, 'taskList' );
 
   tasksToRender.forEach((taskTemplate) => {
     taskList.insertAdjacentHTML("beforeend", taskTemplate);
@@ -113,11 +114,19 @@ function taskDelete(taskId) {
   const projects = getProjects();
   const project = projects.find((p) => p.selected === true);
 
-  const taskIndex = project.tasks.findIndex((t) => t.id === taskId);
+  if (project.id === 1) {
+    const foundProject = projects.find((p) =>
+      p.tasks.find((t) => t.id === taskId)
+    );
 
-  project.tasks.splice(taskIndex, 1);
-  projects[0].tasks.splice(taskIndex, 1); // Remove this task from "Inbox" project
+    const taskIndex = foundProject.tasks.findIndex((t) => t.id === taskId);
+    foundProject.tasks.splice(taskIndex, 1);
+  } else {
+    const taskIndex = project.tasks.findIndex((t) => t.id === taskId);
+    project.tasks.splice(taskIndex, 1);
+  }
+
   renderEditorContent(project);
 }
 
-export { renderTasks, tasks };
+export { renderTasks };

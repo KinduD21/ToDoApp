@@ -5,9 +5,6 @@ const projectsList = document.querySelector("#projects-list");
 const editor = document.querySelector(".editor");
 const stateContainer = editor.querySelector(".state-container");
 const editorHeading = editor.querySelector("h2");
-const inboxProjectsBtn = document
-  .querySelector("aside")
-  .querySelector(".sidebar-button");
 
 const emptyStateEditor = `
   <img src="/inbox-empty-state.png" alt="Task list is empty" />
@@ -17,8 +14,6 @@ const emptyStateEditor = `
   </p>
 `;
 
-stateContainer.insertAdjacentHTML("beforeend", emptyStateEditor);
-
 const emptyProjectStateEditor = `
   <img src="/project-empty-state.png" alt="Task list is empty" />
   <h4>Keep your tasks organized in projects.</h4>
@@ -26,8 +21,6 @@ const emptyProjectStateEditor = `
   Group your tasks by goal or area of your life.
   </p>
 `;
-
-inboxProjectsBtn.addEventListener("click", editorInitialState);
 
 // Add Project functions
 function projectEmptyState(projectId) {
@@ -37,7 +30,8 @@ function projectEmptyState(projectId) {
   const selectedProject = projects.find((p) => p.id === Number(projectId));
 
   editorHeading.innerHTML = selectedProject.title;
-  stateContainer.innerHTML = emptyProjectStateEditor;
+  stateContainer.innerHTML =
+    projectId === 1 ? emptyStateEditor : emptyProjectStateEditor;
 }
 
 function projectHasTasksState(projectId) {
@@ -46,41 +40,29 @@ function projectHasTasksState(projectId) {
   const projects = getProjects();
   const selectedProject = projects.find((p) => p.id === Number(projectId));
 
-  renderTasks(selectedProject.tasks);
+  if (projectId === 1) {
+    let allTasks = projects.map((p) => p.tasks);
+    allTasks = allTasks.flat();
+    console.log(allTasks);
+    //allTasks = [ [{}, {}] ] - ...allTasks = [{}, {}]
+    //allTasks = { id: 1, title: 'name' } - { ...allTasks } =
+    // const obj = {id: 1, title: 'asdsadsa'};
+    // const arrayTest = [];
+    // console.log( arrayTest );
+
+    // const allTasksTest =  [1,2,3,4,5,6]; //
+    // const test = allTasksTest;
+    // const a = [1,2,3,4,5,6]
+    // const b = [...a] // {} - reference
+
+    // console.log( a );
+    renderTasks(allTasks); // [[{}, {}]] - [{}, {}]
+  } else {
+    renderTasks(selectedProject.tasks);
+  }
 
   editorHeading.innerHTML = selectedProject.title;
   stateContainer.innerHTML = "";
-}
-
-// function projectDeletedState() {
-//   projectsList.lastElementChild
-//     .querySelector(".sidebar-button")
-//     .classList.add("selected");
-//   editorHeading.innerHTML = projectsList.lastElementChild.querySelector(
-//     ".sidebar-button .project-name"
-//   ).innerHTML;
-// }
-
-// Editor initial markup function
-
-function editorInitialState() {
-  const projects = getProjects();
-  const selectedProjectElement = projectsList.querySelector(".selected");
-
-  if (selectedProjectElement) {
-    selectedProjectElement.classList.remove("selected");
-  }
-
-  inboxProjectsBtn.classList.add("selected");
-  renderTasks(projects[0].tasks);
-
-  if (projects[0].tasks.length) {
-    stateContainer.innerHTML = "";
-  } else {
-    stateContainer.innerHTML = emptyStateEditor;
-  }
-
-  editorHeading.textContent = "Inbox";
 }
 
 // NOTE: obj === project object / task object
@@ -88,14 +70,32 @@ function renderEditorContent(obj) {
   const isTask = Boolean(obj.projectId);
 
   if (!isTask) {
-    const project = obj;
+    const project = { ...obj };
+
+    if (project.id === 1) {
+      const hasTasks = Boolean(project.tasks.length);
+      const otherProjectsHasTasks = Boolean(
+        getProjects().find((p) => p.tasks.length)
+      );
+      const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
+
+      if (!hasTasks && !otherProjectsHasTasks) {
+        addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = 0));
+        projectEmptyState(project.id);
+      } else {
+        addTaskBtn.forEach(
+          (btn) => (btn.dataset.tasksAmount = project.tasks.length)
+        );
+        projectHasTasksState(project.id);
+      }
+
+      return;
+    }
+
     const hasTasks = Boolean(project.tasks.length);
     const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 
     if (!hasTasks) {
-      if (obj.id === "Inbox") {
-        return editorInitialState();
-      }
       addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = 0));
       projectEmptyState(project.id);
     } else {
@@ -110,4 +110,4 @@ function renderEditorContent(obj) {
   }
 }
 
-export { inboxProjectsBtn, renderEditorContent };
+export { renderEditorContent };
