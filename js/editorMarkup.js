@@ -43,7 +43,6 @@ function projectHasTasksState(projectId) {
   if (projectId === 1) {
     let allTasks = projects.map((p) => p.tasks);
     allTasks = allTasks.flat();
-    console.log(allTasks);
     //allTasks = [ [{}, {}] ] - ...allTasks = [{}, {}]
     //allTasks = { id: 1, title: 'name' } - { ...allTasks } =
     // const obj = {id: 1, title: 'asdsadsa'};

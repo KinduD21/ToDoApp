@@ -98,7 +98,6 @@ function selectProject(event) {
     (projectObject) => projectObject.selected
   );
   oldSelectedProject.selected = false;
-  console.log(oldSelectedProject);
 
   aside
     .querySelector(`[data-id='${oldSelectedProject.id}'] button`)

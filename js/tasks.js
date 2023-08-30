@@ -24,13 +24,13 @@ document.addEventListener("keydown", (event) => {
 function createTask() {
   const activeProject = document
     .querySelector("aside .selected")
-    .closest("[data-id]"); // Write it for "inbox" in projects.js ???
+    .closest("[data-id]");
   const dueDateValue = dueDateInput.value.trim();
 
   const task = {
     title: taskNameInput.value,
     description: taskDescriptionInput.value,
-    id: Number(addTaskBtn[0].dataset.tasksAmount),
+    id: Number(addTaskBtn[0].dataset.tasksAmount) + 1,
     date: new Date(dueDateValue),
     priority: Number(selectedPriority.dataset.priority) || "",
     projectId: Number(activeProject.dataset.id),
@@ -39,13 +39,11 @@ function createTask() {
   const projects = getProjects();
   const project = projects.find((p) => task.projectId === p.id);
 
-  // tasks.push(task);
-
   addTaskToProject(task);
 
   addTaskBtn.forEach((btn) => (btn.dataset.tasksAmount = project.tasks.length)); // Update addTask btn dataset value
 
-  task.id = Number(addTaskBtn[0].dataset.tasksAmount); // Update task.id
+  console.log(task);
 
   renderEditorContent(task);
 }
@@ -116,11 +114,13 @@ function taskDelete(taskId) {
 
   if (project.id === 1) {
     const foundProject = projects.find((p) =>
-      p.tasks.find((t) => t.id === taskId)
+      p.tasks.find((t) => p.id === t.projectId)
     );
+    console.log(foundProject);
 
     const taskIndex = foundProject.tasks.findIndex((t) => t.id === taskId);
     foundProject.tasks.splice(taskIndex, 1);
+    // console.log(foundProject.tasks);
   } else {
     const taskIndex = project.tasks.findIndex((t) => t.id === taskId);
     project.tasks.splice(taskIndex, 1);
