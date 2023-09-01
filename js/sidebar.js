@@ -1,4 +1,3 @@
-const hideMenuBtn = document.querySelector("#hide-menu-button");
 const sidebar = document.querySelector("aside");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 
@@ -7,7 +6,7 @@ sidebarOverlay.addEventListener("click", () => {
   sidebar.classList.remove("visible");
 });
 
-hideMenuBtn.addEventListener("click", () => {
+const toggleSidebar = function() {
   if (sidebar.classList.contains("visible")) {
     sidebar.classList.remove("visible");
     sidebarOverlay.classList.remove("visible");
@@ -15,4 +14,6 @@ hideMenuBtn.addEventListener("click", () => {
     sidebar.classList.add("visible");
     sidebarOverlay.classList.add("visible");
   }
-});
+};
+
+export { toggleSidebar };

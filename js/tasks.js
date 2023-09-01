@@ -1,25 +1,19 @@
-import { renderEditorContent } from "./editorMarkup.js";
-import {
-  addTaskInnerBtn,
-  taskNameInput,
-  taskDescriptionInput,
-  dueDateInput,
-  selectedPriority,
-  closeModal,
-} from "./modal.js";
+// import { renderEditorContent } from "./editor.js";
 import { addTaskToProject, getProjects } from "./projects.js";
 import { formatDate } from "./utils.js";
 
 const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
 
-addTaskInnerBtn.addEventListener("click", createTask);
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" && !addTaskInnerBtn.disabled) {
-    createTask();
-    closeModal();
-  }
-});
+// addTaskInnerBtn.addEventListener("click", createTask);
+
+// TODO: not needed???
+// document.addEventListener("keydown", (event) => {
+//   if (event.key === "Enter" && !addTaskInnerBtn.disabled) {
+//     createTask();
+//     closeModal();
+//   }
+// });
 
 function createTask() {
   const activeProject = document

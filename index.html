@@ -23,7 +23,7 @@
   <body>
     <header class="header">
       <div class="header-left">
-        <button class="header-button" id="hide-menu-button">
+        <button class="header-button" data-action="toggleSidebar">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -33,7 +33,7 @@
           </svg>
           <span class="tooltip">Hide menu</span>
         </button>
-        <button class="header-button">
+        <button class="header-button" data-action="goHome">
           <svg
             width="24"
             height="24"
@@ -49,7 +49,7 @@
         </button>
       </div>
       <div class="header-right">
-        <button class="header-button" data-action="addTask">
+        <button class="header-button" data-action="openTaskModal">
           <svg width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" fill-rule="evenodd" transform="translate(4 3)">
               <mask id="jd4FBg" fill="#fff">
@@ -64,7 +64,7 @@
           </svg>
           <span class="tooltip">Add task</span>
         </button>
-        <button class="header-button">
+        <button class="header-button" data-action="clearAllTasks">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <g fill="none" fill-rule="evenodd">
               <path d="M0 0h24v24H0z"></path>
@@ -94,17 +94,17 @@
     <div class="modal-overlay">
       <!-- Add Project Modal -->
       <div class="add-project-modal">
-        <form id="add-project-form" action="">
+        <form action="">
           <div class="add-project-modal-header">
             <h4>Add project</h4>
           </div>
           <div class="add-project-modal-main">
             <div>
-              <label for="project_name">Name</label>
+              <label for="projectName">Name</label>
               <input
                 type="text"
-                id="project_name"
-                name="project_name"
+                id="projectName"
+                name="projectName"
                 maxlength="120"
                 autocomplete="off"
                 required=""
@@ -112,10 +112,10 @@
             </div>
           </div>
           <div class="cancel-submit-container">
-            <button type="button" class="btn btn-light cancel-button">
+            <button type="button" class="btn btn-light" data-action="cancel">
               Cancel
             </button>
-            <button type="button" class="btn btn-danger" disabled>Add</button>
+            <button type="button" class="btn btn-danger" data-action="create" disabled>Add</button>
           </div>
         </form>
       </div>
@@ -124,31 +124,31 @@
         <form id="add-task-form" action="">
           <div class="form-inputs">
             <input
-              id="task-name-input"
+              id="taskName"
               type="text"
-              name="task_name"
+              name="taskName"
               placeholder="Task name"
               autocomplete="off"
               maxlength="500"
               autofocus=""
             />
             <input
-              id="task-description-input"
+              id="taskDescription"
               type="text"
-              name="description"
+              name="taskDescription"
               placeholder="Description"
               autocomplete="off"
             />
           </div>
           <div class="extra-fields">
             <div>
-              <input class="due-date-picker" type="date" id="todayDate" />
-              <select class="project-selector" name="project_name">
+              <input id="taskDate" type="date" />
+              <select id="taskProject" name="taskProject">
                 <option value="inbox">Inbox</option>
               </select>
             </div>
 
-            <div class="dropdown">
+            <div id="taskPriority" class="dropdown">
               <button class="btn" type="button" data-bs-toggle="dropdown">
                 <svg
                   width="24"
@@ -229,10 +229,10 @@
             </div>
           </div>
           <div class="cancel-submit-container">
-            <button type="button" class="btn btn-light cancel-button">
+            <button type="button" class="btn btn-light" data-action="cancel">
               Cancel
             </button>
-            <button type="button" class="btn btn-danger" disabled>
+            <button type="button" class="btn btn-danger" data-action="create" disabled>
               Add task
             </button>
           </div>

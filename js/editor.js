@@ -1,7 +1,6 @@
-import { renderTasks } from "./tasks.js";
+// import { renderTasks } from "./tasks.js";
 import { getProjects } from "./projects.js";
 
-const projectsList = document.querySelector("#projects-list");
 const editor = document.querySelector(".editor");
 const stateContainer = editor.querySelector(".state-container");
 const editorHeading = editor.querySelector("h2");

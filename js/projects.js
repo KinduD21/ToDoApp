@@ -1,6 +1,5 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { renderEditorContent } from "./editorMarkup.js";
-import { addProjectInnerBtn, addProjectInput, closeModal } from "./modal.js";
+// import { renderEditorContent } from "./editor.js";
 
 const projects = [{ title: "Inbox", selected: true, id: 1, tasks: [] }];
 
@@ -28,13 +27,13 @@ sidebarProjectsCollapseBtn.addEventListener("click", () => {
 
 inboxProjectsBtn.addEventListener("click", selectProject);
 
-renderEditorContent(projects[0]); // Inbox
+// renderEditorContent(projects[0]); // Inbox
 
 let selectedBtn = projectsList.querySelector(".selected");
 
 // const addProjectForm = document.querySelector("#add-project-form");
 
-addProjectInnerBtn.addEventListener("click", createProject);
+// addProjectInnerBtn.addEventListener("click", createProject);
 
 // addProjectForm.addEventListener("keydown", (event) => {
 //   if (event.key === "Enter" && !addProjectInnerBtn.disabled) {
@@ -83,7 +82,7 @@ function createProject() {
 
   selectedBtn = projectsList.querySelector(".selected");
 
-  renderEditorContent(project);
+  // renderEditorContent(project);
 
   if (project.id !== 1) {
     selectedBtn.addEventListener("click", selectProject);
@@ -110,7 +109,7 @@ function selectProject(event) {
   newSelectedProject.selected = true;
   event.currentTarget.classList.add("selected");
 
-  renderEditorContent(newSelectedProject);
+  // renderEditorContent(newSelectedProject);
 }
 
 function deleteProject(event) {
@@ -133,7 +132,7 @@ function deleteProject(event) {
 
   inboxProjectsBtn.classList.add("selected");
   projects[0].selected = true;
-  renderEditorContent(projects[0]);
+  // renderEditorContent(projects[0]);
 }
 
 export function getProjects() {
