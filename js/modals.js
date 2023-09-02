@@ -1,15 +1,17 @@
 import { openTaskModal, closeTaskModal } from "./modals/taskModal.js";
 import { openProjectModal, closeProjectModal } from "./modals/projectModal.js";
 
-
 // Modal windows' overlay
 const modalOverlay = document.querySelector(".modal-overlay");
 
-const modalTaskCancel = modalOverlay.querySelector(".add-task-modal [data-action='cancel']");
-const modalProjectCancel = modalOverlay.querySelector(".add-project-modal [data-action='cancel']");
+const modalTaskCancel = modalOverlay.querySelector(
+  ".add-task-modal [data-action='cancel']"
+);
+const modalProjectCancel = modalOverlay.querySelector(
+  ".add-project-modal [data-action='cancel']"
+);
 modalTaskCancel.addEventListener("click", closeTaskModal);
 modalProjectCancel.addEventListener("click", closeProjectModal);
-
 
 modalOverlay.addEventListener("click", (event) => {
   if (event.target.classList.contains("modal-overlay")) {
@@ -18,18 +20,17 @@ modalOverlay.addEventListener("click", (event) => {
   }
 });
 
-function openTModal() {
+// Auxiliary functions, which allow to hand over "modalOverlay" to primary functions
+
+function assistOpenTaskModal() {
   openTaskModal(modalOverlay);
 }
 
-function openPModal() {
+function assistOpenProjectModal() {
   openProjectModal(modalOverlay);
 }
 
-export {
-  openTModal,
-  openPModal,
-}
+export { assistOpenTaskModal, assistOpenProjectModal };
 
 // TODO: where?
 // document.addEventListener("keydown", (event) => {
@@ -37,7 +38,6 @@ export {
 //     closeTaskModal() && closeProjectModal();
 //   }
 // });
-
 
 // taskNameInput.addEventListener("keyup", () => {
 //   if (taskNameInput.value.trim() === "") {

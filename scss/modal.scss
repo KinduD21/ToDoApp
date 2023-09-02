@@ -66,7 +66,7 @@
   }
 }
 
-.cancel-button {
+[data-action="cancel"] {
   border: 1px solid $add-project-modal-gray;
   transition: border 0.3s ease;
   &:hover {
@@ -89,18 +89,18 @@
     word-break: break-word;
     overflow: hidden;
   }
-  & > input[name="task_name"] {
+  & > input[name="taskName"] {
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
   }
-  & > input[name="description"] {
+  & > input[name="taskDescription"] {
     font-size: 13px;
   }
 }
 
-.due-date-picker,
-.project-selector {
+#taskDate,
+#taskProject {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;

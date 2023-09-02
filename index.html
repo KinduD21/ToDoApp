@@ -94,7 +94,7 @@
     <div class="modal-overlay">
       <!-- Add Project Modal -->
       <div class="add-project-modal">
-        <form action="">
+        <form id="add-project-form" action="">
           <div class="add-project-modal-header">
             <h4>Add project</h4>
           </div>
@@ -284,7 +284,7 @@
             <span>Projects</span>
           </button>
 
-          <button class="add-project-button">
+          <button class="add-project-button" data-action="openProjectModal">
             <svg class="sidebar-add-project-icon" width="13" height="13">
               <path
                 d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
@@ -308,7 +308,7 @@
 
         <ul class="task-list"></ul>
 
-        <button class="editor-add-task-button" data-action="addTask">
+        <button class="editor-add-task-button" data-action="openTaskModal">
           <svg class="editor-add-task-plus-icon">
             <path
               d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"

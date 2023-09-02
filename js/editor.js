@@ -1,9 +1,14 @@
 // import { renderTasks } from "./tasks.js";
+import { assistOpenTaskModal } from "./modals.js";
 import { getProjects } from "./projects.js";
 
 const editor = document.querySelector(".editor");
 const stateContainer = editor.querySelector(".state-container");
 const editorHeading = editor.querySelector("h2");
+const openTaskModalBtn = editor.querySelector("[data-action='openTaskModal']");
+
+// Open task modal
+openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
 const emptyStateEditor = `
   <img src="/inbox-empty-state.png" alt="Task list is empty" />
