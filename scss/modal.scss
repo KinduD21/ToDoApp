@@ -16,6 +16,43 @@
   }
 }
 
+// BEM-like naming convention
+// .modal {
+//   // base for all modal
+    // .modal__btn {
+
+    // }
+    // .modal.modal--task
+
+//   & .butons-container {
+//     & [data-action="cancel"] {
+
+//     }
+//   }
+//   &.add-task-modal {
+//     // specific styles for "Add task" modal window
+//     & [data-action="cancel"] {
+
+//     }
+//   }
+
+//   &.add-project-modal {
+//     // specific styles for "Add project" modal window
+//     & [data-action="cancel"] {
+
+//     }
+//   }
+// }
+// .modal {
+//   // base styles
+// }
+
+// .modal.add-task-modal {
+//   // specific styles for "Add task" modal window
+// }
+
+
+
 .add-task-modal,
 .add-project-modal {
   position: absolute;
