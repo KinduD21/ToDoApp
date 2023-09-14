@@ -1,13 +1,12 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { renderProjects, unselectProject, addListenersForProject, addListenerForInbox } from "./sidebar.js";
+import { renderProjects, selectProject, unselectProject } from "./sidebar.js";
+import { useProjects } from "./store.js";
 // import { renderEditorContent } from "./editor.js";
 
-const projects = [{ title: "Inbox", selected: true, id: 1, tasks: [] }];
+const { getAllProjects, addProject, setSelectedProjectId } = useProjects();
 
 function createProject(projectTitle) {
-  if(projects[1] && projects.length === 2) {
-    addListenerForInbox(projects.find, projects[0])
-  }
+  const projects = getAllProjects();
   // inboxProjectsBtn.classList.remove("selected");
   // const projectsListLiElementsBtns =
   //   projectsList.querySelectorAll(".sidebar-button");
@@ -25,15 +24,15 @@ function createProject(projectTitle) {
     tasks: [],
   };
 
-  projects.push(project);
+  addProject(project);
 
   const projectItemHTML = createProjectItemHTML(project);
-  const selectedProjectObj = getSelectedProject();
 
-  unselectProject(selectedProjectObj);
+  setSelectedProjectId(project.id);
+  unselectProject();
   renderProjects(projectItemHTML);
+  selectProject();
 
-  addListenersForProject(selectedProjectObj, project);
   // projectsList.insertAdjacentHTML("beforeend", projectItemHtml);
 
   // selectedBtn = projectsList.querySelector(".selected");
@@ -46,10 +45,6 @@ function createProject(projectTitle) {
   //   selectedBtn
   //     .querySelector("svg.delete-project-icon")
   //     .addEventListener("click", deleteProject);
-}
-
-function getSelectedProject() {
-  return projects.find((project) => project.selected);
 }
 
 function createProjectItemHTML(projectObj) {
@@ -152,15 +147,11 @@ function createProjectItemHTML(projectObj) {
 //   // renderEditorContent(projects[0]);
 // }
 
-export function getProjects() {
-  return projects;
-}
-
 export function addTaskToProject(task) {
-  const project = projects.find((p) => p.id == task.projectId);
-  if (project) {
-    project.tasks.push(task);
-  }
+  // const project = projects.find((p) => p.id == task.projectId);
+  // if (project) {
+  //   project.tasks.push(task);
+  // }
 }
 
-export { createProject };
+export { getAllProjects, createProject };

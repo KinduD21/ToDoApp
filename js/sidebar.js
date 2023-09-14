@@ -1,37 +1,37 @@
+import { setDate } from "date-fns";
 import { assistOpenProjectModal } from "./modals.js";
+import { useProjects } from "./store.js";
 
-const sidebar = document.querySelector("aside");
+const { getSelectedProjectId, setSelectedProjectId, removeProject } = useProjects();
+
+const sidebar = document.querySelector("#sidebar");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 const openProjectModalBtn = document.querySelector(
   "[data-action='openProjectModal']"
 );
 
 const sidebarProjectsList = sidebar.querySelector("#projectsList");
-const sidebarProjectsBtns = sidebar.querySelectorAll("li[data-id] > button");
 
-// Listen to clicks on Inbox button
-function addListenerForInbox(oldProjectObj, newProjectObj) {
-  sidebarProjectsBtns[0].addEventListener("click", (event) => {
-    sidebarProjectsBtns.forEach((btn) => btn.classList.remove("selected"));
-    // currentTarget = button
-    // target = <button class="sidebar-button selected"><span>Inbox</span></button>
-    event.target.classList.add("selected");
-  });
-}
+sidebar.addEventListener("click", (event) => {
+  const button = event.target.closest("button.sidebar-button");
 
-// event bubling
-// event delegation
+  if (!button) return;
 
-function addListenersForProject(oldProjectObj, newProjectObj) {
-  const newProjectBtn = sidebar.querySelector(
-    `li[data-id="${newProjectObj.id}"] > button`
-  );
+  const projectId = Number(button.parentElement.dataset.id);
 
-  newProjectBtn.addEventListener("click", () => {
-    unselectProject(oldProjectObj);
-    selectProject(newProjectObj);
-  });
-}
+  const svgEl = event.target.closest('svg');
+  if (svgEl?.classList.contains("delete-project-icon")) {
+    removeProject(projectId);
+    removeProjectHTML(projectId);
+
+    setSelectedProjectId();
+    selectProject();
+  } else {
+    setSelectedProjectId(projectId);
+    unselectProject();
+    selectProject();
+  }
+});
 
 sidebarOverlay.addEventListener("click", () => {
   sidebarOverlay.classList.remove("visible");
@@ -47,26 +47,23 @@ function renderProjects(projectTemplate) {
   sidebarProjectsList.insertAdjacentHTML("beforeend", projectTemplate);
 }
 
-function unselectProject(oldProjectObj) {
+function unselectProject() {
   sidebar.querySelector(".selected").classList.remove("selected");
-  oldProjectObj.selected = false;
 }
 
-function selectProject(newProjectObj) {
+function selectProject() {
+  const selectedProjectId = getSelectedProjectId();
   sidebar
-    .querySelector(`li[data-id="${newProjectObj.id}"] > button`)
+    .querySelector(`li[data-id="${selectedProjectId}"] > button`)
     .classList.add("selected");
-  newProjectObj.selected = true;
+}
+
+function removeProjectHTML(projectId) {
+  const projectLiElement = sidebar.querySelector(`li[data-id="${projectId}"]`);
+  projectLiElement.remove();
 }
 
 // Open project modal
 openProjectModalBtn.addEventListener("click", assistOpenProjectModal);
 
-export {
-  toggleSidebar,
-  renderProjects,
-  unselectProject,
-  selectProject,
-  addListenersForProject,
-  addListenerForInbox
-};
+export { toggleSidebar, renderProjects, unselectProject, selectProject };

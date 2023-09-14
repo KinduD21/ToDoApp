@@ -1,6 +1,8 @@
 // import { renderTasks } from "./tasks.js";
 import { assistOpenTaskModal } from "./modals.js";
-import { getProjects } from "./projects.js";
+import { useProjects } from "./store.js";
+
+const { getAllProjects } = useProjects();
 
 const editor = document.querySelector(".editor");
 const stateContainer = editor.querySelector(".state-container");
@@ -30,7 +32,7 @@ const emptyProjectStateEditor = `
 function projectEmptyState(projectId) {
   renderTasks([]);
 
-  const projects = getProjects();
+  const projects = getAllProjects();
   const selectedProject = projects.find((p) => p.id === Number(projectId));
 
   editorHeading.innerHTML = selectedProject.title;
@@ -41,7 +43,7 @@ function projectEmptyState(projectId) {
 function projectHasTasksState(projectId) {
   renderTasks([]);
 
-  const projects = getProjects();
+  const projects = getAllProjects();
   const selectedProject = projects.find((p) => p.id === Number(projectId));
 
   if (projectId === 1) {
@@ -78,7 +80,7 @@ function renderEditorContent(obj) {
     if (project.id === 1) {
       const hasTasks = Boolean(project.tasks.length);
       const otherProjectsHasTasks = Boolean(
-        getProjects().find((p) => p.tasks.length)
+        getAllProjects().find((p) => p.tasks.length)
       );
       const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 

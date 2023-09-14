@@ -1,6 +1,9 @@
 // import { renderEditorContent } from "./editor.js";
-import { addTaskToProject, getProjects } from "./projects.js";
+import { addTaskToProject } from "./projects.js";
+import { useProjects } from "./store.js";
 import { formatDate } from "./utils.js";
+
+const { getAllProjects } = useProjects();
 
 const addTaskBtn = document.querySelectorAll("[data-action='addTask']");
 const taskList = document.querySelector(".task-list");
@@ -30,7 +33,7 @@ function createTask() {
     projectId: Number(activeProject.dataset.id),
   };
 
-  const projects = getProjects();
+  const projects = getAllProjects();
   const project = projects.find((p) => task.projectId === p.id);
 
   addTaskToProject(task);
@@ -103,7 +106,7 @@ taskList.addEventListener("click", function (event) {
 });
 
 function taskDelete(taskId) {
-  const projects = getProjects();
+  const projects = getAllProjects();
   const project = projects.find((p) => p.selected === true);
 
   if (project.id === 1) {
