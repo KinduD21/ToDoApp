@@ -29,9 +29,9 @@ sidebar.addEventListener("click", (event) => {
     removeProject(projectId);
     removeProjectHTML(projectId);
 
-    let projects = getAllProjects();
+    // let projects = getAllProjects();
 
-    setSelectedProjectId(projects[projects.length - 1].id);
+    // setSelectedProjectId(projects[projects.length - 1].id);
     selectProject();
   } else {
     setSelectedProjectId(projectId);

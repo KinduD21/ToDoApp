@@ -22,38 +22,20 @@ export function useProjects() {
     projects.find((p) => p.id === projectId).selected = true;
 
     console.log(projects, "select project");
-
-    // projects.find(
-    //   (project) => project.id === selectedProjectId
-    // ).selected = false;
-
-    // selectedProjectId = projectId;
-
-    // projects.find(
-    //   (project) => project.id === selectedProjectId
-    // ).selected = true;
   };
 
   const removeProject = (projectId) => {
-    let selectedProject = projects.find((p) => p.id === projectId);
+    let removedProject = projects.find((p) => p.id === projectId);
 
     projects = projects.filter((project) => project.id !== projectId);
-    
-    if ((selectedProject.selected = false)) {
-      setSelectedProjectId(projects[projects.length - 1].id);
+
+    if ((removedProject.selected === false)) {
+      if (projects[0].selected === true) {
+        setSelectedProjectId(projects[0].id);
+      }
     } else {
-      setSelectedProjectId(projects[0].id);
+      setSelectedProjectId(projects[projects.length - 1].id);
     }
-
-    // const projectIndex = projects.findIndex((project) => project.id === projectId);
-    // console.log( projectIndex );
-
-    // projects.splice(projectIndex, 1);
-    // console.log( !projects.some(p => p.selected) );
-
-    // if (!projects.some((p) => p.selected)) {
-    //   selectedProjectId = projects.length;
-    // }
   };
 
   return {
