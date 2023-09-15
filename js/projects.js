@@ -20,14 +20,14 @@ function createProject(projectTitle) {
   const project = {
     title: projectTitle,
     selected: true,
-    id: projects.length + 1,
+    id: Math.floor(Math.random() * 100),
     tasks: [],
   };
 
   addProject(project);
-
+  
   const projectItemHTML = createProjectItemHTML(project);
-
+  
   setSelectedProjectId(project.id);
   unselectProject();
   renderProjects(projectItemHTML);

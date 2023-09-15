@@ -2,7 +2,12 @@ import { setDate } from "date-fns";
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects } from "./store.js";
 
-const { getSelectedProjectId, setSelectedProjectId, removeProject } = useProjects();
+const {
+  getAllProjects,
+  getSelectedProjectId,
+  setSelectedProjectId,
+  removeProject,
+} = useProjects();
 
 const sidebar = document.querySelector("#sidebar");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
@@ -19,12 +24,14 @@ sidebar.addEventListener("click", (event) => {
 
   const projectId = Number(button.parentElement.dataset.id);
 
-  const svgEl = event.target.closest('svg');
+  const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
     removeProject(projectId);
     removeProjectHTML(projectId);
 
-    setSelectedProjectId();
+    let projects = getAllProjects();
+
+    setSelectedProjectId(projects[projects.length - 1].id);
     selectProject();
   } else {
     setSelectedProjectId(projectId);
