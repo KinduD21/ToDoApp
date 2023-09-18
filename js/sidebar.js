@@ -26,12 +26,20 @@ sidebar.addEventListener("click", (event) => {
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
+    const projects = getAllProjects();
+    const removedProject = projects.find((p) => p.id === projectId);
+
+    if (!removedProject.selected) {
+      if (projects[0].selected) {
+        setSelectedProjectId(projects[0].id);
+      }
+    } else {
+      setSelectedProjectId(projects[projects.length - 1].id);
+    }
+
     removeProject(projectId);
     removeProjectHTML(projectId);
 
-    // let projects = getAllProjects();
-
-    // setSelectedProjectId(projects[projects.length - 1].id);
     selectProject();
   } else {
     setSelectedProjectId(projectId);
