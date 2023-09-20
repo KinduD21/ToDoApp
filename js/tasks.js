@@ -1,7 +1,6 @@
 // // import { renderEditorContent } from "./editor.js";
 // import { addTaskToProject } from "./projects.js";
 // import { useProjects } from "./store.js";
-// import { formatDate } from "./utils.js";
 
 // const { getAllProjects } = useProjects();
 
@@ -130,17 +129,18 @@
 
 import { renderTasks } from "./editor.js";
 import { useProjects, useTasks } from "./store.js";
+import { formatDate } from "./utils.js";
 
-const { getSelectedProjectId } = useProhects()
+const { getSelectedProjectId } = useProjects();
 const { getAllTasks, addTask } = useTasks();
 
-function createTask(taskTitle) {
+function createTask(taskObj) {
   const task = {
-    title: taskTitle,
-    id: Math.floor(Math.random() * 100),
+    title: "task",
+    description: "task",
+    date: new Date(),
     priority: "",
-    description: "",
-    date: "",
+    id: Math.floor(Math.random() * 100),
     projectId: getSelectedProjectId(),
   };
 
@@ -171,9 +171,9 @@ function createTaskItemHTML(taskObj) {
           <div class="task-button-top-right"></div>
         </div>
         <div class="task-button-description" style=${
-          task.description === "" ? "display:none" : ""
+          taskObj.description === "" ? "display:none" : ""
         }>
-          <p class="task-button-description-text">${task.description}</p>
+          <p class="task-button-description-text">${taskObj.description}</p>
         </div>
         <div class="task-button-due-date">
           <div class="task-button-due-date-left">
@@ -185,7 +185,7 @@ function createTaskItemHTML(taskObj) {
                 d="M9.5 1h-7A1.5 1.5 0 001 2.5v7A1.5 1.5 0 002.5 11h7A1.5 1.5 0 0011 9.5v-7A1.5 1.5 0 009.5 1zM2 2.5a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7zM8.75 8a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM3.5 4a.5.5 0 000 1h5a.5.5 0 000-1h-5z"
               ></path>
             </svg>
-            <p class="task-button-due-date-text">${formatDate(task.date)}</p>
+            <p class="task-button-due-date-text">${formatDate(taskObj.date)}</p>
           </div>
         </div>
     </li>

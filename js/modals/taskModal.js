@@ -1,8 +1,11 @@
+import { createTask } from "../tasks";
+
 const taskModal = document.querySelector(".add-task-modal");
+const taskModalForm = taskModal.querySelector("#add-task-form");
 const taskModalCreate = taskModal.querySelector("[data-action='create']");
-const taskModalNameInput = taskModal.querySelector("#taskName");
-const taskModalDescriptionInput = taskModal.querySelector("#taskDescription");
-const taskModalDateInput = taskModal.querySelector("#taskDate");
+const taskModalInputName = taskModal.querySelector("#taskName");
+const taskModalInputDescription = taskModal.querySelector("#taskDescription");
+const taskModalInputDate = taskModal.querySelector("#taskDate");
 const taskModalProject = taskModal.querySelector("#taskProject");
 const taskModalPriority = taskModal.querySelector("#taskPriority");
 
@@ -17,13 +20,29 @@ const formattedCurrentDate = `${currentDate.getFullYear()}-${(
 // const dropdownItems = addTaskModal.querySelectorAll(".dropdown-item");
 // const selectedPriority = addTaskModal.querySelector(".dropdown svg");
 
+taskModalInputName.addEventListener("input", () => {
+  if (taskModalInputName.value) {
+    taskModalCreate.disabled = false;
+  } else {
+    taskModalCreate.disabled = true;
+  }
+});
+
+taskModalForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  console.log(event.target.elements.taskDate);
+
+  createTask(event.target.elements);
+  closeTaskModal(event);
+});
+
 function openTaskModal(modalOverlay) {
   modalOverlay.classList.add("visible");
   taskModal.classList.add("visible");
-};
+}
 
 function closeTaskModal(event) {
-  const modalOverlay = event.target.closest('.modal-overlay');
+  const modalOverlay = event.target.closest(".modal-overlay");
 
   modalOverlay.classList.remove("visible");
   taskModal.classList.remove("visible");
@@ -31,13 +50,14 @@ function closeTaskModal(event) {
 }
 
 function clearTaskModal() {
-  taskModalNameInput.value = "";
-  taskModalDateInput.valueAsDate = new Date();
-  taskModalDateInput.min = formattedCurrentDate;
+  taskModalInputName.value = "";
+  taskModalInputDescription.value = "";
+  taskModalInputDate.valueAsDate = new Date();
+  taskModalInputDate.min = formattedCurrentDate;
   taskModalCreate.disabled = true;
   // priorityDropdownMenu.classList.remove("show");
   // selectedPriority.dataset.priority = "";
   // selectedPriority.querySelector("path").setAttribute("fill-rule", "evenodd");
-};
+}
 
-export { openTaskModal, closeTaskModal }
+export { openTaskModal, closeTaskModal };

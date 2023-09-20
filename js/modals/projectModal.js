@@ -1,8 +1,8 @@
 import { createProject } from "../projects.js";
 
 const projectModal = document.querySelector(".add-project-modal");
-const projectModalCreate = projectModal.querySelector("[data-action='create']");
 const projectModalForm = projectModal.querySelector("form");
+const projectModalCreate = projectModal.querySelector("[data-action='create']");
 const projectModalInputName = projectModal.querySelector("#projectName");
 
 projectModalInputName.addEventListener("input", () => {
