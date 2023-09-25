@@ -120,12 +120,7 @@
 import { assistOpenTaskModal } from "./modals.js";
 import { useTasks } from "./store.js";
 
-const {
-  getAllTasks,
-  getSelectedTaskId,
-  setSelectedTaskId,
-  removeTask,
-} = useTasks();
+const { removeTask } = useTasks();
 
 const editor = document.querySelector("#editor");
 const openTaskModalBtn = editor.querySelector(
@@ -141,9 +136,22 @@ function renderTasks(taskTemplate) {
   editorTasksList.insertAdjacentHTML("beforeend", taskTemplate);
 }
 
+function clearTasksHTML() {
+  editorTasksList.innerHTML = "";
+}
+
 function removeTaskHTML(taskId) {
   const taskLiElement = editorTasksList.querySelector(`li[data-id="${taskId}"]`);
   taskLiElement.remove();
 }
 
-export { renderTasks };
+editorTasksList.addEventListener('click', (event) => {
+    if (!event.target.classList.contains("task-button-checkbox-button")) return;
+    const taskEl = event.target.closest('li[data-id]');
+    const taskId = Number(taskEl.dataset.id);
+
+    removeTask(taskId);
+    removeTaskHTML(taskId);
+  });
+
+export { renderTasks, clearTasksHTML };

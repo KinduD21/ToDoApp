@@ -1,6 +1,7 @@
-import { setDate } from "date-fns";
 import { assistOpenProjectModal } from "./modals.js";
-import { useProjects } from "./store.js";
+import { useProjects, useTasks } from "./store.js";
+import { createTaskItemHTML } from "./tasks.js";
+import { renderTasks, clearTasksHTML } from "./editor.js";
 
 const {
   getAllProjects,
@@ -8,6 +9,8 @@ const {
   setSelectedProjectId,
   removeProject,
 } = useProjects();
+
+const { getAllTasks } = useTasks();
 
 const sidebar = document.querySelector("#sidebar");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
@@ -71,6 +74,18 @@ function selectProject() {
   sidebar
     .querySelector(`li[data-id="${selectedProjectId}"] > button`)
     .classList.add("selected");
+
+    let filteredTasks = [];
+    if(selectedProjectId === 1) {
+      filteredTasks = getAllTasks();
+    } else {
+      filteredTasks = getAllTasks().filter(t => t.projectId === selectedProjectId);
+    }
+    clearTasksHTML()
+    filteredTasks.forEach(t => {
+      const taskTemplate = createTaskItemHTML(t);
+      renderTasks(taskTemplate);
+    })
 }
 
 function removeProjectHTML(projectId) {

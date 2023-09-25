@@ -132,19 +132,20 @@ import { useProjects, useTasks } from "./store.js";
 import { formatDate } from "./utils.js";
 
 const { getSelectedProjectId } = useProjects();
-const { getAllTasks, addTask } = useTasks();
+const { addTask } = useTasks();
 
 function createTask(taskModalForm) {
+  const { taskName, taskDescription, taskDate, taskPriority } = taskModalForm;
   const task = {
-    title: taskModalForm.taskName.value,
-    description: taskModalForm.taskDescription.value,
-    date: new Date(taskModalForm.taskDate.value.trim()),
-    priority: Number(taskModalForm.taskPriority.children[0].dataset.priority),
+    title: taskName.value,
+    description: taskDescription.value,
+    date: new Date(taskDate.value.trim()),
+    priority: Number(taskPriority.dataset.priority),
     id: Math.floor(Math.random() * 100),
     projectId: getSelectedProjectId(),
   };
-  
-  if (taskModalForm.taskDate.value.trim() === "") {
+
+  if (taskDate.value.trim() === "") {
     task.date = "";
   }
 
@@ -152,17 +153,17 @@ function createTask(taskModalForm) {
 
   const taskItemHTML = createTaskItemHTML(task);
 
-  renderTasks(taskItemHTML);
+  // TODO: projectId to be removed
+  renderTasks(taskItemHTML, task.projectId);
 }
 
-function createTaskItemHTML(taskObj) {
+export function createTaskItemHTML(taskObj) {
+  const { id, title, description, date, priority } = taskObj;
   return `
-    <li class="task-button" data-id = ${taskObj.id}>
+    <li class="task-button" data-id = ${id}>
       <div class="task-button-top">
         <div class="task-button-top-left">
-          <button class="task-button-checkbox-button" data-priority= ${
-            taskObj.priority
-          }>
+          <button class="task-button-checkbox-button" data-priority= ${priority}>
               <svg class="task-button-checkbox-icon project-icon">
                 <path
                   fill="currentColor"
@@ -170,17 +171,17 @@ function createTaskItemHTML(taskObj) {
                 ></path>
               </svg>
             </button>
-            <p class="task-button-task-name">${taskObj.title}</p>
+            <p class="task-button-task-name">${title}</p>
           </div>
           <div class="task-button-top-right"></div>
         </div>
         <div class="task-button-description" style=${
-          taskObj.description === "" ? "display:none" : ""
+          description === "" ? "display:none" : ""
         }>
-          <p class="task-button-description-text">${taskObj.description}</p>
+          <p class="task-button-description-text">${description}</p>
         </div>
         <div class="task-button-due-date" style=${
-          taskObj.date === "" ? "display:none" : ""
+          date === "" ? "display:none" : ""
         }>
           <div class="task-button-due-date-left">
             <svg viewBox="0 0 12 12" fill="none" class="calendar-icon">
@@ -192,7 +193,7 @@ function createTaskItemHTML(taskObj) {
               ></path>
             </svg>
             <p class="task-button-due-date-text">${
-              taskObj.date === "" ? "" : formatDate(taskObj.date)
+              date === "" ? "" : formatDate(date)
             }</p>
           </div>
         </div>

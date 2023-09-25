@@ -38,6 +38,8 @@ export function useProjects() {
 
 export function useTasks() {
   const getAllTasks = () => {
+    console.log( tasks, 'tasks' );
+
     return tasks.map((task) => task);
   };
 

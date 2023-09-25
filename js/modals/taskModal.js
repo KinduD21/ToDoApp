@@ -8,13 +8,14 @@ const taskModalInputName = taskModal.querySelector("#taskName");
 const taskModalInputDescription = taskModal.querySelector("#taskDescription");
 const taskModalInputDate = taskModal.querySelector("#taskDate");
 taskModalInputDate.min = formattedCurrentDate; // set date input "min" - today's date
+taskModalInputDate.valueAsDate = new Date();
 const taskModalProject = taskModal.querySelector("#taskProject");
 const taskModalPriority = taskModal.querySelector("#taskPriority");
 
 const priorityDropdownMenu = taskModal.querySelector(".dropdown-menu");
 const dropdownItems = taskModal.querySelectorAll(".dropdown-item");
 const selectedPriority = taskModal.querySelector(
-  ".add-task-modal__dropdown svg"
+  ".add-task-modal__dropdown"
 );
 
 taskModalInputName.addEventListener("input", () => {

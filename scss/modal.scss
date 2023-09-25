@@ -204,15 +204,18 @@
   }
 }
 
-[data-priority="1"] path {
+.add-task-modal__dropdown[data-priority="1"] > svg > path,
+.dropdown-item[data-priority="1"] > svg > path {
   fill: $priority-1-color;
 }
 
-[data-priority="2"] path {
+.add-task-modal__dropdown[data-priority="2"] > svg > path,
+.dropdown-item[data-priority="2"] > svg > path {
   fill: $priority-2-color;
 }
 
-[data-priority="3"] path {
+.add-task-modal__dropdown[data-priority="3"] > svg > path,
+.dropdown-item[data-priority="3"] > svg > path {
   fill: $priority-3-color;
 }
 
