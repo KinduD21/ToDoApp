@@ -1,4 +1,5 @@
 import { createTask } from "../tasks";
+import { formattedCurrentDate } from "../utils.js";
 
 const taskModal = document.querySelector(".add-task-modal");
 const taskModalForm = taskModal.querySelector("#add-task-form");
@@ -6,19 +7,15 @@ const taskModalCreate = taskModal.querySelector("[data-action='create']");
 const taskModalInputName = taskModal.querySelector("#taskName");
 const taskModalInputDescription = taskModal.querySelector("#taskDescription");
 const taskModalInputDate = taskModal.querySelector("#taskDate");
+taskModalInputDate.min = formattedCurrentDate; // set date input "min" - today's date
 const taskModalProject = taskModal.querySelector("#taskProject");
 const taskModalPriority = taskModal.querySelector("#taskPriority");
 
-// TODO: extract to helper/util
-const currentDate = new Date();
-const formattedCurrentDate = `${currentDate.getFullYear()}-${(
-  currentDate.getMonth() + 1
-)
-  .toString()
-  .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
-// const priorityDropdownMenu = addTaskModal.querySelector(".dropdown-menu");
-// const dropdownItems = addTaskModal.querySelectorAll(".dropdown-item");
-// const selectedPriority = addTaskModal.querySelector(".dropdown svg");
+const priorityDropdownMenu = taskModal.querySelector(".dropdown-menu");
+const dropdownItems = taskModal.querySelectorAll(".dropdown-item");
+const selectedPriority = taskModal.querySelector(
+  ".add-task-modal__dropdown svg"
+);
 
 taskModalInputName.addEventListener("input", () => {
   if (taskModalInputName.value) {
@@ -30,7 +27,6 @@ taskModalInputName.addEventListener("input", () => {
 
 taskModalForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log(event.target.elements.taskDate);
 
   createTask(event.target.elements);
   closeTaskModal(event);
@@ -55,9 +51,23 @@ function clearTaskModal() {
   taskModalInputDate.valueAsDate = new Date();
   taskModalInputDate.min = formattedCurrentDate;
   taskModalCreate.disabled = true;
-  // priorityDropdownMenu.classList.remove("show");
-  // selectedPriority.dataset.priority = "";
-  // selectedPriority.querySelector("path").setAttribute("fill-rule", "evenodd");
+  priorityDropdownMenu.classList.remove("show");
+  selectedPriority.dataset.priority = "";
+  selectedPriority.querySelector("path").setAttribute("fill-rule", "evenodd");
 }
+
+taskModalPriority.addEventListener("click", openPriorityMenu);
+
+function openPriorityMenu() {
+  priorityDropdownMenu.classList.toggle("show");
+}
+
+dropdownItems.forEach((dropdownItem) => {
+  dropdownItem.addEventListener("click", () => {
+    selectedPriority.dataset.priority = dropdownItem.dataset.priority;
+    selectedPriority.querySelector("path").setAttribute("fill-rule", "odd");
+    priorityDropdownMenu.classList.remove("show");
+  });
+});
 
 export { openTaskModal, closeTaskModal };

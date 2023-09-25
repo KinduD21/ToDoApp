@@ -134,15 +134,19 @@ import { formatDate } from "./utils.js";
 const { getSelectedProjectId } = useProjects();
 const { getAllTasks, addTask } = useTasks();
 
-function createTask(taskObj) {
+function createTask(taskModalForm) {
   const task = {
-    title: "task",
-    description: "task",
-    date: new Date(),
-    priority: "",
+    title: taskModalForm.taskName.value,
+    description: taskModalForm.taskDescription.value,
+    date: new Date(taskModalForm.taskDate.value.trim()),
+    priority: Number(taskModalForm.taskPriority.children[0].dataset.priority),
     id: Math.floor(Math.random() * 100),
     projectId: getSelectedProjectId(),
   };
+  
+  if (taskModalForm.taskDate.value.trim() === "") {
+    task.date = "";
+  }
 
   addTask(task);
 
@@ -175,7 +179,9 @@ function createTaskItemHTML(taskObj) {
         }>
           <p class="task-button-description-text">${taskObj.description}</p>
         </div>
-        <div class="task-button-due-date">
+        <div class="task-button-due-date" style=${
+          taskObj.date === "" ? "display:none" : ""
+        }>
           <div class="task-button-due-date-left">
             <svg viewBox="0 0 12 12" fill="none" class="calendar-icon">
               <path
@@ -185,7 +191,9 @@ function createTaskItemHTML(taskObj) {
                 d="M9.5 1h-7A1.5 1.5 0 001 2.5v7A1.5 1.5 0 002.5 11h7A1.5 1.5 0 0011 9.5v-7A1.5 1.5 0 009.5 1zM2 2.5a.5.5 0 01.5-.5h7a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7zM8.75 8a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM3.5 4a.5.5 0 000 1h5a.5.5 0 000-1h-5z"
               ></path>
             </svg>
-            <p class="task-button-due-date-text">${formatDate(taskObj.date)}</p>
+            <p class="task-button-due-date-text">${
+              taskObj.date === "" ? "" : formatDate(taskObj.date)
+            }</p>
           </div>
         </div>
     </li>
