@@ -1,7 +1,7 @@
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
-import { renderTasks, clearTasksHTML } from "./editor.js";
+import { renderTasks, clearTasksHTML, editor } from "./editor.js";
 
 const {
   getAllProjects,
@@ -12,6 +12,9 @@ const {
 
 const { getAllTasks } = useTasks();
 
+const editorStateContainer = editor.querySelector(".state-container");
+const editorHeading = editor.querySelector("h2");
+
 const sidebar = document.querySelector("#sidebar");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 const openProjectModalBtn = document.querySelector(
@@ -20,10 +23,14 @@ const openProjectModalBtn = document.querySelector(
 
 const sidebarProjectsList = sidebar.querySelector("#projectsList");
 
+editorState(getSelectedProjectId());
+
 sidebar.addEventListener("click", (event) => {
   const button = event.target.closest("button.sidebar-button");
 
   if (!button) return;
+
+  editorHeading.innerHTML = button.querySelector("span").innerHTML;
 
   const projectId = Number(button.parentElement.dataset.id);
 
@@ -36,8 +43,10 @@ sidebar.addEventListener("click", (event) => {
       if (projects[0].selected) {
         setSelectedProjectId(projects[0].id);
       }
+    } else if (removedProject === projects[projects.length - 1]) {
+      setSelectedProjectId(projects[projects.length - 2].id);
     } else {
-      setSelectedProjectId(projects[projects.length - 1].id);
+      setSelectedProjectId(projects[projects.indexOf(removedProject) + 1].id);
     }
 
     removeProject(projectId);
@@ -75,17 +84,28 @@ function selectProject() {
     .querySelector(`li[data-id="${selectedProjectId}"] > button`)
     .classList.add("selected");
 
-    let filteredTasks = [];
-    if(selectedProjectId === 1) {
-      filteredTasks = getAllTasks();
-    } else {
-      filteredTasks = getAllTasks().filter(t => t.projectId === selectedProjectId);
-    }
-    clearTasksHTML()
-    filteredTasks.forEach(t => {
-      const taskTemplate = createTaskItemHTML(t);
-      renderTasks(taskTemplate);
-    })
+  editorHeading.innerHTML = sidebar.querySelector(
+    `li[data-id="${selectedProjectId}"] > button > span`
+  ).innerHTML;
+
+  editorStateContainer.innerHTML = "";
+
+  let filteredTasks = [];
+  if (selectedProjectId === 1) {
+    filteredTasks = getAllTasks();
+  } else {
+    filteredTasks = getAllTasks().filter(
+      (t) => t.projectId === selectedProjectId
+    );
+  }
+  clearTasksHTML();
+  filteredTasks.forEach((t) => {
+    const taskTemplate = createTaskItemHTML(t);
+    renderTasks(taskTemplate);
+  });
+  if (filteredTasks.length === 0) {
+    editorState(selectedProjectId);
+  }
 }
 
 function removeProjectHTML(projectId) {
@@ -93,7 +113,33 @@ function removeProjectHTML(projectId) {
   projectLiElement.remove();
 }
 
+function editorState(projectId) {
+  if (projectId === 1)
+    editorStateContainer.innerHTML = `
+    <img src="/inbox-empty-state.png" alt="Task list is empty" />
+    <h4>All clear</h4>
+    <p>
+    Looks like everything's organized in the right place.
+    </p>
+    `;
+  else
+    editorStateContainer.innerHTML = `
+  <img src="/project-empty-state.png" alt="Task list is empty" />
+  <h4>Keep your tasks organized in projects.</h4>
+  <p>
+  Group your tasks by goal or area of your life.
+  </p>
+  `;
+}
+
 // Open project modal
 openProjectModalBtn.addEventListener("click", assistOpenProjectModal);
 
-export { toggleSidebar, renderProjects, unselectProject, selectProject };
+export {
+  toggleSidebar,
+  renderProjects,
+  unselectProject,
+  selectProject,
+  editorStateContainer,
+  editorState,
+};

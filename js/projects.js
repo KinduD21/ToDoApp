@@ -1,5 +1,9 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { renderProjects, selectProject, unselectProject } from "./sidebar.js";
+import {
+  renderProjects,
+  selectProject,
+  unselectProject,
+} from "./sidebar.js";
 import { useProjects } from "./store.js";
 
 const { getAllProjects, addProject, setSelectedProjectId } = useProjects();
@@ -9,7 +13,6 @@ function createProject(projectTitle) {
     title: projectTitle,
     selected: true,
     id: Math.floor(Math.random() * 100),
-    tasks: [],
   };
 
   addProject(project);
