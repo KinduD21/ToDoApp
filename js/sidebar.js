@@ -22,8 +22,23 @@ const openProjectModalBtn = document.querySelector(
 );
 
 const sidebarProjectsList = sidebar.querySelector("#projectsList");
+const sidebarProjectsListContainer = document.querySelector(
+  ".projects-list-container"
+);
+const sidebarProjectsCollapseBtn = document.querySelector(
+  ".sidebar-projects-button"
+);
+const sidebarArrowIcon = document.querySelector(
+  "svg.sidebar-projects-arrow-icon"
+);
 
 editorState(getSelectedProjectId());
+
+sidebarProjectsCollapseBtn.addEventListener("click", () => {
+  sidebarProjectsCollapseBtn.classList.toggle("expanded");
+  sidebarProjectsListContainer.classList.toggle("expanded");
+  sidebarArrowIcon.classList.toggle("expanded");
+});
 
 sidebar.addEventListener("click", (event) => {
   const button = event.target.closest("button.sidebar-button");

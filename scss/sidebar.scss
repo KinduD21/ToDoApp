@@ -49,7 +49,7 @@ aside {
       color: #246fe0;
     }
   }
-  &:hover .add-project-button {
+  & .add-project-button {
     visibility: visible;
   }
 }
@@ -73,6 +73,7 @@ aside {
 }
 
 .sidebar-projects-button {
+  color: $black;
   display: flex;
   height: 36px;
   align-items: center;
@@ -87,6 +88,7 @@ aside {
 }
 
 .add-project-button {
+  color: $black;
   width: 36px;
   height: 32px;
   border-radius: 5px;
@@ -133,14 +135,15 @@ aside {
       &.selected {
         background-color: $sidebar-button-hover-bg;
       }
-      &:hover .delete-project-icon {
-        visibility: visible;
-      }
+    }
+    & .delete-project-icon {
+      visibility: visible;
     }
   }
 }
 
 .project-name {
+  color: $black;
   width: 100%;
   text-align: left;
   white-space: nowrap;
