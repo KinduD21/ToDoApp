@@ -16,7 +16,12 @@ modalProjectCancel.addEventListener("click", closeProjectModal);
 modalOverlay.addEventListener("click", (event) => {
   if (event.target.classList.contains("modal-overlay")) {
     event.target.classList.remove("visible");
-    event.target.querySelector(".visible").classList.remove("visible");
+
+    if(event.target.querySelector(".visible").classList.contains("add-task-modal")) {
+      closeTaskModal(event);
+    } else {
+      closeProjectModal(event);
+    }
   }
 });
 

@@ -1,9 +1,7 @@
-import { renderTasks } from "./editor.js";
-import { useProjects, useTasks } from "./store.js";
+import { clearEditorStateContainer, renderTasks } from "./editor.js";
+import { useTasks } from "./store.js";
 import { formatDate } from "./utils.js";
-import { editorStateContainer } from "./sidebar.js";
 
-const { getSelectedProjectId } = useProjects();
 const { addTask } = useTasks();
 
 function createTask(taskModalForm) {
@@ -14,7 +12,7 @@ function createTask(taskModalForm) {
     date: new Date(taskDate.value.trim()),
     priority: Number(taskPriority.dataset.priority),
     id: Math.floor(Math.random() * 100),
-    projectId: getSelectedProjectId(),
+    projectId: Number(taskModalForm.taskProject.value),
   };
 
   if (taskDate.value.trim() === "") {
@@ -23,7 +21,7 @@ function createTask(taskModalForm) {
 
   addTask(task);
 
-  editorStateContainer.innerHTML = "";
+  clearEditorStateContainer();
 
   const taskItemHTML = createTaskItemHTML(task);
 
@@ -31,8 +29,9 @@ function createTask(taskModalForm) {
 }
 
 export function createTaskItemHTML(taskObj) {
-  const { id, title, description, date, priority } = taskObj;
-  return `
+  const { id, title, description, date, priority, projectId } = taskObj;
+  return {
+    template: `
     <li class="task-button" data-id = ${id}>
       <div class="task-button-top">
         <div class="task-button-top-left">
@@ -71,7 +70,9 @@ export function createTaskItemHTML(taskObj) {
           </div>
         </div>
     </li>
-  `;
+  `,
+    projectId,
+  };
 }
 
 export { createTask };

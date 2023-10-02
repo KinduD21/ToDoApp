@@ -1,7 +1,7 @@
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
-import { renderTasks, clearTasksHTML, editor } from "./editor.js";
+import { renderTasks, clearTasksHTML, clearEditorStateContainer, editorState, } from "./editor.js";
 
 const {
   getAllProjects,
@@ -10,10 +10,7 @@ const {
   removeProject,
 } = useProjects();
 
-const { getAllTasks } = useTasks();
-
-const editorStateContainer = editor.querySelector(".state-container");
-const editorHeading = editor.querySelector("h2");
+const { getAllTasks, getProjectTasks } = useTasks();
 
 const sidebar = document.querySelector("#sidebar");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
@@ -45,7 +42,7 @@ sidebar.addEventListener("click", (event) => {
 
   if (!button) return;
 
-  editorHeading.innerHTML = button.querySelector("span").innerHTML;
+  editorState();
 
   const projectId = Number(button.parentElement.dataset.id);
 
@@ -99,52 +96,25 @@ function selectProject() {
     .querySelector(`li[data-id="${selectedProjectId}"] > button`)
     .classList.add("selected");
 
-  editorHeading.innerHTML = sidebar.querySelector(
-    `li[data-id="${selectedProjectId}"] > button > span`
-  ).innerHTML;
-
-  editorStateContainer.innerHTML = "";
+  clearEditorStateContainer()
+  editorState(selectedProjectId);
 
   let filteredTasks = [];
   if (selectedProjectId === 1) {
     filteredTasks = getAllTasks();
   } else {
-    filteredTasks = getAllTasks().filter(
-      (t) => t.projectId === selectedProjectId
-    );
+    filteredTasks = getProjectTasks(selectedProjectId)
   }
   clearTasksHTML();
   filteredTasks.forEach((t) => {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
-  if (filteredTasks.length === 0) {
-    editorState(selectedProjectId);
-  }
 }
 
 function removeProjectHTML(projectId) {
   const projectLiElement = sidebar.querySelector(`li[data-id="${projectId}"]`);
   projectLiElement.remove();
-}
-
-function editorState(projectId) {
-  if (projectId === 1)
-    editorStateContainer.innerHTML = `
-    <img src="/inbox-empty-state.png" alt="Task list is empty" />
-    <h4>All clear</h4>
-    <p>
-    Looks like everything's organized in the right place.
-    </p>
-    `;
-  else
-    editorStateContainer.innerHTML = `
-  <img src="/project-empty-state.png" alt="Task list is empty" />
-  <h4>Keep your tasks organized in projects.</h4>
-  <p>
-  Group your tasks by goal or area of your life.
-  </p>
-  `;
 }
 
 // Open project modal
@@ -155,6 +125,5 @@ export {
   renderProjects,
   unselectProject,
   selectProject,
-  editorStateContainer,
   editorState,
 };

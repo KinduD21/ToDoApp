@@ -1,6 +1,8 @@
-import { createTask } from "../tasks";
+import { useProjects } from "../store.js";
+import { createTask } from "../tasks.js";
 import { formattedCurrentDate } from "../utils.js";
 
+const { getAllProjects } = useProjects();
 const taskModal = document.querySelector(".add-task-modal");
 const taskModalForm = taskModal.querySelector("#add-task-form");
 const taskModalCreate = taskModal.querySelector("[data-action='create']");
@@ -34,12 +36,18 @@ taskModalForm.addEventListener("submit", (event) => {
 });
 
 function openTaskModal(modalOverlay) {
+  const projects = getAllProjects();
+  projects.forEach((project) => {
+    const option = new Option(project.title, project.id, project.selected, project.selected);
+    taskModalProject.add(option)
+  });
   modalOverlay.classList.add("visible");
   taskModal.classList.add("visible");
 }
 
 function closeTaskModal(event) {
   const modalOverlay = event.target.closest(".modal-overlay");
+  Array.from(taskModalProject.options).forEach(option => option.remove());
 
   modalOverlay.classList.remove("visible");
   taskModal.classList.remove("visible");

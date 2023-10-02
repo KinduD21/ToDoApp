@@ -1,12 +1,13 @@
 import { assistOpenTaskModal } from "./modals.js";
 import { useTasks, useProjects } from "./store.js";
-import { editorState } from "./sidebar.js";
 
-const { removeTask } = useTasks();
+const { removeTask, getProjectTasks } = useTasks();
 
-const { getSelectedProjectId } = useProjects();
+const { getSelectedProjectId, getSelectedProject } = useProjects();
 
 const editor = document.querySelector("#editor");
+const editorStateContainer = editor.querySelector(".state-container");
+const editorHeading = editor.querySelector("h2");
 const openTaskModalBtn = editor.querySelector("[data-action='openTaskModal']");
 const editorTasksList = editor.querySelector("#taskList");
 
@@ -14,7 +15,10 @@ const editorTasksList = editor.querySelector("#taskList");
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
 function renderTasks(taskTemplate) {
-  editorTasksList.insertAdjacentHTML("beforeend", taskTemplate);
+
+  if(taskTemplate.projectId === getSelectedProjectId()) {
+    editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
+  }
 }
 
 function clearTasksHTML() {
@@ -41,4 +45,32 @@ editorTasksList.addEventListener("click", (event) => {
   }
 });
 
-export { renderTasks, clearTasksHTML, editor };
+function clearEditorStateContainer() {
+  editorStateContainer.innerHTML = "";
+}
+
+function editorState(projectId) {
+  const selectedProject = getSelectedProject();
+  editorHeading.innerHTML = selectedProject.title;
+
+  if(getProjectTasks(projectId).length) return;
+  if (projectId === 1) {
+    editorStateContainer.innerHTML = `
+      <img src="/inbox-empty-state.png" alt="Task list is empty" />
+      <h4>All clear</h4>
+      <p>
+      Looks like everything's organized in the right place.
+      </p>
+    `;
+  } else {
+    editorStateContainer.innerHTML = `
+      <img src="/project-empty-state.png" alt="Task list is empty" />
+      <h4>Keep your tasks organized in projects.</h4>
+      <p>
+      Group your tasks by goal or area of your life.
+      </p>
+    `;
+  }
+}
+
+export { renderTasks, clearTasksHTML, clearEditorStateContainer, editorState };

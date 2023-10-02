@@ -13,6 +13,10 @@ export function useProjects() {
     projects.push(project);
   };
 
+  const getSelectedProject = () => {
+    return projects.find((project) => project.selected);
+  }
+
   const getSelectedProjectId = () => {
     return selectedProjectId;
   };
@@ -32,6 +36,7 @@ export function useProjects() {
     addProject,
     removeProject,
     getSelectedProjectId,
+    getSelectedProject,
     setSelectedProjectId,
   };
 }
@@ -45,9 +50,13 @@ export function useTasks() {
     tasks.push(task);
   };
 
+  const getProjectTasks = (projectId) => {
+    return tasks.filter((task) => task.projectId === projectId);
+  };
+
   const removeTask = (taskId) => {
     tasks = tasks.filter((task) => task.id !== taskId);
   };
 
-  return { getAllTasks, addTask, removeTask };
+  return { getAllTasks, addTask, removeTask, getProjectTasks };
 }
