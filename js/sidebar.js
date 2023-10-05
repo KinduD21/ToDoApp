@@ -1,7 +1,12 @@
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
-import { renderTasks, clearTasksHTML, clearEditorStateContainer, editorState, } from "./editor.js";
+import {
+  renderTasks,
+  clearTasksHTML,
+  clearEditorStateContainer,
+  editorState,
+} from "./editor.js";
 
 const {
   getAllProjects,
@@ -96,14 +101,14 @@ function selectProject() {
     .querySelector(`li[data-id="${selectedProjectId}"] > button`)
     .classList.add("selected");
 
-  clearEditorStateContainer()
+  clearEditorStateContainer();
   editorState(selectedProjectId);
 
   let filteredTasks = [];
   if (selectedProjectId === 1) {
     filteredTasks = getAllTasks();
   } else {
-    filteredTasks = getProjectTasks(selectedProjectId)
+    filteredTasks = getProjectTasks(selectedProjectId);
   }
   clearTasksHTML();
   filteredTasks.forEach((t) => {

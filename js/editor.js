@@ -1,7 +1,7 @@
 import { assistOpenTaskModal } from "./modals.js";
 import { useTasks, useProjects } from "./store.js";
 
-const { removeTask, getProjectTasks } = useTasks();
+const { removeTask, getProjectTasks, getAllTasks } = useTasks();
 
 const { getSelectedProjectId, getSelectedProject } = useProjects();
 
@@ -15,8 +15,10 @@ const editorTasksList = editor.querySelector("#taskList");
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
 function renderTasks(taskTemplate) {
-
-  if(taskTemplate.projectId === getSelectedProjectId()) {
+  if (
+    taskTemplate.projectId === getSelectedProjectId() ||
+    getSelectedProjectId() === 1
+  ) {
     editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
   }
 }
@@ -53,7 +55,7 @@ function editorState(projectId) {
   const selectedProject = getSelectedProject();
   editorHeading.innerHTML = selectedProject.title;
 
-  if(getProjectTasks(projectId).length) return;
+  if (getProjectTasks(projectId).length || getAllTasks().length) return;
   if (projectId === 1) {
     editorStateContainer.innerHTML = `
       <img src="/inbox-empty-state.png" alt="Task list is empty" />
