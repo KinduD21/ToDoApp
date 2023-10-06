@@ -102,7 +102,6 @@ function selectProject() {
     .classList.add("selected");
 
   clearEditorStateContainer();
-  editorState(selectedProjectId);
 
   let filteredTasks = [];
   if (selectedProjectId === 1) {
@@ -115,6 +114,7 @@ function selectProject() {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
+  editorState(selectedProjectId);
 }
 
 function removeProjectHTML(projectId) {

@@ -55,23 +55,23 @@ function editorState(projectId) {
   const selectedProject = getSelectedProject();
   editorHeading.innerHTML = selectedProject.title;
 
-  if (getProjectTasks(projectId).length || getAllTasks().length) return;
-  if (projectId === 1) {
+  if (getProjectTasks(projectId).length) return;
+  if (projectId === 1 && !getAllTasks().length) {
     editorStateContainer.innerHTML = `
-      <img src="/inbox-empty-state.png" alt="Task list is empty" />
-      <h4>All clear</h4>
-      <p>
-      Looks like everything's organized in the right place.
-      </p>
-    `;
-  } else {
+        <img src="/inbox-empty-state.png" alt="Task list is empty" />
+        <h4>All clear</h4>
+        <p>
+        Looks like everything's organized in the right place.
+        </p>
+      `;
+  } else if (projectId !== 1) {
     editorStateContainer.innerHTML = `
-      <img src="/project-empty-state.png" alt="Task list is empty" />
-      <h4>Keep your tasks organized in projects.</h4>
-      <p>
-      Group your tasks by goal or area of your life.
-      </p>
-    `;
+        <img src="/project-empty-state.png" alt="Task list is empty" />
+        <h4>Keep your tasks organized in projects.</h4>
+        <p>
+        Group your tasks by goal or area of your life.
+        </p>
+      `;
   }
 }
 
