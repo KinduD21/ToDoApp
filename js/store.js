@@ -1,4 +1,4 @@
-let projects = [{ title: "Inbox", selected: true, id: 1}];
+let projects = [{ title: "Inbox", selected: true, id: 1 }];
 let tasks = [];
 
 let selectedProjectId = 1;
@@ -15,7 +15,7 @@ export function useProjects() {
 
   const getSelectedProject = () => {
     return projects.find((project) => project.selected);
-  }
+  };
 
   const getSelectedProjectId = () => {
     return selectedProjectId;
@@ -28,6 +28,7 @@ export function useProjects() {
   };
 
   const removeProject = (projectId) => {
+    tasks = tasks.filter((task) => task.projectId !== projectId);
     projects = projects.filter((project) => project.id !== projectId);
   };
 

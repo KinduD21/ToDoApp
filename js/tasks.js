@@ -1,8 +1,10 @@
 import { clearEditorStateContainer, renderTasks } from "./editor.js";
 import { useTasks } from "./store.js";
+import { useProjects } from "./store.js";
 import { formatDate } from "./utils.js";
 
 const { addTask } = useTasks();
+const { getSelectedProjectId } = useProjects();
 
 function createTask(taskModalForm) {
   const { taskName, taskDescription, taskDate, taskPriority } = taskModalForm;
@@ -21,7 +23,9 @@ function createTask(taskModalForm) {
 
   addTask(task);
 
-  clearEditorStateContainer();
+  if (getSelectedProjectId() === Number(taskModalForm.taskProject.value)) {
+    clearEditorStateContainer();
+  }
 
   const taskItemHTML = createTaskItemHTML(task);
 
