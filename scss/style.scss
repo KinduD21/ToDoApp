@@ -150,9 +150,21 @@ main {
     top: 0;
   }
 
-  .add-project-button:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-    transition-delay: 0.35s;
+  .add-project-button {
+    background: unset;
+    &:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0.35s;
+    }
+  }
+
+  .projects-list {
+    & > li .delete-project-icon {
+      visibility: hidden;
+    }
+    & li:hover .delete-project-icon {
+      visibility: visible;
+    }
   }
 }
