@@ -1,11 +1,19 @@
+import { supabase } from "./supabase";
+
 let projects = [{ title: "Inbox", selected: true, id: 1 }];
 let tasks = [];
 
 let selectedProjectId = 1;
 
 export function useProjects() {
-  const getAllProjects = () => {
-    return projects.map((project) => project);
+  const getAllProjects = async () => {
+    const { data, error } = await supabase.from('projects').select();
+
+    if(error) {
+      console.error(error.message);
+    }
+
+    return data;
   };
 
   const addProject = (project) => {

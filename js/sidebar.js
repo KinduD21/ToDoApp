@@ -1,6 +1,7 @@
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
+import { createProjectItemHTML } from "./projects.js";
 import {
   renderTasks,
   clearTasksHTML,
@@ -35,6 +36,13 @@ const sidebarArrowIcon = document.querySelector(
 );
 
 editorState(getSelectedProjectId());
+
+const projectsData = await getAllProjects();
+projectsData.forEach((projectObj) => {
+  const projectItemHTML = createProjectItemHTML(projectObj);
+
+  renderProjects(projectItemHTML);
+});
 
 sidebarProjectsCollapseBtn.addEventListener("click", () => {
   sidebarProjectsCollapseBtn.classList.toggle("expanded");
