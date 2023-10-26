@@ -1,9 +1,5 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import {
-  renderProjects,
-  selectProject,
-  unselectProject,
-} from "./sidebar.js";
+import { renderProjects, selectProject, unselectProject } from "./sidebar.js";
 import { useProjects } from "./store.js";
 
 const { addProject, setSelectedProjectId } = useProjects();
@@ -42,4 +38,4 @@ function createProjectItemHTML(projectObj) {
   `;
 }
 
-export {  createProjectItemHTML, createProject };
+export { createProjectItemHTML, createProject };
