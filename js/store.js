@@ -34,39 +34,74 @@ export function useProjects() {
     return data;
   };
 
-  const addProject = (project) => {
-    projects.forEach((p) => (p.selected = false));
-    projects.push(project);
+  const addProject = async (project) => {
+    // Insert the project into the Supabase "projects" table
+    const { data, error } = await supabase
+      .from("projects")
+      .insert({ title: project.title, selected: true });
 
-    const insertProjectToSupabase = async (project) => {
-      // Insert the project into the Supabase "projects" table
-      const { data, error } = await supabase
-        .from("projects")
-        .insert({ title: project.title, selected: true });
-
-      if (error) {
-        console.error("Error inserting project:", error);
-        // Handle the insert error as needed.
-      } else {
-        console.log("Project inserted successfully:", data);
-      }
-    };
-
-    insertProjectToSupabase(project);
+    if (error) {
+      console.error("Error inserting project:", error);
+      // Handle the insert error as needed.
+    } else {
+      console.log("Project inserted successfully:", data);
+    }
   };
 
-  const getSelectedProject = () => {
-    return projects.find((project) => project.selected);
+  // getSelectedProject()
+  //   .then((selectedProject) => {
+  //     console.log(selectedProject);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //   });
+
+  const getSelectedProject = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .select()
+        .eq("selected", true);
+
+      if (error) {
+        throw error;
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Error getting the selected project:", error);
+      return null; // You can choose how to handle the error, returning null in this case.
+    }
   };
 
   const getSelectedProjectId = () => {
     return selectedProjectId;
   };
 
-  const setSelectedProjectId = (projectId) => {
-    projects.forEach((p) => (p.selected = false));
-    selectedProjectId = projectId;
-    projects.find((p) => p.id === projectId).selected = true;
+  const setSelectedProjectId = async (projectId) => {
+    try {
+      // Set "selected" to false for all projects in the database.
+      await supabase
+        .from("projects")
+        .update({ selected: false })
+        .eq("selected", true);
+
+      // Set "selected" to true for the newly selected project.
+      const { data, error } = await supabase
+        .from("projects")
+        .update({ selected: true })
+        .eq("id", projectId);
+
+      if (error) {
+        throw error;
+      }
+
+      projects[0].selected = false;
+      // Update the selectedProjectId.
+      selectedProjectId = projectId;
+    } catch (error) {
+      console.error("Error setting the selected project:", error);
+    }
   };
 
   const removeProject = (projectId) => {
