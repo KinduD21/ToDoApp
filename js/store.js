@@ -1,4 +1,6 @@
+import { cs } from "date-fns/locale";
 import { supabase } from "./supabase";
+
 
 let projects = [{ title: "Inbox", selected: true, id: 1 }];
 
@@ -38,13 +40,15 @@ export function useProjects() {
     // Insert the project into the Supabase "projects" table
     const { data, error } = await supabase
       .from("projects")
-      .insert({ title: project.title, selected: true });
+      .insert({ title: project.title, selected: true })
+      .select();
 
     if (error) {
       console.error("Error inserting project:", error);
       // Handle the insert error as needed.
     } else {
       console.log("Project inserted successfully:", data);
+      return data[0];
     }
   };
 
@@ -58,16 +62,16 @@ export function useProjects() {
 
   const getSelectedProject = async () => {
     try {
-      const { data, error } = await supabase
-        .from("projects")
-        .select()
-        .eq("selected", true);
+      // const { data, error } = await supabase
+      //   .from("projects")
+      //   .select()
+      //   .eq("selected", true);
 
-      if (error) {
-        throw error;
-      }
+      // if (error) {
+      //   throw error;
+      // }
 
-      return data;
+      // return data;
     } catch (error) {
       console.error("Error getting the selected project:", error);
       return null; // You can choose how to handle the error, returning null in this case.
@@ -79,15 +83,17 @@ export function useProjects() {
   };
 
   const setSelectedProjectId = async (projectId) => {
+    console.log( selectedProjectId, projectId );
+
     try {
       // Set "selected" to false for all projects in the database.
       await supabase
         .from("projects")
         .update({ selected: false })
-        .eq("selected", true);
+        .eq("id", selectedProjectId);
 
-      // Set "selected" to true for the newly selected project.
-      const { data, error } = await supabase
+      // // Set "selected" to true for the newly selected project.
+      const { error } = await supabase
         .from("projects")
         .update({ selected: true })
         .eq("id", projectId);

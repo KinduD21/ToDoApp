@@ -4,21 +4,17 @@ import { useProjects } from "./store.js";
 
 const { addProject, setSelectedProjectId } = useProjects();
 
-function createProject(projectTitle) {
-  const project = {
+async function createProject(projectTitle) {
+  const project = await addProject({
     title: projectTitle,
     selected: true,
-    id: Math.floor(Math.random() * 100),
-  };
-
-  addProject(project);
+  });
 
   const projectItemHTML = createProjectItemHTML(project);
 
   setSelectedProjectId(project.id);
   unselectProject();
   renderProjects(projectItemHTML);
-  selectProject();
 }
 
 function createProjectItemHTML(projectObj) {

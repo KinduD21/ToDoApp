@@ -100,29 +100,29 @@ function renderProjects(projectTemplate) {
 }
 
 function unselectProject() {
-  sidebar.querySelector(".selected").classList.remove("selected");
+  sidebar.querySelectorAll(".selected").forEach(el => el.classList.remove("selected"));
 }
 
 function selectProject() {
-  const selectedProjectId = getSelectedProjectId();
-  sidebar
-    .querySelector(`li[data-id="${selectedProjectId}"] > button`)
-    .classList.add("selected");
+  // const selectedProjectId = getSelectedProjectId();
+  // sidebar
+  //   .querySelector(`li[data-id="${selectedProjectId}"] > button`)
+  //   .classList.add("selected");
 
-  clearEditorStateContainer();
+  // clearEditorStateContainer();
 
-  let filteredTasks = [];
-  if (selectedProjectId === 1) {
-    filteredTasks = getAllTasks();
-  } else {
-    filteredTasks = getProjectTasks(selectedProjectId);
-  }
-  clearTasksHTML();
-  filteredTasks.forEach((t) => {
-    const taskTemplate = createTaskItemHTML(t);
-    renderTasks(taskTemplate);
-  });
-  editorState(selectedProjectId);
+  // let filteredTasks = [];
+  // if (selectedProjectId === 1) {
+  //   filteredTasks = getAllTasks();
+  // } else {
+  //   filteredTasks = getProjectTasks(selectedProjectId);
+  // }
+  // clearTasksHTML();
+  // filteredTasks.forEach((t) => {
+  //   const taskTemplate = createTaskItemHTML(t);
+  //   renderTasks(taskTemplate);
+  // });
+  // editorState(selectedProjectId);
 }
 
 function removeProjectHTML(projectId) {
