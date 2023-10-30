@@ -100,11 +100,14 @@ function renderProjects(projectTemplate) {
 }
 
 function unselectProject() {
-  sidebar.querySelectorAll(".selected").forEach(el => el.classList.remove("selected"));
+  sidebar
+    .querySelectorAll(".selected")
+    .forEach((el) => el.classList.remove("selected"));
 }
 
 function selectProject() {
-  // const selectedProjectId = getSelectedProjectId();
+  const selectedProjectId = getSelectedProjectId();
+  console.log(selectedProjectId);
   // sidebar
   //   .querySelector(`li[data-id="${selectedProjectId}"] > button`)
   //   .classList.add("selected");

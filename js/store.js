@@ -47,7 +47,6 @@ export function useProjects() {
       console.error("Error inserting project:", error);
       // Handle the insert error as needed.
     } else {
-      console.log("Project inserted successfully:", data);
       return data[0];
     }
   };
@@ -83,16 +82,14 @@ export function useProjects() {
   };
 
   const setSelectedProjectId = async (projectId) => {
-    console.log( selectedProjectId, projectId );
-
     try {
-      // Set "selected" to false for all projects in the database.
+      // Set "selected" to false for the previously selected project in the database.
       await supabase
         .from("projects")
         .update({ selected: false })
         .eq("id", selectedProjectId);
 
-      // // Set "selected" to true for the newly selected project.
+      // Set "selected" to true for the newly selected project.
       const { error } = await supabase
         .from("projects")
         .update({ selected: true })
@@ -103,6 +100,7 @@ export function useProjects() {
       }
 
       projects[0].selected = false;
+
       // Update the selectedProjectId.
       selectedProjectId = projectId;
     } catch (error) {
