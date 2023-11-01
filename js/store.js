@@ -1,7 +1,6 @@
 import { cs } from "date-fns/locale";
 import { supabase } from "./supabase";
 
-
 let projects = [{ title: "Inbox", selected: true, id: 1 }];
 
 // const isInboxIncluded = async () => {
@@ -22,8 +21,6 @@ let projects = [{ title: "Inbox", selected: true, id: 1 }];
 // isInboxIncluded();
 
 let tasks = [];
-
-let selectedProjectId = 1;
 
 export function useProjects() {
   const getAllProjects = async () => {
@@ -65,11 +62,9 @@ export function useProjects() {
       //   .from("projects")
       //   .select()
       //   .eq("selected", true);
-
       // if (error) {
       //   throw error;
       // }
-
       // return data;
     } catch (error) {
       console.error("Error getting the selected project:", error);
@@ -77,8 +72,13 @@ export function useProjects() {
     }
   };
 
-  const getSelectedProjectId = () => {
-    return selectedProjectId;
+  const getSelectedProjectId = async () => {
+    const { data } = await supabase
+      .from("projects")
+      .select()
+      .eq("selected", true);
+    console.log(data[0].id);
+    return data[0].id;
   };
 
   const setSelectedProjectId = async (projectId) => {
@@ -87,7 +87,7 @@ export function useProjects() {
       await supabase
         .from("projects")
         .update({ selected: false })
-        .eq("id", selectedProjectId);
+        .eq("selected", true);
 
       // Set "selected" to true for the newly selected project.
       const { error } = await supabase
@@ -102,7 +102,8 @@ export function useProjects() {
       projects[0].selected = false;
 
       // Update the selectedProjectId.
-      selectedProjectId = projectId;
+      // selectedProjectId = projectId;
+      // console.log(selectedProjectId);
     } catch (error) {
       console.error("Error setting the selected project:", error);
     }
@@ -131,8 +132,8 @@ export function useProjects() {
     getAllProjects,
     addProject,
     removeProject,
-    getSelectedProjectId,
     getSelectedProject,
+    getSelectedProjectId,
     setSelectedProjectId,
   };
 }
