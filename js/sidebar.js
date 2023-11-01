@@ -50,7 +50,7 @@ sidebarProjectsCollapseBtn.addEventListener("click", () => {
   sidebarArrowIcon.classList.toggle("expanded");
 });
 
-sidebar.addEventListener("click", (event) => {
+sidebar.addEventListener("click", async (event) => {
   const button = event.target.closest("button.sidebar-button");
 
   if (!button) return;
@@ -79,7 +79,7 @@ sidebar.addEventListener("click", (event) => {
 
     selectProject();
   } else {
-    setSelectedProjectId(projectId);
+    await setSelectedProjectId(projectId);
     unselectProject();
     selectProject();
   }
@@ -107,7 +107,7 @@ function unselectProject() {
 
 async function selectProject() {
   sidebar
-    .querySelector(`li[data-id="${getSelectedProjectId()}"] > button`)
+    .querySelector(`li[data-id="${await getSelectedProjectId()}"] > button`)
     .classList.add("selected");
 
   // clearEditorStateContainer();
