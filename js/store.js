@@ -1,7 +1,7 @@
 import { cs } from "date-fns/locale";
 import { supabase } from "./supabase";
 
-let projects = [{ title: "Inbox", selected: true, id: 1 }];
+export let projects = [{ title: "Inbox", selected: true, id: 1 }];
 
 // const isInboxIncluded = async () => {
 //   const { data, error } = await supabase
@@ -77,17 +77,22 @@ export function useProjects() {
       .from("projects")
       .select()
       .eq("selected", true);
-    console.log(data[0].id);
-    return data[0].id;
+    if (data.length === 0) {
+      return 1;
+    } else {
+      return data[0].id;
+    }
   };
 
   const setSelectedProjectId = async (projectId) => {
     try {
       // Set "selected" to false for the previously selected project in the database.
+      let selectedProjectId = await getSelectedProjectId();
+
       await supabase
         .from("projects")
         .update({ selected: false })
-        .eq("selected", true);
+        .eq("id", selectedProjectId);
 
       // Set "selected" to true for the newly selected project.
       const { error } = await supabase
@@ -100,32 +105,23 @@ export function useProjects() {
       }
 
       projects[0].selected = false;
-
-      // Update the selectedProjectId.
-      // selectedProjectId = projectId;
-      // console.log(selectedProjectId);
     } catch (error) {
       console.error("Error setting the selected project:", error);
     }
   };
 
-  const removeProject = (projectId) => {
-    tasks = tasks.filter((task) => task.projectId !== projectId);
-    projects = projects.filter((project) => project.id !== projectId);
-    const removeProjectFromSupabase = async (projectId) => {
-      const { error } = await supabase
-        .from("projects")
-        .delete()
-        .eq("id", projectId);
+  const removeProject = async (projectId) => {
+    // tasks = tasks.filter((task) => task.projectId !== projectId);
 
-      if (error) {
-        console.error("Error removing project:", error);
-        // Handle the insert error as needed.
-      } else {
-        console.log("Project removed successfully:", data);
-      }
-    };
-    removeProjectFromSupabase(projectId);
+    const { error } = await supabase
+      .from("projects")
+      .delete()
+      .eq("id", projectId);
+
+    if (error) {
+      console.error("Error removing project:", error);
+      // Handle the insert error as needed.
+    }
   };
 
   return {

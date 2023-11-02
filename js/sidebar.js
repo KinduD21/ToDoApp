@@ -1,5 +1,5 @@
 import { assistOpenProjectModal } from "./modals.js";
-import { useProjects, useTasks } from "./store.js";
+import { useProjects, useTasks, projects } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
 import { createProjectItemHTML } from "./projects.js";
 import {
@@ -38,9 +38,9 @@ const sidebarArrowIcon = document.querySelector(
 // editorState(getSelectedProjectId());
 
 const projectsData = await getAllProjects();
+
 projectsData.forEach((projectObj) => {
   const projectItemHTML = createProjectItemHTML(projectObj);
-
   renderProjects(projectItemHTML);
 });
 
@@ -61,23 +61,30 @@ sidebar.addEventListener("click", async (event) => {
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
-    const projects = getAllProjects();
-    const removedProject = projects.find((p) => p.id === projectId);
+    
+    const supabaseProjects = await getAllProjects();
 
-    if (!removedProject.selected) {
-      if (projects[0].selected) {
-        setSelectedProjectId(projects[0].id);
-      }
-    } else if (removedProject === projects[projects.length - 1]) {
-      setSelectedProjectId(projects[projects.length - 2].id);
+    const removedProject = supabaseProjects.find((p) => p.id === projectId);
+
+    if (removedProject == supabaseProjects[0]) {
+      projects[0].selected = true;
     } else {
-      setSelectedProjectId(projects[projects.indexOf(removedProject) + 1].id);
+      await setSelectedProjectId(supabaseProjects[0].id);
     }
 
-    removeProject(projectId);
+    await removeProject(projectId);
     removeProjectHTML(projectId);
 
     selectProject();
+    // if (!removedProject.selected) {
+    //   if (projects[0].selected) {
+    //     setSelectedProjectId(projects[0].id);
+    //   }
+    // } else if (removedProject === projects[projects.length - 1]) {
+    //   setSelectedProjectId(projects[projects.length - 2].id);
+    // } else {
+    //   setSelectedProjectId(projects[projects.indexOf(removedProject) + 1].id);
+    // }
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();
@@ -106,8 +113,9 @@ function unselectProject() {
 }
 
 async function selectProject() {
+  const id = await getSelectedProjectId();
   sidebar
-    .querySelector(`li[data-id="${await getSelectedProjectId()}"] > button`)
+    .querySelector(`li[data-id="${id}"] > button`)
     .classList.add("selected");
 
   // clearEditorStateContainer();
