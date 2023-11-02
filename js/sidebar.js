@@ -11,6 +11,7 @@ import {
 
 const {
   getAllProjects,
+  getSelectedProject,
   getSelectedProjectId,
   setSelectedProjectId,
   removeProject,
@@ -61,30 +62,30 @@ sidebar.addEventListener("click", async (event) => {
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
-    
     const supabaseProjects = await getAllProjects();
-
+    // const selectedProject = await getSelectedProject();
     const removedProject = supabaseProjects.find((p) => p.id === projectId);
 
-    if (removedProject == supabaseProjects[0]) {
-      projects[0].selected = true;
+    if (!removedProject.selected) {
+      if (projects[0].selected) {
+        projects[0].selected = true;
+      }
+    } else if (
+      removedProject === supabaseProjects[supabaseProjects.length - 1]
+    ) {
+      await setSelectedProjectId(
+        supabaseProjects[supabaseProjects.length - 2].id
+      );
     } else {
-      await setSelectedProjectId(supabaseProjects[0].id);
+      await setSelectedProjectId(
+        supabaseProjects[supabaseProjects.indexOf(removedProject) + 1].id
+      );
     }
 
     await removeProject(projectId);
     removeProjectHTML(projectId);
 
     selectProject();
-    // if (!removedProject.selected) {
-    //   if (projects[0].selected) {
-    //     setSelectedProjectId(projects[0].id);
-    //   }
-    // } else if (removedProject === projects[projects.length - 1]) {
-    //   setSelectedProjectId(projects[projects.length - 2].id);
-    // } else {
-    //   setSelectedProjectId(projects[projects.indexOf(removedProject) + 1].id);
-    // }
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();

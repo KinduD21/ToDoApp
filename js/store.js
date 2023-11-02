@@ -34,7 +34,6 @@ export function useProjects() {
   };
 
   const addProject = async (project) => {
-    // Insert the project into the Supabase "projects" table
     const { data, error } = await supabase
       .from("projects")
       .insert({ title: project.title, selected: true })
@@ -42,34 +41,20 @@ export function useProjects() {
 
     if (error) {
       console.error("Error inserting project:", error);
-      // Handle the insert error as needed.
     } else {
       return data[0];
     }
   };
 
-  // getSelectedProject()
-  //   .then((selectedProject) => {
-  //     console.log(selectedProject);
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error:", error);
-  //   });
-
   const getSelectedProject = async () => {
-    try {
-      // const { data, error } = await supabase
-      //   .from("projects")
-      //   .select()
-      //   .eq("selected", true);
-      // if (error) {
-      //   throw error;
-      // }
-      // return data;
-    } catch (error) {
-      console.error("Error getting the selected project:", error);
-      return null; // You can choose how to handle the error, returning null in this case.
+    const { data, error } = await supabase
+      .from("projects")
+      .select()
+      .eq("selected", true);
+    if (error) {
+      throw error;
     }
+    return data[0];
   };
 
   const getSelectedProjectId = async () => {
@@ -120,7 +105,6 @@ export function useProjects() {
 
     if (error) {
       console.error("Error removing project:", error);
-      // Handle the insert error as needed.
     }
   };
 
