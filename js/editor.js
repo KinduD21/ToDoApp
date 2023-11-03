@@ -51,9 +51,9 @@ function clearEditorStateContainer() {
   editorStateContainer.innerHTML = "";
 }
 
-function editorState(projectId) {
-  const selectedProject = getSelectedProject();
-  editorHeading.innerHTML = selectedProject.title;
+async function editorState(projectId) {
+  const selectedProject = await getSelectedProject();
+  editorHeading.innerHTML = selectedProject.title || "Inbox";
 
   if (getProjectTasks(projectId).length) return;
   if (projectId === 1 && !getAllTasks().length) {

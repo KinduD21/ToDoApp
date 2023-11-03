@@ -3,23 +3,6 @@ import { supabase } from "./supabase";
 
 export let projects = [{ title: "Inbox", selected: true, id: 1 }];
 
-// const isInboxIncluded = async () => {
-//   const { data, error } = await supabase
-//     .from("projects")
-//     .select()
-//     .eq("title", "Inbox");
-
-//   if (error) {
-//     console.error("An error occurred:", error);
-//   } else if (data && data.length === 0) {
-//     const { data: insertedData, error: insertError } = await supabase
-//       .from("projects")
-//       .insert([{ title: "Inbox", selected: true }]);
-//   }
-// };
-
-// isInboxIncluded();
-
 let tasks = [];
 
 export function useProjects() {
@@ -47,14 +30,15 @@ export function useProjects() {
   };
 
   const getSelectedProject = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("projects")
       .select()
       .eq("selected", true);
-    if (error) {
-      throw error;
+    if (data.length === 0) {
+      return 1;
+    } else {
+      return data[0];
     }
-    return data[0];
   };
 
   const getSelectedProjectId = async () => {

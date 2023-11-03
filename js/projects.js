@@ -1,5 +1,5 @@
 import { deleteIconSvg } from "./deleteIconSvg.js";
-import { renderProjects, selectProject, unselectProject } from "./sidebar.js";
+import { editorState, renderProjects, selectProject, unselectProject } from "./sidebar.js";
 import { useProjects } from "./store.js";
 
 const { addProject, setSelectedProjectId } = useProjects();
@@ -12,9 +12,10 @@ async function createProject(projectTitle) {
 
   const projectItemHTML = createProjectItemHTML(project);
 
-  setSelectedProjectId(project.id);
+  await setSelectedProjectId(project.id);
   unselectProject();
   renderProjects(projectItemHTML);
+  editorState(project.id);
 }
 
 function createProjectItemHTML(projectObj) {

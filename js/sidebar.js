@@ -36,7 +36,7 @@ const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
 
-// editorState(getSelectedProjectId());
+editorState(await getSelectedProjectId());
 
 const projectsData = await getAllProjects();
 
@@ -84,11 +84,12 @@ sidebar.addEventListener("click", async (event) => {
 
     await removeProject(projectId);
     removeProjectHTML(projectId);
-
+    editorState(projectId);
     selectProject();
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();
+    editorState(projectId);
     selectProject();
   }
 });
@@ -119,7 +120,7 @@ async function selectProject() {
     .querySelector(`li[data-id="${id}"] > button`)
     .classList.add("selected");
 
-  // clearEditorStateContainer();
+  clearEditorStateContainer();
 
   // let filteredTasks = [];
   // if (selectedProjectId === 1) {
