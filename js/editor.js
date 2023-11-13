@@ -56,7 +56,7 @@ async function editorState(projectId) {
   editorHeading.innerHTML = selectedProject.title || "Inbox";
 
   if (getProjectTasks(projectId).length) return;
-  if (projectId === 1 && !getAllTasks().length) {
+  if ((projectId === 1 || selectedProject === 1) && !getAllTasks().length) {
     editorStateContainer.innerHTML = `
         <img src="/inbox-empty-state.png" alt="Task list is empty" />
         <h4>All clear</h4>

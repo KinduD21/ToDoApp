@@ -56,14 +56,11 @@ sidebar.addEventListener("click", async (event) => {
 
   if (!button) return;
 
-  editorState();
-
   const projectId = Number(button.parentElement.dataset.id);
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
     const supabaseProjects = await getAllProjects();
-    // const selectedProject = await getSelectedProject();
     const removedProject = supabaseProjects.find((p) => p.id === projectId);
 
     if (!removedProject.selected) {
@@ -73,9 +70,13 @@ sidebar.addEventListener("click", async (event) => {
     } else if (
       removedProject === supabaseProjects[supabaseProjects.length - 1]
     ) {
-      await setSelectedProjectId(
-        supabaseProjects[supabaseProjects.length - 2].id
-      );
+      if (supabaseProjects.length === 1) {
+        projects[0].selected = true;
+      } else {
+        await setSelectedProjectId(
+          supabaseProjects[supabaseProjects.length - 2].id
+        );
+      }
     } else {
       await setSelectedProjectId(
         supabaseProjects[supabaseProjects.indexOf(removedProject) + 1].id
