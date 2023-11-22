@@ -57,17 +57,21 @@ function clearEditorStateContainer() {
 }
 
 async function editorState(projectId) {
-
   const allProjects = await getAllProjects();
-  const selectedProject = allProjects.find(project => project.selected);
-  editorHeading.innerHTML = selectedProject.title || "Inbox";
+  let selectedProject = allProjects.find((project) => project.selected);
+  if (!selectedProject) {
+    editorHeading.innerHTML = "Inbox";
+    projectId = 1;
+  } else {
+    editorHeading.innerHTML = selectedProject.title;
+  }
 
   const projectTasks = await getProjectTasks(projectId);
   const allTasks = await getAllTasks();
 
   if (projectTasks && projectTasks.length) return;
 
-  if ((projectId === 1 || selectedProject === 1) && !allTasks.length) {
+  if (projectId === 1 && !allTasks.length) {
     editorStateContainer.innerHTML = `
         <img src="/inbox-empty-state.png" alt="Task list is empty" />
         <h4>All clear</h4>
@@ -75,7 +79,7 @@ async function editorState(projectId) {
         Looks like everything's organized in the right place.
         </p>
       `;
-  } else if (projectId !== 1 && !projectTasks.length) {
+  } else if (projectId !== 1) {
     editorStateContainer.innerHTML = `
         <img src="/project-empty-state.png" alt="Task list is empty" />
         <h4>Keep your tasks organized in projects.</h4>

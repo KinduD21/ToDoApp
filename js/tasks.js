@@ -19,7 +19,8 @@ async function createTask(taskModalForm) {
     priority: Number(taskPriority.dataset.priority),
     projectId: Number(taskModalForm.taskProject.value),
   });
-  if ((await getSelectedProjectId()) === task.projectId) {
+  
+  if (((await getSelectedProjectId()) === task.projectId) || await getSelectedProjectId() === 1) {
     clearEditorStateContainer();
   }
 
