@@ -1,35 +1,29 @@
-import { clearEditorStateContainer, renderTasks } from "./editor.js";
+import { clearEditorStateContainer, renderTasks, editorState } from "./editor.js";
 import { useTasks } from "./store.js";
-import { useProjects } from "./store.js";
 import { formatDate } from "./utils.js";
 
 const { addTask } = useTasks();
-const { getSelectedProjectId } = useProjects();
 
-function createTask(taskModalForm) {
+async function createTask(taskModalForm) {
   const { taskName, taskDescription, taskDate, taskPriority } = taskModalForm;
-  const task = {
+
+  const task = await addTask({
     title: taskName.value,
     description: taskDescription.value,
-    date: new Date(taskDate.value.trim()),
+    date: new Date(taskDate.value),
     priority: Number(taskPriority.dataset.priority),
-    id: Math.floor(Math.random() * 100),
     projectId: Number(taskModalForm.taskProject.value),
-  };
+  });
+
+  clearEditorStateContainer();
 
   if (taskDate.value.trim() === "") {
     task.date = "";
   }
 
-  addTask(task);
-
-  if (getSelectedProjectId() === Number(taskModalForm.taskProject.value)) {
-    clearEditorStateContainer();
-  }
-
   const taskItemHTML = createTaskItemHTML(task);
-
   renderTasks(taskItemHTML);
+  editorState(task.projectId);
 }
 
 export function createTaskItemHTML(taskObj) {

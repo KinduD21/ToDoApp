@@ -1,5 +1,6 @@
 import { assistOpenTaskModal } from "./modals.js";
 import { useTasks, useProjects } from "./store.js";
+import { createTaskItemHTML } from "./tasks.js";
 
 const { removeTask, getProjectTasks, getAllTasks } = useTasks();
 
@@ -14,17 +15,20 @@ const editorTasksList = editor.querySelector("#taskList");
 // Open Task modal
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
-function renderTasks(taskTemplate) {
+const tasksData = await getAllTasks();
+
+tasksData.forEach((taskObj) => {
+  const taskItemHTML = createTaskItemHTML(taskObj);
+  renderTasks(taskItemHTML);
+});
+
+async function renderTasks(taskTemplate) {
   if (
-    taskTemplate.projectId === getSelectedProjectId() ||
-    getSelectedProjectId() === 1
+    taskTemplate.projectId === (await getSelectedProjectId()) ||
+    (await getSelectedProjectId()) === 1
   ) {
     editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
   }
-}
-
-function clearTasksHTML() {
-  editorTasksList.innerHTML = "";
 }
 
 function removeTaskHTML(taskId) {
@@ -34,29 +38,35 @@ function removeTaskHTML(taskId) {
   taskLiElement.remove();
 }
 
-editorTasksList.addEventListener("click", (event) => {
+editorTasksList.addEventListener("click", async (event) => {
   if (!event.target.classList.contains("task-button-checkbox-button")) return;
   const taskEl = event.target.closest("li[data-id]");
   const taskId = Number(taskEl.dataset.id);
 
-  removeTask(taskId);
+  await removeTask(taskId);
   removeTaskHTML(taskId);
-
-  if (editorTasksList.children.length == 0) {
-    editorState(getSelectedProjectId());
-  }
+  await editorState(getSelectedProjectId());
 });
+
+function clearTasksHTML() {
+  editorTasksList.innerHTML = "";
+}
 
 function clearEditorStateContainer() {
   editorStateContainer.innerHTML = "";
 }
 
-function editorState(projectId) {
-  const selectedProject = getSelectedProject();
-  editorHeading.innerHTML = selectedProject.title;
+async function editorState(projectId) {
 
-  if (getProjectTasks(projectId).length) return;
-  if (projectId === 1 && !getAllTasks().length) {
+  const selectedProject = await getSelectedProject();
+  editorHeading.innerHTML = selectedProject.title || "Inbox";
+
+  const projectTasks = await getProjectTasks(projectId);
+  const allTasks = await getAllTasks();
+
+  if (projectTasks && projectTasks.length) return;
+
+  if ((projectId === 1 || selectedProject === 1) && !allTasks.length) {
     editorStateContainer.innerHTML = `
         <img src="/inbox-empty-state.png" alt="Task list is empty" />
         <h4>All clear</h4>
@@ -64,7 +74,7 @@ function editorState(projectId) {
         Looks like everything's organized in the right place.
         </p>
       `;
-  } else if (projectId !== 1) {
+  } else if (projectId !== 1 && !projectTasks.length) {
     editorStateContainer.innerHTML = `
         <img src="/project-empty-state.png" alt="Task list is empty" />
         <h4>Keep your tasks organized in projects.</h4>

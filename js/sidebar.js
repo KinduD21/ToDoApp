@@ -1,12 +1,14 @@
 import { assistOpenProjectModal } from "./modals.js";
-import { useProjects, useTasks } from "./store.js";
+import { useProjects, useTasks, projects } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
+import { createProjectItemHTML } from "./projects.js";
 import {
   renderTasks,
   clearTasksHTML,
   clearEditorStateContainer,
   editorState,
 } from "./editor.js";
+import { supabase } from "./supabase.js";
 
 const {
   getAllProjects,
@@ -34,7 +36,25 @@ const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
 
-editorState(getSelectedProjectId());
+// Call editorState function onload
+
+editorState(await getSelectedProjectId());
+
+// Check if other projects exist, if so - set "Inbox" selected to false
+
+const projectsData = await getAllProjects();
+
+if (projectsData.length) {
+  projects[0].selected = false;
+  sidebar
+    .querySelector(`li[data-id="1"] > button`)
+    .classList.remove("selected");
+}
+
+projectsData.forEach((projectObj) => {
+  const projectItemHTML = createProjectItemHTML(projectObj);
+  renderProjects(projectItemHTML);
+});
 
 sidebarProjectsCollapseBtn.addEventListener("click", () => {
   sidebarProjectsCollapseBtn.classList.toggle("expanded");
@@ -42,37 +62,47 @@ sidebarProjectsCollapseBtn.addEventListener("click", () => {
   sidebarArrowIcon.classList.toggle("expanded");
 });
 
-sidebar.addEventListener("click", (event) => {
+sidebar.addEventListener("click", async (event) => {
   const button = event.target.closest("button.sidebar-button");
 
   if (!button) return;
-
-  editorState();
 
   const projectId = Number(button.parentElement.dataset.id);
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
-    const projects = getAllProjects();
-    const removedProject = projects.find((p) => p.id === projectId);
+    const supabaseProjects = await getAllProjects();
+    const removedProject = supabaseProjects.find((p) => p.id === projectId);
 
     if (!removedProject.selected) {
       if (projects[0].selected) {
-        setSelectedProjectId(projects[0].id);
+        projects[0].selected = true;
       }
-    } else if (removedProject === projects[projects.length - 1]) {
-      setSelectedProjectId(projects[projects.length - 2].id);
+    } else if (
+      removedProject === supabaseProjects[supabaseProjects.length - 1]
+    ) {
+      if (supabaseProjects.length === 1) {
+        projects[0].selected = true;
+      } else {
+        await setSelectedProjectId(
+          supabaseProjects[supabaseProjects.length - 2].id
+        );
+      }
     } else {
-      setSelectedProjectId(projects[projects.indexOf(removedProject) + 1].id);
+      await setSelectedProjectId(
+        supabaseProjects[supabaseProjects.indexOf(removedProject) + 1].id
+      );
     }
 
-    removeProject(projectId);
+    await removeProject(projectId);
     removeProjectHTML(projectId);
-
+    clearEditorStateContainer();
+    await editorState(projectId);
     selectProject();
   } else {
-    setSelectedProjectId(projectId);
+    await setSelectedProjectId(projectId);
     unselectProject();
+    await editorState(projectId);
     selectProject();
   }
 });
@@ -92,29 +122,42 @@ function renderProjects(projectTemplate) {
 }
 
 function unselectProject() {
-  sidebar.querySelector(".selected").classList.remove("selected");
+  sidebar
+    .querySelectorAll(".selected")
+    .forEach((el) => el.classList.remove("selected"));
 }
 
-function selectProject() {
-  const selectedProjectId = getSelectedProjectId();
+async function selectProject() {
+  const id = await getSelectedProjectId();
   sidebar
-    .querySelector(`li[data-id="${selectedProjectId}"] > button`)
+    .querySelector(`li[data-id="${id}"] > button`)
     .classList.add("selected");
 
   clearEditorStateContainer();
 
   let filteredTasks = [];
-  if (selectedProjectId === 1) {
-    filteredTasks = getAllTasks();
+
+  const tasksToFilter = async (projectId) => {
+    const { data } = await supabase
+      .from("tasks")
+      .select()
+      .eq("projectId", projectId);
+
+    return data;
+  };
+  await tasksToFilter(id);
+
+  if (id === 1) {
+    filteredTasks = await getAllTasks();
   } else {
-    filteredTasks = getProjectTasks(selectedProjectId);
+    filteredTasks = await getProjectTasks(id);
   }
   clearTasksHTML();
   filteredTasks.forEach((t) => {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
-  editorState(selectedProjectId);
+  await editorState(id);
 }
 
 function removeProjectHTML(projectId) {
