@@ -1,8 +1,13 @@
-import { clearEditorStateContainer, renderTasks, editorState } from "./editor.js";
-import { useTasks } from "./store.js";
+import {
+  clearEditorStateContainer,
+  renderTasks,
+  editorState,
+} from "./editor.js";
+import { useProjects, useTasks } from "./store.js";
 import { formatDate } from "./utils.js";
 
 const { addTask } = useTasks();
+const { getSelectedProjectId } = useProjects();
 
 async function createTask(taskModalForm) {
   const { taskName, taskDescription, taskDate, taskPriority } = taskModalForm;
@@ -14,8 +19,9 @@ async function createTask(taskModalForm) {
     priority: Number(taskPriority.dataset.priority),
     projectId: Number(taskModalForm.taskProject.value),
   });
-
-  clearEditorStateContainer();
+  if ((await getSelectedProjectId()) === task.projectId) {
+    clearEditorStateContainer();
+  }
 
   if (taskDate.value.trim() === "") {
     task.date = "";

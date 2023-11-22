@@ -4,7 +4,7 @@ import { createTaskItemHTML } from "./tasks.js";
 
 const { removeTask, getProjectTasks, getAllTasks } = useTasks();
 
-const { getSelectedProjectId, getSelectedProject } = useProjects();
+const { getSelectedProjectId, getAllProjects } = useProjects();
 
 const editor = document.querySelector("#editor");
 const editorStateContainer = editor.querySelector(".state-container");
@@ -58,7 +58,8 @@ function clearEditorStateContainer() {
 
 async function editorState(projectId) {
 
-  const selectedProject = await getSelectedProject();
+  const allProjects = await getAllProjects();
+  const selectedProject = allProjects.find(project => project.selected);
   editorHeading.innerHTML = selectedProject.title || "Inbox";
 
   const projectTasks = await getProjectTasks(projectId);

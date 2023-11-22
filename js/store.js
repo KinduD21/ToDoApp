@@ -26,18 +26,6 @@ export function useProjects() {
     }
   };
 
-  const getSelectedProject = async () => {
-    const { data } = await supabase
-      .from("projects")
-      .select()
-      .eq("selected", true);
-    if (data.length === 0) {
-      return 1;
-    } else {
-      return data[0];
-    }
-  };
-
   const getSelectedProjectId = async () => {
     const { data } = await supabase
       .from("projects")
@@ -51,48 +39,33 @@ export function useProjects() {
   };
 
   const setSelectedProjectId = async (projectId) => {
-    try {
-      // Set "selected" to false for the previously selected project in the database.
-      let selectedProjectId = await getSelectedProjectId();
+    // Set "selected" to false for the previously selected project in the database.
+    let selectedProjectId = await getSelectedProjectId();
 
-      await supabase
-        .from("projects")
-        .update({ selected: false })
-        .eq("id", selectedProjectId);
+    await supabase
+      .from("projects")
+      .update({ selected: false })
+      .eq("id", selectedProjectId);
 
-      // Set "selected" to true for the newly selected project.
-      const { error } = await supabase
-        .from("projects")
-        .update({ selected: true })
-        .eq("id", projectId);
+    // Set "selected" to true for the newly selected project.
+    await supabase
+      .from("projects")
+      .update({ selected: true })
+      .eq("id", projectId);
 
-      if (error) {
-        throw error;
-      }
-
-      projects[0].selected = false;
-    } catch (error) {
-      console.error("Error setting the selected project:", error);
-    }
+    projects[0].selected = false;
   };
 
   const removeProject = async (projectId) => {
-    const { tasks } = await supabase
-      .from("tasks")
-      .delete()
-      .eq("projectId", projectId);
+    await supabase.from("tasks").delete().eq("projectId", projectId);
 
-    const { projects } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", projectId);
+    await supabase.from("projects").delete().eq("id", projectId);
   };
 
   return {
     getAllProjects,
     addProject,
     removeProject,
-    getSelectedProject,
     getSelectedProjectId,
     setSelectedProjectId,
   };
