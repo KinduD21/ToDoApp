@@ -35,8 +35,10 @@ taskModalForm.addEventListener("submit", (event) => {
   closeTaskModal(event);
 });
 
-function openTaskModal(modalOverlay) {
-  const projects = getAllProjects();
+async function openTaskModal(modalOverlay) {
+  const projects = await getAllProjects();
+  const inboxOption = new Option ("Inbox", 1, true, true);
+  taskModalProject.add(inboxOption);
   projects.forEach((project) => {
     const option = new Option(project.title, project.id, project.selected, project.selected);
     taskModalProject.add(option)

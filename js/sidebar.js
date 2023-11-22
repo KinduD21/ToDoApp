@@ -8,10 +8,10 @@ import {
   clearEditorStateContainer,
   editorState,
 } from "./editor.js";
+import { supabase } from "./supabase.js";
 
 const {
   getAllProjects,
-  getSelectedProject,
   getSelectedProjectId,
   setSelectedProjectId,
   removeProject,
@@ -36,9 +36,20 @@ const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
 
+// Call editorState function onload
+
 editorState(await getSelectedProjectId());
 
+// Check if other projects exist, if so - set "Inbox" selected to false
+
 const projectsData = await getAllProjects();
+
+if (projectsData.length) {
+  projects[0].selected = false;
+  sidebar
+    .querySelector(`li[data-id="1"] > button`)
+    .classList.remove("selected");
+}
 
 projectsData.forEach((projectObj) => {
   const projectItemHTML = createProjectItemHTML(projectObj);
@@ -85,12 +96,13 @@ sidebar.addEventListener("click", async (event) => {
 
     await removeProject(projectId);
     removeProjectHTML(projectId);
-    editorState(projectId);
+    clearEditorStateContainer();
+    await editorState(projectId);
     selectProject();
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();
-    editorState(projectId);
+    await editorState(projectId);
     selectProject();
   }
 });
@@ -123,18 +135,29 @@ async function selectProject() {
 
   clearEditorStateContainer();
 
-  // let filteredTasks = [];
-  // if (selectedProjectId === 1) {
-  //   filteredTasks = getAllTasks();
-  // } else {
-  //   filteredTasks = getProjectTasks(selectedProjectId);
-  // }
-  // clearTasksHTML();
-  // filteredTasks.forEach((t) => {
-  //   const taskTemplate = createTaskItemHTML(t);
-  //   renderTasks(taskTemplate);
-  // });
-  // editorState(selectedProjectId);
+  let filteredTasks = [];
+
+  const tasksToFilter = async (projectId) => {
+    const { data } = await supabase
+      .from("tasks")
+      .select()
+      .eq("projectId", projectId);
+
+    return data;
+  };
+  await tasksToFilter(id);
+
+  if (id === 1) {
+    filteredTasks = await getAllTasks();
+  } else {
+    filteredTasks = await getProjectTasks(id);
+  }
+  clearTasksHTML();
+  filteredTasks.forEach((t) => {
+    const taskTemplate = createTaskItemHTML(t);
+    renderTasks(taskTemplate);
+  });
+  await editorState(id);
 }
 
 function removeProjectHTML(projectId) {

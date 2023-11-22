@@ -1,9 +1,6 @@
-import { cs } from "date-fns/locale";
 import { supabase } from "./supabase";
 
 export let projects = [{ title: "Inbox", selected: true, id: 1 }];
-
-let tasks = [];
 
 export function useProjects() {
   const getAllProjects = async () => {
@@ -80,16 +77,15 @@ export function useProjects() {
   };
 
   const removeProject = async (projectId) => {
-    // tasks = tasks.filter((task) => task.projectId !== projectId);
+    const { tasks } = await supabase
+      .from("tasks")
+      .delete()
+      .eq("projectId", projectId);
 
-    const { error } = await supabase
+    const { projects } = await supabase
       .from("projects")
       .delete()
       .eq("id", projectId);
-
-    if (error) {
-      console.error("Error removing project:", error);
-    }
   };
 
   return {
@@ -103,20 +99,37 @@ export function useProjects() {
 }
 
 export function useTasks() {
-  const getAllTasks = () => {
-    return tasks.map((task) => task);
+  const getAllTasks = async () => {
+    const { data } = await supabase.from("tasks").select();
+
+    return data;
   };
 
-  const addTask = (task) => {
-    tasks.push(task);
+  const addTask = async (task) => {
+    const { data } = await supabase
+      .from("tasks")
+      .insert({
+        title: task.title,
+        description: task.description,
+        date: task.date,
+        priority: task.priority,
+        projectId: task.projectId,
+      })
+      .select();
+
+    return data[0];
   };
 
-  const getProjectTasks = (projectId) => {
-    return tasks.filter((task) => task.projectId === projectId);
+  const getProjectTasks = async (projectId) => {
+    const { data } = await supabase
+      .from("tasks")
+      .select()
+      .eq("projectId", projectId);
+    return data;
   };
 
-  const removeTask = (taskId) => {
-    tasks = tasks.filter((task) => task.id !== taskId);
+  const removeTask = async (taskId) => {
+    const { data } = await supabase.from("tasks").delete().eq("id", taskId);
   };
 
   return { getAllTasks, addTask, removeTask, getProjectTasks };
