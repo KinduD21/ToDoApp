@@ -44,7 +44,7 @@ editorState(await getSelectedProjectId());
 
 const projectsData = await getAllProjects();
 
-if (projectsData.length) {
+if (await getSelectedProjectId() !== 1) {
   projects[0].selected = false;
   sidebar
     .querySelector(`li[data-id="1"] > button`)
