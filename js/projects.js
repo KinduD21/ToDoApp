@@ -16,7 +16,7 @@ async function createProject(projectTitle) {
   await setSelectedProjectId(project.id);
   unselectProject();
   renderProjects(projectItemHTML);
-  editorState(project.id);
+  editorState(project.id, project.title);
   clearTasksHTML();
 }
 

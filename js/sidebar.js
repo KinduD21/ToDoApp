@@ -7,6 +7,7 @@ import {
   clearTasksHTML,
   clearEditorStateContainer,
   editorState,
+  editorTasksList,
 } from "./editor.js";
 import { supabase } from "./supabase.js";
 
@@ -36,15 +37,17 @@ const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
 
-// Call editorState function onload
-
-editorState(await getSelectedProjectId());
+const projectsData = await getAllProjects();
+const selectedProject = projectsData.find((project) => project.selected);
+if (selectedProject) {
+  editorState(selectedProject.id, selectedProject.title);
+} else {
+  editorState(1, "Inbox");
+}
 
 // Check if other projects exist, if so - set "Inbox" selected to false
 
-const projectsData = await getAllProjects();
-
-if (await getSelectedProjectId() !== 1) {
+if (selectedProject && selectedProject.id !== 1) {
   projects[0].selected = false;
   sidebar
     .querySelector(`li[data-id="1"] > button`)
@@ -68,6 +71,7 @@ sidebar.addEventListener("click", async (event) => {
   if (!button) return;
 
   const projectId = Number(button.parentElement.dataset.id);
+  const newEditorHeading = button.querySelector(".project-name").innerHTML;
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {
@@ -97,12 +101,10 @@ sidebar.addEventListener("click", async (event) => {
     await removeProject(projectId);
     removeProjectHTML(projectId);
     clearEditorStateContainer();
-    await editorState(projectId);
     selectProject();
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();
-    await editorState(projectId);
     selectProject();
   }
 });
@@ -157,7 +159,7 @@ async function selectProject() {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
-  await editorState(id);
+  editorState(id, sidebar.querySelector(".selected .project-name").innerHTML);
 }
 
 function removeProjectHTML(projectId) {

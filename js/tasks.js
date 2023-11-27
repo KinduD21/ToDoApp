@@ -30,7 +30,6 @@ async function createTask(taskModalForm) {
 
   const taskItemHTML = createTaskItemHTML(task);
   renderTasks(taskItemHTML);
-  editorState(task.projectId);
 }
 
 export function createTaskItemHTML(taskObj) {
