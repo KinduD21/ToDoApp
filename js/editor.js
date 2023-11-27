@@ -17,11 +17,18 @@ openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
 const tasksData = await getAllTasks();
 
+if (tasksData.length > 0) {
+  clearEditorStateContainer();
+} else {
+  editorState(await getSelectedProjectId());
+}
+
 tasksData.forEach((taskObj) => {
   const taskItemHTML = createTaskItemHTML(taskObj);
   renderTasks(taskItemHTML);
 });
 
+// !!! PAY ATTENTION TO FIX IT
 async function renderTasks(taskTemplate) {
   if (
     taskTemplate.projectId === (await getSelectedProjectId()) ||
@@ -45,7 +52,7 @@ editorTasksList.addEventListener("click", async (event) => {
 
   await removeTask(taskId);
   removeTaskHTML(taskId);
-  editorState(getSelectedProjectId());
+  editorState(await getSelectedProjectId());
 });
 
 function clearTasksHTML() {
@@ -56,9 +63,11 @@ function clearEditorStateContainer() {
   editorStateContainer.innerHTML = "";
 }
 
-function editorState(projectId, newEditorHeading) {
-  console.log(projectId, newEditorHeading);
+function editorHeadingFunction(newEditorHeading) {
   editorHeading.innerHTML = newEditorHeading;
+}
+
+function editorState(projectId) {
   if (projectId === 1) {
     editorStateContainer.innerHTML = `
         <img src="/inbox-empty-state.png" alt="Task list is empty" />
@@ -78,4 +87,11 @@ function editorState(projectId, newEditorHeading) {
   }
 }
 
-export { renderTasks, clearTasksHTML, clearEditorStateContainer, editorState, editorTasksList };
+export {
+  renderTasks,
+  clearTasksHTML,
+  clearEditorStateContainer,
+  editorHeadingFunction,
+  editorState,
+  editorTasksList,
+};

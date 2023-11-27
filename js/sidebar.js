@@ -7,9 +7,9 @@ import {
   clearTasksHTML,
   clearEditorStateContainer,
   editorState,
+  editorHeadingFunction,
   editorTasksList,
 } from "./editor.js";
-import { supabase } from "./supabase.js";
 
 const {
   getAllProjects,
@@ -40,9 +40,9 @@ const sidebarArrowIcon = document.querySelector(
 const projectsData = await getAllProjects();
 const selectedProject = projectsData.find((project) => project.selected);
 if (selectedProject) {
-  editorState(selectedProject.id, selectedProject.title);
+  editorHeadingFunction(selectedProject.title);
 } else {
-  editorState(1, "Inbox");
+  editorHeadingFunction("Inbox");
 }
 
 // Check if other projects exist, if so - set "Inbox" selected to false
@@ -131,23 +131,18 @@ function unselectProject() {
 
 async function selectProject() {
   const id = await getSelectedProjectId();
+
   sidebar
     .querySelector(`li[data-id="${id}"] > button`)
     .classList.add("selected");
 
+  editorHeadingFunction(
+    sidebar.querySelector(".selected .project-name").innerHTML
+  );
+
   clearEditorStateContainer();
 
   let filteredTasks = [];
-
-  const tasksToFilter = async (projectId) => {
-    const { data } = await supabase
-      .from("tasks")
-      .select()
-      .eq("projectId", projectId);
-
-    return data;
-  };
-  await tasksToFilter(id);
 
   if (id === 1) {
     filteredTasks = await getAllTasks();
@@ -159,7 +154,10 @@ async function selectProject() {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
-  editorState(id, sidebar.querySelector(".selected .project-name").innerHTML);
+
+  if (!filteredTasks.length) {
+    editorState(id);
+  }
 }
 
 function removeProjectHTML(projectId) {
