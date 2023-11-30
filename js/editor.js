@@ -15,27 +15,29 @@ const editorTasksList = editor.querySelector("#taskList");
 // Open Task modal
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
-const tasksData = await getAllTasks();
+let tasksData = [];
+const selectedProjectId = await getSelectedProjectId();
+
+// rewrite it as a separate function
+if (selectedProjectId === 1) {
+  tasksData = await getAllTasks();
+} else {
+  tasksData = await getProjectTasks(selectedProjectId);
+}
 
 if (tasksData.length > 0) {
   clearEditorStateContainer();
+  tasksData.forEach((taskObj) => {
+    const taskItemHTML = createTaskItemHTML(taskObj);
+    renderTasks(taskItemHTML);
+  });
 } else {
-  editorState(await getSelectedProjectId());
+  editorState(selectedProjectId);
 }
 
-tasksData.forEach((taskObj) => {
-  const taskItemHTML = createTaskItemHTML(taskObj);
-  renderTasks(taskItemHTML);
-});
-
 // !!! PAY ATTENTION TO FIX IT
-async function renderTasks(taskTemplate) {
-  if (
-    taskTemplate.projectId === (await getSelectedProjectId()) ||
-    (await getSelectedProjectId()) === 1
-  ) {
-    editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
-  }
+function renderTasks(taskTemplate) {
+  editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
 }
 
 function removeTaskHTML(taskId) {
@@ -46,13 +48,20 @@ function removeTaskHTML(taskId) {
 }
 
 editorTasksList.addEventListener("click", async (event) => {
+  console.log( tasksData );
   if (!event.target.classList.contains("task-button-checkbox-button")) return;
   const taskEl = event.target.closest("li[data-id]");
   const taskId = Number(taskEl.dataset.id);
 
-  await removeTask(taskId);
+  const removedTaskId = await removeTask(taskId).id;
+  tasksData = tasksData.filter(t => t.id === removedTaskId);
+  
   removeTaskHTML(taskId);
-  editorState(await getSelectedProjectId());
+
+  // put this new separate function here
+  if (!tasksData.length) {
+    editorState(selectedProjectId);
+  }
 });
 
 function clearTasksHTML() {

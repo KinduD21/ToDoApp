@@ -20,16 +20,17 @@ async function createTask(taskModalForm) {
     projectId: Number(taskModalForm.taskProject.value),
   });
   
-  if (((await getSelectedProjectId()) === task.projectId) || await getSelectedProjectId() === 1) {
-    clearEditorStateContainer();
-  }
-
+  const projectId = await getSelectedProjectId();
+  
   if (taskDate.value.trim() === "") {
     task.date = "";
   }
-
-  const taskItemHTML = createTaskItemHTML(task);
-  renderTasks(taskItemHTML);
+  
+  if (projectId === task.projectId || projectId === 1) {
+    const taskItemHTML = createTaskItemHTML(task);
+    clearEditorStateContainer();
+    renderTasks(taskItemHTML);
+  }
 }
 
 export function createTaskItemHTML(taskObj) {
