@@ -44,11 +44,15 @@ function removeTaskHTML(taskId) {
   const taskLiElement = editorTasksList.querySelector(
     `li[data-id="${taskId}"]`
   );
-  taskLiElement.remove();
+
+  if (!taskLiElement) {
+    Array.from(editorTasksList.children).forEach((child) => {
+      editorTasksList.removeChild(child);
+    });
+  } else taskLiElement.remove();
 }
 
 editorTasksList.addEventListener("click", async (event) => {
-  console.log( tasksData );
   if (!event.target.classList.contains("task-button-checkbox-button")) return;
   const taskEl = event.target.closest("li[data-id]");
   const taskId = Number(taskEl.dataset.id);
@@ -102,5 +106,6 @@ export {
   clearEditorStateContainer,
   editorHeadingFunction,
   editorState,
+  removeTaskHTML,
   editorTasksList,
 };

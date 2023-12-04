@@ -1,3 +1,4 @@
+import { supabase } from "./supabase.js";
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks, projects } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
@@ -8,7 +9,7 @@ import {
   clearEditorStateContainer,
   editorState,
   editorHeadingFunction,
-  editorTasksList,
+  removeTaskHTML
 } from "./editor.js";
 
 const {
@@ -119,6 +120,17 @@ const toggleSidebar = function () {
   sidebarOverlay.classList.toggle("visible");
 };
 
+async function clearAllFunction() {
+  await supabase.from("projects").delete().neq("id", 0);
+  await supabase.from("tasks").delete().neq("id", 0);
+  removeProjectHTML();
+  removeTaskHTML();
+  projects[0].selected = true;
+  sidebar.querySelector(`li[data-id="1"] > button`).classList.add("selected");
+  editorHeadingFunction("Inbox");
+  editorState(1);
+}
+
 function renderProjects(projectTemplate) {
   sidebarProjectsList.insertAdjacentHTML("beforeend", projectTemplate);
 }
@@ -162,7 +174,11 @@ async function selectProject() {
 
 function removeProjectHTML(projectId) {
   const projectLiElement = sidebar.querySelector(`li[data-id="${projectId}"]`);
-  projectLiElement.remove();
+  if (!projectLiElement) {
+    Array.from(sidebarProjectsList.children).forEach((child) => {
+      sidebarProjectsList.removeChild(child);
+    });
+  } else projectLiElement.remove();
 }
 
 // Open project modal
@@ -170,6 +186,7 @@ openProjectModalBtn.addEventListener("click", assistOpenProjectModal);
 
 export {
   toggleSidebar,
+  clearAllFunction,
   renderProjects,
   unselectProject,
   selectProject,
