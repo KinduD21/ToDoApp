@@ -1,3 +1,4 @@
+import { supabase } from "./supabase.js";
 import { assistOpenProjectModal } from "./modals.js";
 import { useProjects, useTasks, projects } from "./store.js";
 import { createTaskItemHTML } from "./tasks.js";
@@ -7,8 +8,9 @@ import {
   clearTasksHTML,
   clearEditorStateContainer,
   editorState,
+  editorHeadingFunction,
+  removeTaskHTML
 } from "./editor.js";
-import { supabase } from "./supabase.js";
 
 const {
   getAllProjects,
@@ -36,15 +38,17 @@ const sidebarArrowIcon = document.querySelector(
   "svg.sidebar-projects-arrow-icon"
 );
 
-// Call editorState function onload
-
-editorState(await getSelectedProjectId());
+const projectsData = await getAllProjects();
+const selectedProject = projectsData.find((project) => project.selected);
+if (selectedProject) {
+  editorHeadingFunction(selectedProject.title);
+} else {
+  editorHeadingFunction("Inbox");
+}
 
 // Check if other projects exist, if so - set "Inbox" selected to false
 
-const projectsData = await getAllProjects();
-
-if (await getSelectedProjectId() !== 1) {
+if (selectedProject && selectedProject.id !== 1) {
   projects[0].selected = false;
   sidebar
     .querySelector(`li[data-id="1"] > button`)
@@ -97,12 +101,10 @@ sidebar.addEventListener("click", async (event) => {
     await removeProject(projectId);
     removeProjectHTML(projectId);
     clearEditorStateContainer();
-    await editorState(projectId);
     selectProject();
   } else {
     await setSelectedProjectId(projectId);
     unselectProject();
-    await editorState(projectId);
     selectProject();
   }
 });
@@ -117,6 +119,17 @@ const toggleSidebar = function () {
   sidebarOverlay.classList.toggle("visible");
 };
 
+async function clearAllFunction() {
+  await supabase.from("projects").delete().neq("id", 0);
+  await supabase.from("tasks").delete().neq("id", 0);
+  removeProjectHTML();
+  removeTaskHTML();
+  projects[0].selected = true;
+  sidebar.querySelector(`li[data-id="1"] > button`).classList.add("selected");
+  editorHeadingFunction("Inbox");
+  editorState(1);
+}
+
 function renderProjects(projectTemplate) {
   sidebarProjectsList.insertAdjacentHTML("beforeend", projectTemplate);
 }
@@ -129,23 +142,18 @@ function unselectProject() {
 
 async function selectProject() {
   const id = await getSelectedProjectId();
+
   sidebar
     .querySelector(`li[data-id="${id}"] > button`)
     .classList.add("selected");
 
+  editorHeadingFunction(
+    sidebar.querySelector(".selected .project-name").innerHTML
+  );
+
   clearEditorStateContainer();
 
   let filteredTasks = [];
-
-  const tasksToFilter = async (projectId) => {
-    const { data } = await supabase
-      .from("tasks")
-      .select()
-      .eq("projectId", projectId);
-
-    return data;
-  };
-  await tasksToFilter(id);
 
   if (id === 1) {
     filteredTasks = await getAllTasks();
@@ -157,12 +165,19 @@ async function selectProject() {
     const taskTemplate = createTaskItemHTML(t);
     renderTasks(taskTemplate);
   });
-  await editorState(id);
+
+  if (!filteredTasks.length) {
+    editorState(id);
+  }
 }
 
 function removeProjectHTML(projectId) {
   const projectLiElement = sidebar.querySelector(`li[data-id="${projectId}"]`);
-  projectLiElement.remove();
+  if (!projectLiElement) {
+    Array.from(sidebarProjectsList.children).forEach((child) => {
+      sidebarProjectsList.removeChild(child);
+    });
+  } else projectLiElement.remove();
 }
 
 // Open project modal
@@ -170,6 +185,7 @@ openProjectModalBtn.addEventListener("click", assistOpenProjectModal);
 
 export {
   toggleSidebar,
+  clearAllFunction,
   renderProjects,
   unselectProject,
   selectProject,

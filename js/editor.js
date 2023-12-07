@@ -4,7 +4,7 @@ import { createTaskItemHTML } from "./tasks.js";
 
 const { removeTask, getProjectTasks, getAllTasks } = useTasks();
 
-const { getSelectedProjectId, getAllProjects } = useProjects();
+const { getSelectedProjectId } = useProjects();
 
 const editor = document.querySelector("#editor");
 const editorStateContainer = editor.querySelector(".state-container");
@@ -15,27 +15,43 @@ const editorTasksList = editor.querySelector("#taskList");
 // Open Task modal
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
-const tasksData = await getAllTasks();
+let tasksData = [];
+updateTasksData();
 
-tasksData.forEach((taskObj) => {
-  const taskItemHTML = createTaskItemHTML(taskObj);
-  renderTasks(taskItemHTML);
-});
-
-async function renderTasks(taskTemplate) {
-  if (
-    taskTemplate.projectId === (await getSelectedProjectId()) ||
-    (await getSelectedProjectId()) === 1
-  ) {
-    editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
+// rewrite it as a separate function
+async function updateTasksData() {
+  const selectedProjectId = await getSelectedProjectId();
+  if (selectedProjectId === 1) {
+    tasksData = await getAllTasks();
+  } else {
+    tasksData = await getProjectTasks(selectedProjectId);
   }
+  if (tasksData.length > 0) {
+    clearEditorStateContainer();
+    tasksData.forEach((taskObj) => {
+      const taskItemHTML = createTaskItemHTML(taskObj);
+      renderTasks(taskItemHTML);
+    });
+  } else {
+    editorState(selectedProjectId);
+  }
+}
+
+
+function renderTasks(taskTemplate) {
+  editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
 }
 
 function removeTaskHTML(taskId) {
   const taskLiElement = editorTasksList.querySelector(
     `li[data-id="${taskId}"]`
   );
-  taskLiElement.remove();
+
+  if (!taskLiElement) {
+    Array.from(editorTasksList.children).forEach((child) => {
+      editorTasksList.removeChild(child);
+    });
+  } else taskLiElement.remove();
 }
 
 editorTasksList.addEventListener("click", async (event) => {
@@ -43,9 +59,12 @@ editorTasksList.addEventListener("click", async (event) => {
   const taskEl = event.target.closest("li[data-id]");
   const taskId = Number(taskEl.dataset.id);
 
-  await removeTask(taskId);
+  const removedTaskId = await removeTask(taskId).id;
+  tasksData = tasksData.filter((t) => t.id === removedTaskId);
+
   removeTaskHTML(taskId);
-  await editorState(getSelectedProjectId());
+
+  updateTasksData();
 });
 
 function clearTasksHTML() {
@@ -56,22 +75,12 @@ function clearEditorStateContainer() {
   editorStateContainer.innerHTML = "";
 }
 
-async function editorState(projectId) {
-  const allProjects = await getAllProjects();
-  let selectedProject = allProjects.find((project) => project.selected);
-  if (!selectedProject) {
-    editorHeading.innerHTML = "Inbox";
-    projectId = 1;
-  } else {
-    editorHeading.innerHTML = selectedProject.title;
-  }
+function editorHeadingFunction(newEditorHeading) {
+  editorHeading.innerHTML = newEditorHeading;
+}
 
-  const projectTasks = await getProjectTasks(projectId);
-  const allTasks = await getAllTasks();
-
-  if (projectTasks && projectTasks.length) return;
-
-  if (projectId === 1 && !allTasks.length) {
+function editorState(projectId) {
+  if (projectId === 1) {
     editorStateContainer.innerHTML = `
         <img src="/inbox-empty-state.png" alt="Task list is empty" />
         <h4>All clear</h4>
@@ -79,7 +88,7 @@ async function editorState(projectId) {
         Looks like everything's organized in the right place.
         </p>
       `;
-  } else if (projectId !== 1) {
+  } else {
     editorStateContainer.innerHTML = `
         <img src="/project-empty-state.png" alt="Task list is empty" />
         <h4>Keep your tasks organized in projects.</h4>
@@ -90,4 +99,12 @@ async function editorState(projectId) {
   }
 }
 
-export { renderTasks, clearTasksHTML, clearEditorStateContainer, editorState };
+export {
+  renderTasks,
+  clearTasksHTML,
+  clearEditorStateContainer,
+  editorHeadingFunction,
+  editorState,
+  removeTaskHTML,
+  editorTasksList,
+};
