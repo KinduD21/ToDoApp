@@ -72,7 +72,6 @@ sidebar.addEventListener("click", async (event) => {
   if (!button) return;
 
   const projectId = Number(button.parentElement.dataset.id);
-  const newEditorHeading = button.querySelector(".project-name").innerHTML;
 
   const svgEl = event.target.closest("svg");
   if (svgEl?.classList.contains("delete-project-icon")) {

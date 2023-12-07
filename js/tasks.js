@@ -1,7 +1,6 @@
 import {
   clearEditorStateContainer,
   renderTasks,
-  editorState,
 } from "./editor.js";
 import { useProjects, useTasks } from "./store.js";
 import { formatDate } from "./utils.js";

@@ -102,7 +102,7 @@ export function useTasks() {
   };
 
   const removeTask = async (taskId) => {
-    const { data: removedTaskArray, error } = await supabase.from("tasks").delete().eq("id", taskId).select();
+    const { data: removedTaskArray } = await supabase.from("tasks").delete().eq("id", taskId).select();
 
     return removedTaskArray[0];
   };

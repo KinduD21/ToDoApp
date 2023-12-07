@@ -4,7 +4,7 @@ import { createTaskItemHTML } from "./tasks.js";
 
 const { removeTask, getProjectTasks, getAllTasks } = useTasks();
 
-const { getSelectedProjectId, getAllProjects } = useProjects();
+const { getSelectedProjectId } = useProjects();
 
 const editor = document.querySelector("#editor");
 const editorStateContainer = editor.querySelector(".state-container");
@@ -16,26 +16,28 @@ const editorTasksList = editor.querySelector("#taskList");
 openTaskModalBtn.addEventListener("click", assistOpenTaskModal);
 
 let tasksData = [];
-const selectedProjectId = await getSelectedProjectId();
+updateTasksData();
 
 // rewrite it as a separate function
-if (selectedProjectId === 1) {
-  tasksData = await getAllTasks();
-} else {
-  tasksData = await getProjectTasks(selectedProjectId);
+async function updateTasksData() {
+  const selectedProjectId = await getSelectedProjectId();
+  if (selectedProjectId === 1) {
+    tasksData = await getAllTasks();
+  } else {
+    tasksData = await getProjectTasks(selectedProjectId);
+  }
+  if (tasksData.length > 0) {
+    clearEditorStateContainer();
+    tasksData.forEach((taskObj) => {
+      const taskItemHTML = createTaskItemHTML(taskObj);
+      renderTasks(taskItemHTML);
+    });
+  } else {
+    editorState(selectedProjectId);
+  }
 }
 
-if (tasksData.length > 0) {
-  clearEditorStateContainer();
-  tasksData.forEach((taskObj) => {
-    const taskItemHTML = createTaskItemHTML(taskObj);
-    renderTasks(taskItemHTML);
-  });
-} else {
-  editorState(selectedProjectId);
-}
 
-// !!! PAY ATTENTION TO FIX IT
 function renderTasks(taskTemplate) {
   editorTasksList.insertAdjacentHTML("beforeend", taskTemplate.template);
 }
@@ -58,14 +60,11 @@ editorTasksList.addEventListener("click", async (event) => {
   const taskId = Number(taskEl.dataset.id);
 
   const removedTaskId = await removeTask(taskId).id;
-  tasksData = tasksData.filter(t => t.id === removedTaskId);
-  
+  tasksData = tasksData.filter((t) => t.id === removedTaskId);
+
   removeTaskHTML(taskId);
 
-  // put this new separate function here
-  if (!tasksData.length) {
-    editorState(selectedProjectId);
-  }
+  updateTasksData();
 });
 
 function clearTasksHTML() {
